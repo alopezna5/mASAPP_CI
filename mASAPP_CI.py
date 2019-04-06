@@ -1,10 +1,11 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
+import json
 import os
 
 from elevenpaths_auth import mASAPP_CI_auth
-
+import argparse
 
 # import logging
 # import sys
@@ -20,6 +21,16 @@ from elevenpaths_auth import mASAPP_CI_auth
 # formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 # handler.setFormatter(formatter)
 # root.addHandler(handler)
+
+ASCII_ART_DESCRIPTION = U'''
+                        _____           _____   _____      _____  _____ 
+                /\     / ____|   /\    |  __ \ |  __ \    / ____||_   _|
+  _ __ ___     /  \   | (___    /  \   | |__) || |__) |  | |       | |  
+ | '_ ` _ \   / /\ \   \___ \  / /\ \  |  ___/ |  ___/   | |       | |  
+ | | | | | | / ____ \  ____) |/ ____ \ | |     | |       | |____  _| |_ 
+ |_| |_| |_|/_/    \_\|_____//_/    \_\|_|     |_|        \_____||_____|
+                                                      
+'''
 
 
 class mASAPP_CI():
@@ -42,19 +53,75 @@ class mASAPP_CI():
 
         self.scan_result = {
             'riskScore': None,
-            'behaviorals': {'critical': None, 'high': None, 'medium': None, 'low': None},
-            'vulnerabilities': {'critical': None, 'high': None, 'medium': None, 'low': None}
+            'behaviorals': {'critical': [], 'high': [], 'medium': [], 'low': []},
+            'vulnerabilities': {'critical': [], 'high': [], 'medium': [], 'low': []}
         }
 
+        self.exceeded_limit = {
+            "expected": None,
+            "obtained": None
+        }
+
+    def _print_excess(self):
+        print("Expected: {}".format(self.exceeded_limit["expected"]))
+        print("Obtained: {}".format(self.exceeded_limit["obtained"]))
+
+    def __print_details(self, mode):
+        vulnerabilities = self.scan_result['vulnerabilities']
+        v_critical = len(vulnerabilities['critical'])
+        v_high = len(vulnerabilities['high'])
+        v_medium = len(vulnerabilities['medium'])
+        v_low = len(vulnerabilities['low'])
+
+        behaviorals = self.scan_result['behaviorals']
+        b_critical = len(behaviorals['critical'])
+        b_high = len(behaviorals['high'])
+        b_medium = len(behaviorals['medium'])
+        b_low = len(behaviorals['low'])
+
+        if mode == 'riskscoring':
+            print(u'Vulnerabilities')
+            print(u'''
+                            Obtained
+                            ────────
+
+            Critical          {n_vul_c}
+            High              {n_vul_h}
+            Medium            {n_vul_m}
+            Low               {n_vul_l}
+
+            '''.format(n_vul_c=v_critical, n_vul_h=v_high, n_vul_m=v_medium, n_vul_l=v_low))
+            print(u'Behaviorals')
+            print(u'''
+                            Obtained 
+                            ────────
+
+            Critical            {n_bhv_c}          
+            High                {n_bhv_h}          
+            Medium              {n_bhv_m}          
+            Low                 {n_bhv_l}          
+
+            '''.format(n_bhv_c=b_critical, n_bhv_h=b_high, n_bhv_m=b_medium, n_bhv_l=b_low))
+
+
+    def _check_not_api_error(self, api_response):
+        assert api_response._status == 200, "ERROR Api response is {0}".format(api_response._body)
+        assert not 'error' in json.loads(api_response._body), "ERROR Api response is {0}".format(api_response._body)
+
     def store_workgroup(self, wg_number):
-        self.scan_info['wg'] = self.auth_user.get_auth_workgroup().data['data']['workgroups'][wg_number]['workgroupId']
+        wg = self.auth_user.get_auth_workgroup()
+        self._check_not_api_error(wg)
+        self.scan_info['wg'] = wg.data['data']['workgroups'][wg_number]['workgroupId']
 
     def upload_app(self, app_path):
         filePath = os.path.abspath(app_path)
-        self.auth_user.post_auth_upload_app(self.scan_info["wg"], "false", filePath)
+        api_response = self.auth_user.post_auth_upload_app(self.scan_info["wg"], "false", filePath)
+        self._check_not_api_error(api_response)
 
     def store_scan_info_from_package_name_origin(self, package_name_origin):
-        for scan in self.auth_user.get_auth_scans(self.scan_info["wg"]).data['data']['scans']:
+        user_scans = self.auth_user.get_auth_scans(self.scan_info["wg"])
+        self._check_not_api_error(user_scans)
+        for scan in user_scans.data['data']['scans']:
             if scan['packageNameOrigin'] == package_name_origin:
                 self.scan_info['scanId'] = scan['scanId']
                 self.scan_info['scanDate'] = scan['lastScanDate']
@@ -62,36 +129,99 @@ class mASAPP_CI():
         assert False, "Application {package_name_origin} not found".format(package_name_origin=package_name_origin)
 
     def store_scan_summary_from_scan_id(self, scan_id):
-        for scan_summary in self.auth_user.get_scan_summary(self.scan_info["wg"], scan_id).data['data'][
+        user_scan_summary = self.auth_user.get_scan_summary(self.scan_info["wg"], scan_id)
+        self._check_not_api_error(user_scan_summary)
+        for scan_summary in user_scan_summary.data['data'][
             'scanSummaries']:
             if scan_summary['scanDate'] == self.scan_info['scanDate']:
                 self.scan_info['appKey'] = scan_summary['scannedVersions'][0]['appKey']
                 return True
         assert False, "Scan {scan_id} not found".format(scan_id=scan_id)
 
-    def store_scan_result(self, lang):
-        assert lang.lower() in self.LANGUAGES, "Language {language} Only supported languages: en , es".format(
-            language=lang)
+    def store_scan_result(self):
+        assert self.scan_info[
+                   'lang'].lower() in self.LANGUAGES, "Language {language} Only supported languages: en , es".format(
+            language=self.scan_info['lang'])
 
         scan_result = self.auth_user.get_scan_result(self.scan_info['wg'], self.scan_info['scanId'],
-                                                     self.scan_info['scanDate'], self.scan_info['appKey'], lang)
+                                                     self.scan_info['scanDate'], self.scan_info['appKey'],
+                                                     self.scan_info['lang'])
+
+        self._check_not_api_error(scan_result)
 
         self.scan_result['riskScore'] = scan_result.data['data']['riskScore']
 
         for vulnerability in scan_result.data['data']['vulnerabilities']:
             risk = vulnerability['riskLevel'].lower()
-            self.scan_result['vulnerabilities'][risk] = vulnerability
+            self.scan_result['vulnerabilities'][risk].append(vulnerability)
 
         for behavioral in scan_result.data['data']['behaviorals']:
             risk = behavioral['riskLevel'].lower()
-            self.scan_result['behaviorals'][risk] = behavioral
+            self.scan_result['behaviorals'][risk].append(behavioral)
+
+    def upload_and_analyse_app(self, app_path, package_name_origin, workgroup=None, lang=None):
+        if workgroup == None:
+            self.store_workgroup(0)
+        else:
+            self.store_workgroup(workgroup)
+
+        self.upload_app(app_path)
+        self.store_scan_info_from_package_name_origin(package_name_origin)
+        self.store_scan_summary_from_scan_id(self.scan_info['scanId'])
+
+        if lang == None:
+            self.scan_info['lang'] = 'en'
+        else:
+            self.scan_info['lang'] = lang
+
+        self.store_scan_result()
+
+    def riskscoring_execution(self, maximum_riskscoring, app_path, package_name_origin, workgroup=None, lang=None,
+                              detail=None):
+        self.upload_and_analyse_app(app_path, package_name_origin, workgroup, lang)
+
+        if self.scan_result['riskScore'] < maximum_riskscoring:
+            print("---- RISKSCORING SUCCESS ----")
+            if detail == True:
+                self.__print_details('riskscoring')
+            return True
+        else:
+            self.exceeded_limit["expected"] = maximum_riskscoring
+            self.exceeded_limit["obtained"] = self.scan_result['riskScore']
+            print("---- RISKSCORING ERROR ----")
+            self._print_excess()
+            if detail == True:
+                self.__print_details('riskscoring')
+            return False
 
 
 if __name__ == '__main__':
-    user = mASAPP_CI(key="", secret="")
-    user.store_workgroup(0)
-    user.upload_app("internal_resources/com.andreea.android.dev.triplelayer1GooglePlay.apk")
-    user.store_scan_info_from_package_name_origin("com.andreea.android.dev.triplelayerGooglePlay")
-    user.store_scan_summary_from_scan_id(user.scan_info['scanId'])
-    user.store_scan_result("es")
-    print("Hello this is a main for develop the script!")
+
+    parser = argparse.ArgumentParser(prog='masapp', description=ASCII_ART_DESCRIPTION,
+                                     formatter_class=argparse.RawDescriptionHelpFormatter)
+
+    parser.add_argument('-r', '--riskscore', help='This is a riskscoring execution', type=float, metavar="N")
+    parser.add_argument('-d', '--detailed', help='Detailed execution', action='store_true')
+
+    # parser.add_argument('--sum', dest='accumulate', action='store_const',
+    #                     const=sum, default=max,
+    #                     help='sum the integers (default: find the max)',  action='store_true')
+
+    args = parser.parse_args()
+
+
+    if args.detailed:
+        details = True
+    else:
+        details = False
+
+    if args.riskscore:
+        user = mASAPP_CI(key="", secret="")
+        user.riskscoring_execution(args.riskscore,
+                                   "internal_resources/com.andreea.android.dev.triplelayer1GooglePlay.apk",
+                                   "com.andreea.android.dev.triplelayerGooglePlay", detail=details)
+
+    # user = mASAPP_CI(key="", secret="")
+    # user.riskscoring_execution(8,
+    #                            "internal_resources/com.andreea.android.dev.triplelayer1GooglePlay.apk",
+    #                            "com.andreea.android.dev.triplelayerGooglePlay", detail=True)
