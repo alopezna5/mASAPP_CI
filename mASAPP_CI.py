@@ -103,7 +103,6 @@ class mASAPP_CI():
 
             '''.format(n_bhv_c=b_critical, n_bhv_h=b_high, n_bhv_m=b_medium, n_bhv_l=b_low))
 
-
     def _check_not_api_error(self, api_response):
         assert api_response._status == 200, "ERROR Api response is {0}".format(api_response._body)
         assert not 'error' in json.loads(api_response._body), "ERROR Api response is {0}".format(api_response._body)
@@ -200,15 +199,15 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(prog='masapp', description=ASCII_ART_DESCRIPTION,
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
 
-    parser.add_argument('-r', '--riskscore', help='This is a riskscoring execution', type=float, metavar="N")
-    parser.add_argument('-d', '--detailed', help='Detailed execution', action='store_true')
+    parser.add_argument('-r', '--riskscore', help='riskscoring execution', type=float, metavar="N")
+    parser.add_argument('-d', '--detailed', help='add details to the execution', action='store_true')
+    parser.add_argument('-s', '--scan_values', help='vulnerabilities and behaviorals json', metavar=".json")
 
     # parser.add_argument('--sum', dest='accumulate', action='store_const',
     #                     const=sum, default=max,
     #                     help='sum the integers (default: find the max)',  action='store_true')
 
     args = parser.parse_args()
-
 
     if args.detailed:
         details = True
@@ -220,6 +219,37 @@ if __name__ == '__main__':
         user.riskscoring_execution(args.riskscore,
                                    "internal_resources/com.andreea.android.dev.triplelayer1GooglePlay.apk",
                                    "com.andreea.android.dev.triplelayerGooglePlay", detail=details)
+
+    else:
+        def check_json(input_json):
+            if ".json" in input_json:
+                try:
+                    input_json = json.load(open(input_json))
+                except:
+                    parser.print_help()
+                    return False
+                correct_json = input_json['vulnerabilities'] != None or input_json['behaviorals']
+
+                if not correct_json:
+                    parser.print_help()
+                    return False
+                else:
+                    return input_json
+            else:
+                parser.print_help()
+                return False
+
+
+        if args.scan_values:
+            print("Execute vulns")
+            checked_json = check_json(args.scan_values)
+            if checked_json:
+                print(checked_json)
+            else:
+                print('error')
+
+        else:
+            parser.print_help()
 
     # user = mASAPP_CI(key="", secret="")
     # user.riskscoring_execution(8,
