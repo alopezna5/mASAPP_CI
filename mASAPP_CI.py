@@ -103,6 +103,13 @@ class mASAPP_CI():
 
             '''.format(n_bhv_c=b_critical, n_bhv_h=b_high, n_bhv_m=b_medium, n_bhv_l=b_low))
 
+    def _lower_than_scan_result(self, element, key, value):
+        if not value == "":
+            return len(self.scan_result[element][key]) > int(value)
+
+        else:
+            return True
+
     def _check_not_api_error(self, api_response):
         assert api_response._status == 200, "ERROR Api response is {0}".format(api_response._body)
         assert not 'error' in json.loads(api_response._body), "ERROR Api response is {0}".format(api_response._body)
@@ -193,6 +200,30 @@ class mASAPP_CI():
                 self.__print_details('riskscoring')
             return False
 
+    def standard_execution(self, scan_maximum_values, app_path, package_name_origin, workgroup=None, lang=None,
+                           detail=None):
+        self.upload_and_analyse_app(app_path, package_name_origin, workgroup, lang)
+
+        self.exceeded_limit["expected"] = {"vulnerabilities": {}, "behaviorals": {}}
+        self.exceeded_limit["obtained"] = {"vulnerabilities": {}, "behaviorals": {}}
+        correct_execution = True
+
+        for key, value in scan_maximum_values['vulnerabilities'].items():
+            if not self._lower_than_scan_result('vulnerabilities', key, value):
+                self.exceeded_limit["expected"]['vulnerabilities'][key] = value
+                self.exceeded_limit["obtained"]['vulnerabilities'][key] = len(self.scan_result['vulnerabilities'][key])
+                correct_execution = False
+
+        for key, value in scan_maximum_values['behaviorals'].items():
+            if not self._lower_than_scan_result('behaviorals', key, value):
+                self.exceeded_limit["expected"]['behaviorals'][key] = value
+                self.exceeded_limit["obtained"]['behaviorals'][key] = len(self.scan_result['behaviorals'][key])
+                correct_execution = False
+
+        if not correct_execution:
+            print("----  ERROR ----")
+            self._print_excess()
+
 
 if __name__ == '__main__':
 
@@ -201,11 +232,8 @@ if __name__ == '__main__':
 
     parser.add_argument('-r', '--riskscore', help='riskscoring execution', type=float, metavar="N")
     parser.add_argument('-d', '--detailed', help='add details to the execution', action='store_true')
-    parser.add_argument('-s', '--scan_values', help='vulnerabilities and behaviorals json', metavar=".json")
-
-    # parser.add_argument('--sum', dest='accumulate', action='store_const',
-    #                     const=sum, default=max,
-    #                     help='sum the integers (default: find the max)',  action='store_true')
+    parser.add_argument('-s', '--standard', help='standard execution', action='store_true')
+    parser.add_argument('-v', '--values', help='vulnerabilities and behaviorals json', metavar=".json")
 
     args = parser.parse_args()
 
@@ -240,18 +268,48 @@ if __name__ == '__main__':
                 return False
 
 
-        if args.scan_values:
-            print("Execute vulns")
-            checked_json = check_json(args.scan_values)
-            if checked_json:
-                print(checked_json)
+        if args.standard:
+            if not args.values:
+                print("missing parameter -v")
             else:
-                print('error')
+                checked_json = check_json(args.values)
+                if checked_json:
+                    user = mASAPP_CI(key="", secret="")
+                    user.standard_execution(checked_json,
+                                            "internal_resources/com.andreea.android.dev.triplelayer1GooglePlay.apk",
+                                            "com.andreea.android.dev.triplelayerGooglePlay", detail=True)
+
+                    print(checked_json)
+                else:
+                    print(
+                        u"""
+                            -v --values json structure:
+                                {
+                                  "vulnerabilities": {
+                                    "critical": "maximum of critical vulnerabilities",
+                                    "high": "maximum of high vulnerabilities",
+                                    "medium": "maximum of medium vulnerabilities",
+                                    "low": "maximum of low vulnerabilities"
+                                  },
+                                  "behaviorals": {
+                                    "critical": "maximum of critical behaviorals",
+                                    "high": "maximum of high behaviorals",
+                                    "medium": "maximum of medium behaviorals",
+                                    "low": "maximum of low behaviorals"
+                                  }
+                                }     
+                        """
+                    )
+
 
         else:
             parser.print_help()
 
-    # user = mASAPP_CI(key="", secret="")
+    user = mASAPP_CI(key="", secret="")
     # user.riskscoring_execution(8,
     #                            "internal_resources/com.andreea.android.dev.triplelayer1GooglePlay.apk",
     #                            "com.andreea.android.dev.triplelayerGooglePlay", detail=True)
+
+    user.standard_execution(json.load(open("internal_resources/scan-values.json")),
+                            "internal_resources/com.andreea.android.dev.triplelayer1GooglePlay.apk",
+                            "com.andreea.android.dev.triplelayerGooglePlay", detail=True)
