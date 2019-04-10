@@ -6,6 +6,7 @@ import os
 
 from elevenpaths_auth import mASAPP_CI_auth
 import argparse
+from tabulate import tabulate
 
 # import logging
 # import sys
@@ -36,9 +37,6 @@ ASCII_ART_DESCRIPTION = U'''
 class mASAPP_CI():
     LANGUAGES = ["en", "es"]
 
-    RISKLEVELS_EN = {'critical': 'critical', 'high': 'high', 'medium': 'medium', 'low': 'low'}
-    RISKLEVELS_ES = {'crítico': 'critical', 'alto': 'high', 'medio': 'medium', 'bajo': 'low'}
-
     def __init__(self, key, secret):
         self.key = key
         self.secret = secret
@@ -63,10 +61,48 @@ class mASAPP_CI():
         }
 
     def _print_excess(self):
-        print("Expected: {}".format(self.exceeded_limit["expected"]))
-        print("Obtained: {}".format(self.exceeded_limit["obtained"]))
+        expected = self.exceeded_limit["expected"]
+        obtained = self.exceeded_limit["obtained"]
+
+        to_print = [["ELEMENT", "EXPECTED", "OBTAINED"]]
+
+        if type(obtained) == dict:
+            for key in obtained.keys():
+                for risk_key, value in obtained[key].items():
+                    to_print.append(
+                        ['{risk_key} {key}'.format(risk_key=risk_key, key=str(key)).capitalize(), value,
+                         expected[key][risk_key]])
+
+            print(tabulate(to_print, headers='firstrow', stralign='center'))
+        else:
+            to_print.append([expected, obtained])
 
     def __print_details(self, mode):
+
+        v_to_print = [[]]
+
+        for category in user.scan_result['vulnerabilities'].keys():
+            for element in user.scan_result['vulnerabilities'][category]:
+                v_to_print.append(['Title', element['title']])
+                v_to_print.append(['Ocurrences', element['count']])
+                v_to_print.append(['Recommendation', element['recommendation']])
+                v_to_print.append([' ', ' '])
+
+        print("VULNERABILITIES DETECTED")
+        print(tabulate(v_to_print, stralign='left', tablefmt='simple'))
+
+        b_to_print = [[]]
+
+        for category in user.scan_result['behaviorals'].keys():
+            for element in user.scan_result['behaviorals'][category]:
+                b_to_print.append(['Title', element['title']])
+                b_to_print.append(['Ocurrences', element['count']])
+                b_to_print.append(['Impact', element['impact']])
+                b_to_print.append([' ', ' '])
+
+        print("BEHAVIORS DETECTED")
+        print(tabulate(b_to_print, stralign='left', tablefmt='simple'))
+
         vulnerabilities = self.scan_result['vulnerabilities']
         v_critical = len(vulnerabilities['critical'])
         v_high = len(vulnerabilities['high'])
@@ -80,28 +116,40 @@ class mASAPP_CI():
         b_low = len(behaviorals['low'])
 
         if mode == 'riskscoring':
-            print(u'Vulnerabilities')
-            print(u'''
-                            Obtained
-                            ────────
+            nvulns_to_print = [['Risk category', 'Obtained']]
+            nvulns_to_print.append(['Critical', v_critical])
+            nvulns_to_print.append(['High', v_high])
+            nvulns_to_print.append(['Medium', v_medium])
+            nvulns_to_print.append(['Low', v_low])
+            print(u'\n\nVulnerabilities')
+            print(tabulate(nvulns_to_print, headers='firstrow', stralign='medium', tablefmt='simple'))
 
-            Critical          {n_vul_c}
-            High              {n_vul_h}
-            Medium            {n_vul_m}
-            Low               {n_vul_l}
+            nbehav_to_print = [['Risk category', 'Obtained']]
+            nbehav_to_print.append(['Critical', b_critical])
+            nbehav_to_print.append(['High', b_high])
+            nbehav_to_print.append(['Medium', b_medium])
+            nbehav_to_print.append(['Low', b_low])
+            print(u'\n\nBehaviors')
+            print(tabulate(nbehav_to_print, headers='firstrow', stralign='medium', tablefmt='simple'))
 
-            '''.format(n_vul_c=v_critical, n_vul_h=v_high, n_vul_m=v_medium, n_vul_l=v_low))
-            print(u'Behaviorals')
-            print(u'''
-                            Obtained 
-                            ────────
 
-            Critical            {n_bhv_c}          
-            High                {n_bhv_h}          
-            Medium              {n_bhv_m}          
-            Low                 {n_bhv_l}          
+        elif mode == 'standard':
+            pass
+            nvulns_to_print = [['Risk category', 'Expected', 'Obtained']]
+            nvulns_to_print.append(['Critical', v_critical])
+            nvulns_to_print.append(['High', v_high])
+            nvulns_to_print.append(['Medium', v_medium])
+            nvulns_to_print.append(['Low', v_low])
+            print(u'\n\nVulnerabilities')
+            print(tabulate(nvulns_to_print, headers='firstrow', stralign='medium', tablefmt='simple'))
 
-            '''.format(n_bhv_c=b_critical, n_bhv_h=b_high, n_bhv_m=b_medium, n_bhv_l=b_low))
+            nbehav_to_print = [['Risk category', 'Expected', 'Obtained']]
+            nbehav_to_print.append(['Critical', b_critical])
+            nbehav_to_print.append(['High', b_high])
+            nbehav_to_print.append(['Medium', b_medium])
+            nbehav_to_print.append(['Low', b_low])
+            print(u'\n\nBehaviors')
+            print(tabulate(nbehav_to_print, headers='firstrow', stralign='medium', tablefmt='simple'))
 
     def _lower_than_scan_result(self, element, key, value):
         if not value == "":
@@ -221,8 +269,10 @@ class mASAPP_CI():
                 correct_execution = False
 
         if not correct_execution:
-            print("----  ERROR ----")
             self._print_excess()
+
+        if detail == True:
+            self.__print_details(' ')
 
 
 if __name__ == '__main__':
@@ -286,16 +336,16 @@ if __name__ == '__main__':
                             -v --values json structure:
                                 {
                                   "vulnerabilities": {
-                                    "critical": "maximum of critical vulnerabilities",
-                                    "high": "maximum of high vulnerabilities",
-                                    "medium": "maximum of medium vulnerabilities",
-                                    "low": "maximum of low vulnerabilities"
+                                    "critical": maximum of critical vulnerabilities,
+                                    "high": maximum of high vulnerabilities,
+                                    "medium": maximum of medium vulnerabilities,
+                                    "low": maximum of low vulnerabilities
                                   },
                                   "behaviorals": {
-                                    "critical": "maximum of critical behaviorals",
-                                    "high": "maximum of high behaviorals",
-                                    "medium": "maximum of medium behaviorals",
-                                    "low": "maximum of low behaviorals"
+                                    "critical": maximum of critical behaviorals,
+                                    "high": "maximum of high behaviorals,
+                                    "medium": maximum of medium behavioral,
+                                    "low": maximum of low behaviorals
                                   }
                                 }     
                         """
