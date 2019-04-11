@@ -75,7 +75,8 @@ class mASAPP_CI():
 
             print(tabulate(to_print, headers='firstrow', stralign='center'))
         else:
-            to_print.append([expected, obtained])
+            to_print.append(['risk',expected, obtained])
+            print(tabulate(to_print, headers='firstrow', stralign='center'))
 
     def __print_details(self, mode):
 
@@ -287,16 +288,12 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    if args.detailed:
-        details = True
-    else:
-        details = False
 
     if args.riskscore:
         user = mASAPP_CI(key="", secret="")
         user.riskscoring_execution(args.riskscore,
                                    "internal_resources/com.andreea.android.dev.triplelayer1GooglePlay.apk",
-                                   "com.andreea.android.dev.triplelayerGooglePlay", detail=details)
+                                   "com.andreea.android.dev.triplelayerGooglePlay", detail=args.detailed)
 
     else:
         def check_json(input_json):
@@ -325,11 +322,12 @@ if __name__ == '__main__':
                 checked_json = check_json(args.values)
                 if checked_json:
                     user = mASAPP_CI(key="", secret="")
-                    user.standard_execution(checked_json,
-                                            "internal_resources/com.andreea.android.dev.triplelayer1GooglePlay.apk",
-                                            "com.andreea.android.dev.triplelayerGooglePlay", detail=True)
 
-                    print(checked_json)
+                    if type(checked_json) != bool:
+                        user.standard_execution(checked_json,
+                                                "internal_resources/com.andreea.android.dev.triplelayer1GooglePlay.apk",
+                                                "com.andreea.android.dev.triplelayerGooglePlay", detail=args.detailed)
+
                 else:
                     print(
                         u"""
@@ -355,11 +353,11 @@ if __name__ == '__main__':
         else:
             parser.print_help()
 
-    user = mASAPP_CI(key="", secret="")
-    # user.riskscoring_execution(8,
-    #                            "internal_resources/com.andreea.android.dev.triplelayer1GooglePlay.apk",
-    #                            "com.andreea.android.dev.triplelayerGooglePlay", detail=True)
-
-    user.standard_execution(json.load(open("internal_resources/scan-values.json")),
-                            "internal_resources/com.andreea.android.dev.triplelayer1GooglePlay.apk",
-                            "com.andreea.android.dev.triplelayerGooglePlay", detail=True)
+    # user = mASAPP_CI(key="", secret="")
+    # # user.riskscoring_execution(8,
+    # #                            "internal_resources/com.andreea.android.dev.triplelayer1GooglePlay.apk",
+    # #                            "com.andreea.android.dev.triplelayerGooglePlay", detail=True)
+    #
+    # user.standard_execution(json.load(open("internal_resources/scan-values.json")),
+    #                         "internal_resources/com.andreea.android.dev.triplelayer1GooglePlay.apk",
+    #                         "com.andreea.android.dev.triplelayerGooglePlay", detail=True)
