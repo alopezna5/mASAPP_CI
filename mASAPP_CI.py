@@ -74,9 +74,11 @@ class mASAPP_CI():
                          expected[key][risk_key]])
 
             print(tabulate(to_print, headers='firstrow', stralign='center'))
+            print(" ")
         else:
-            to_print.append(['risk',expected, obtained])
+            to_print.append(['risk', expected, obtained])
             print(tabulate(to_print, headers='firstrow', stralign='center'))
+            print(" ")
 
     def __print_details(self, mode):
 
@@ -85,12 +87,26 @@ class mASAPP_CI():
         for category in user.scan_result['vulnerabilities'].keys():
             for element in user.scan_result['vulnerabilities'][category]:
                 v_to_print.append(['Title', element['title']])
-                v_to_print.append(['Ocurrences', element['count']])
+                v_to_print.append(['Risk', element['riskLevel']])
+                v_to_print.append(['nOcurrences', element['count']])
                 v_to_print.append(['Recommendation', element['recommendation']])
+                v_to_print.append(['Ocurrences:', ""])
+
+                for occurrence in element['result']:
+                    occurrence_path = ""
+
+                    for ocurrence_path_element in occurrence['source'][0]:
+                        occurrence_path += ocurrence_path_element + " > "
+
+                    v_to_print.append(['>>>> Source', occurrence_path[:-2]])
+                    v_to_print.append(['>>>> Evidence', occurrence['value']])
+                    v_to_print.append([' ', ' '])
+
+                v_to_print.append([' ', ' '])
                 v_to_print.append([' ', ' '])
 
         print("VULNERABILITIES DETECTED")
-        print(tabulate(v_to_print, stralign='left', tablefmt='simple'))
+        print(tabulate(v_to_print, stralign='left', tablefmt='plain'))
 
         b_to_print = [[]]
 
@@ -99,10 +115,22 @@ class mASAPP_CI():
                 b_to_print.append(['Title', element['title']])
                 b_to_print.append(['Ocurrences', element['count']])
                 b_to_print.append(['Impact', element['impact']])
+
+                for occurrence in element['result']:
+                    occurrence_path = ""
+
+                    for ocurrence_path_element in occurrence['source'][0]:
+                        occurrence_path += ocurrence_path_element + " > "
+
+                    b_to_print.append(['>>>> Source', occurrence_path[:-2]])
+                    b_to_print.append(['>>>> Evidence', occurrence['value']])
+                    b_to_print.append([' ', ' '])
+
+                b_to_print.append([' ', ' '])
                 b_to_print.append([' ', ' '])
 
         print("BEHAVIORS DETECTED")
-        print(tabulate(b_to_print, stralign='left', tablefmt='simple'))
+        print(tabulate(b_to_print, stralign='left', tablefmt='plain'))
 
         vulnerabilities = self.scan_result['vulnerabilities']
         v_critical = len(vulnerabilities['critical'])
@@ -135,7 +163,6 @@ class mASAPP_CI():
 
 
         elif mode == 'standard':
-            pass
             nvulns_to_print = [['Risk category', 'Expected', 'Obtained']]
             nvulns_to_print.append(['Critical', v_critical])
             nvulns_to_print.append(['High', v_high])
@@ -236,14 +263,14 @@ class mASAPP_CI():
         self.upload_and_analyse_app(app_path, package_name_origin, workgroup, lang)
 
         if self.scan_result['riskScore'] < maximum_riskscoring:
-            print("---- RISKSCORING SUCCESS ----")
+            print("---- RISKSCORING SUCCESS ----\n")
             if detail == True:
                 self.__print_details('riskscoring')
             return True
         else:
             self.exceeded_limit["expected"] = maximum_riskscoring
             self.exceeded_limit["obtained"] = self.scan_result['riskScore']
-            print("---- RISKSCORING ERROR ----")
+            print("---- RISKSCORING ERROR ----\n")
             self._print_excess()
             if detail == True:
                 self.__print_details('riskscoring')
@@ -270,7 +297,10 @@ class mASAPP_CI():
                 correct_execution = False
 
         if not correct_execution:
+            print("---- STANDARD ERROR ----")
             self._print_excess()
+        else:
+            print("---- STANDARD SUCCESS ----")
 
         if detail == True:
             self.__print_details(' ')
@@ -281,6 +311,8 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(prog='masapp', description=ASCII_ART_DESCRIPTION,
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
 
+    parser.add_argument('-a', '--app', help='path to the .apk or .ipa file', metavar=".ipa/.apk",
+                        required=True)
     parser.add_argument('-r', '--riskscore', help='riskscoring execution', type=float, metavar="N")
     parser.add_argument('-d', '--detailed', help='add details to the execution', action='store_true')
     parser.add_argument('-s', '--standard', help='standard execution', action='store_true')
@@ -288,12 +320,10 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-
     if args.riskscore:
         user = mASAPP_CI(key="", secret="")
-        user.riskscoring_execution(args.riskscore,
-                                   "internal_resources/com.andreea.android.dev.triplelayer1GooglePlay.apk",
-                                   "com.andreea.android.dev.triplelayerGooglePlay", detail=args.detailed)
+        user.riskscoring_execution(args.riskscore, args.app, "com.andreea.android.dev.triplelayerGooglePlay",
+                                   detail=args.detailed)
 
     else:
         def check_json(input_json):
@@ -324,9 +354,8 @@ if __name__ == '__main__':
                     user = mASAPP_CI(key="", secret="")
 
                     if type(checked_json) != bool:
-                        user.standard_execution(checked_json,
-                                                "internal_resources/com.andreea.android.dev.triplelayer1GooglePlay.apk",
-                                                "com.andreea.android.dev.triplelayerGooglePlay", detail=args.detailed)
+                        user.standard_execution(checked_json, args.app, "com.andreea.android.dev.triplelayerGooglePlay",
+                                                detail=args.detailed)
 
                 else:
                     print(
@@ -354,10 +383,10 @@ if __name__ == '__main__':
             parser.print_help()
 
     # user = mASAPP_CI(key="", secret="")
-    # # user.riskscoring_execution(8,
-    # #                            "internal_resources/com.andreea.android.dev.triplelayer1GooglePlay.apk",
-    # #                            "com.andreea.android.dev.triplelayerGooglePlay", detail=True)
-    #
+    # user.riskscoring_execution(8,
+    #                            "internal_resources/com.andreea.android.dev.triplelayer1GooglePlay.apk",
+    #                            "com.andreea.android.dev.triplelayerGooglePlay", detail=True)
+
     # user.standard_execution(json.load(open("internal_resources/scan-values.json")),
     #                         "internal_resources/com.andreea.android.dev.triplelayer1GooglePlay.apk",
     #                         "com.andreea.android.dev.triplelayerGooglePlay", detail=True)
