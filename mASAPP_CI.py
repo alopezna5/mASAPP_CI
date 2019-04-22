@@ -210,6 +210,30 @@ class mASAPP_CI():
                 return True
         assert False, "Application {package_name_origin} not found".format(package_name_origin=package_name_origin)
 
+    def store_scan_info_from_package_name(self, app_path):
+        user_scans = self.auth_user.get_auth_scans(self.scan_info["wg"])
+        self._check_not_api_error(user_scans)
+        for scan in user_scans.data['data']['scans']:
+            if 'packageName' in scan.keys():
+                if scan['packageName'] in app_path or scan['packageNameOrigin'] in app_path:
+                    self.scan_info['scanId'] = scan['scanId']
+                    self.scan_info['scanDate'] = scan['lastScanDate']
+                    return True
+            else:
+                if scan['packageNameOrigin'] in app_path:
+                    self.scan_info['scanId'] = scan['scanId']
+                    self.scan_info['scanDate'] = scan['lastScanDate']
+                    return True
+
+        print(
+            "Sometimes there are error in mASAPP and the application is saved without package name, so, please add the packageNameOrigin of your application with the param -p")
+        print("You could find your app in the following list:")
+        for scan in user_scans.data['data']['scans']:
+            print(scan)
+            print(" ")
+
+        assert False, "Application {app_path} not found".format(app_path=app_path)
+
     def store_scan_summary_from_scan_id(self, scan_id):
         user_scan_summary = self.auth_user.get_scan_summary(self.scan_info["wg"], scan_id)
         self._check_not_api_error(user_scan_summary)
@@ -241,26 +265,32 @@ class mASAPP_CI():
             risk = behavioral['riskLevel'].lower()
             self.scan_result['behaviorals'][risk].append(behavioral)
 
-    def upload_and_analyse_app(self, app_path, package_name_origin, workgroup=None, lang=None):
+    def upload_and_analyse_app(self, app_path, package_name_origin=None, workgroup=None, lang=None):
         if workgroup == None:
             self.store_workgroup(0)
         else:
             self.store_workgroup(workgroup)
 
         self.upload_app(app_path)
-        self.store_scan_info_from_package_name_origin(package_name_origin)
-        self.store_scan_summary_from_scan_id(self.scan_info['scanId'])
+
+        if package_name_origin != None:
+            self.store_scan_info_from_package_name_origin(package_name_origin)
+
+        else:
+            self.store_scan_info_from_package_name(app_path)
 
         if lang == None:
             self.scan_info['lang'] = 'en'
         else:
             self.scan_info['lang'] = lang
 
+        self.store_scan_summary_from_scan_id(self.scan_info['scanId'])
         self.store_scan_result()
 
-    def riskscoring_execution(self, maximum_riskscoring, app_path, package_name_origin, workgroup=None, lang=None,
+    def riskscoring_execution(self, maximum_riskscoring, app_path, package_name_origin=None, workgroup=None, lang=None,
                               detail=None):
-        self.upload_and_analyse_app(app_path, package_name_origin, workgroup, lang)
+        self.upload_and_analyse_app(app_path=app_path, package_name_origin=package_name_origin, workgroup=workgroup,
+                                    lang=lang)
 
         if self.scan_result['riskScore'] < maximum_riskscoring:
             print("---- RISKSCORING SUCCESS ----\n")
@@ -276,9 +306,10 @@ class mASAPP_CI():
                 self.__print_details('riskscoring')
             return False
 
-    def standard_execution(self, scan_maximum_values, app_path, package_name_origin, workgroup=None, lang=None,
+    def standard_execution(self, scan_maximum_values, app_path, package_name_origin=None, workgroup=None, lang=None,
                            detail=None):
-        self.upload_and_analyse_app(app_path, package_name_origin, workgroup, lang)
+        self.upload_and_analyse_app(app_path=app_path, package_name_origin=package_name_origin, workgroup=workgroup,
+                                    lang=lang)
 
         self.exceeded_limit["expected"] = {"vulnerabilities": {}, "behaviorals": {}}
         self.exceeded_limit["obtained"] = {"vulnerabilities": {}, "behaviorals": {}}
@@ -313,17 +344,22 @@ if __name__ == '__main__':
 
     parser.add_argument('-a', '--app', help='path to the .apk or .ipa file', metavar=".ipa/.apk",
                         required=True)
+    parser.add_argument('-p', '--packageNameOrigin', help='package name origin of the app')
     parser.add_argument('-r', '--riskscore', help='riskscoring execution', type=float, metavar="N")
     parser.add_argument('-d', '--detailed', help='add details to the execution', action='store_true')
-    parser.add_argument('-s', '--standard', help='standard execution', action='store_true')
-    parser.add_argument('-v', '--values', help='vulnerabilities and behaviorals json', metavar=".json")
+    parser.add_argument('-s', '--standard', help='standard execution', metavar=".json")
 
     args = parser.parse_args()
 
     if args.riskscore:
         user = mASAPP_CI(key="", secret="")
-        user.riskscoring_execution(args.riskscore, args.app, "com.andreea.android.dev.triplelayerGooglePlay",
-                                   detail=args.detailed)
+        if args.packageNameOrigin:
+            user.riskscoring_execution(maximum_riskscoring=args.riskscore, app_path=args.app,
+                                       package_name_origin=args.packageNameOrigin,
+                                       detail=args.detailed)
+        else:
+            user.riskscoring_execution(maximum_riskscoring=args.riskscore, app_path=args.app, detail=args.detailed)
+
 
     else:
         def check_json(input_json):
@@ -346,46 +382,43 @@ if __name__ == '__main__':
 
 
         if args.standard:
-            if not args.values:
-                print("missing parameter -v")
+            checked_json = check_json(args.standard)
+            if checked_json:
+                user = mASAPP_CI(key="", secret="")
+
+                if type(checked_json) != bool:
+                    user.standard_execution(checked_json, args.app, "com.andreea.android.dev.triplelayerGooglePlay",
+                                            detail=args.detailed)
+
             else:
-                checked_json = check_json(args.values)
-                if checked_json:
-                    user = mASAPP_CI(key="", secret="")
-
-                    if type(checked_json) != bool:
-                        user.standard_execution(checked_json, args.app, "com.andreea.android.dev.triplelayerGooglePlay",
-                                                detail=args.detailed)
-
-                else:
-                    print(
-                        u"""
-                            -v --values json structure:
-                                {
-                                  "vulnerabilities": {
-                                    "critical": maximum of critical vulnerabilities,
-                                    "high": maximum of high vulnerabilities,
-                                    "medium": maximum of medium vulnerabilities,
-                                    "low": maximum of low vulnerabilities
-                                  },
-                                  "behaviorals": {
-                                    "critical": maximum of critical behaviorals,
-                                    "high": "maximum of high behaviorals,
-                                    "medium": maximum of medium behavioral,
-                                    "low": maximum of low behaviorals
-                                  }
-                                }     
-                        """
-                    )
+                print(
+                    u"""
+                        -s --standard json structure:
+                            {
+                              "vulnerabilities": {
+                                "critical": maximum of critical vulnerabilities,
+                                "high": maximum of high vulnerabilities,
+                                "medium": maximum of medium vulnerabilities,
+                                "low": maximum of low vulnerabilities
+                              },
+                              "behaviorals": {
+                                "critical": maximum of critical behaviorals,
+                                "high": "maximum of high behaviorals,
+                                "medium": maximum of medium behavioral,
+                                "low": maximum of low behaviorals
+                              }
+                            }     
+                    """
+                )
 
 
         else:
             parser.print_help()
 
     # user = mASAPP_CI(key="", secret="")
-    # user.riskscoring_execution(8,
-    #                            "internal_resources/com.andreea.android.dev.triplelayer1GooglePlay.apk",
-    #                            "com.andreea.android.dev.triplelayerGooglePlay", detail=True)
+    # user.riskscoring_execution(maximum_riskscoring=8,
+    #                            app_path="internal_resources/com.andreea.android.dev.triplelayer1GooglePlay.apk",
+    #                            detail=True)
 
     # user.standard_execution(json.load(open("internal_resources/scan-values.json")),
     #                         "internal_resources/com.andreea.android.dev.triplelayer1GooglePlay.apk",
