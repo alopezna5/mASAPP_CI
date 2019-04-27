@@ -1,37 +1,10 @@
-#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-import json
 import os
 
 from elevenpaths_auth import mASAPP_CI_auth
-import argparse
 from tabulate import tabulate
-
-# import logging
-# import sys
-
-
-# Logs for helping the development
-# Logs printing
-# root = logging.getLogger()
-# root.setLevel(logging.DEBUG)
-#
-# handler = logging.StreamHandler(sys.stdout)
-# handler.setLevel(logging.DEBUG)
-# formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-# handler.setFormatter(formatter)
-# root.addHandler(handler)
-
-ASCII_ART_DESCRIPTION = U'''
-                        _____           _____   _____      _____  _____ 
-                /\     / ____|   /\    |  __ \ |  __ \    / ____||_   _|
-  _ __ ___     /  \   | (___    /  \   | |__) || |__) |  | |       | |  
- | '_ ` _ \   / /\ \   \___ \  / /\ \  |  ___/ |  ___/   | |       | |  
- | | | | | | / ____ \  ____) |/ ____ \ | |     | |       | |____  _| |_ 
- |_| |_| |_|/_/    \_\|_____//_/    \_\|_|     |_|        \_____||_____|
-                                                      
-'''
+import json
 
 
 class mASAPP_CI():
@@ -84,8 +57,8 @@ class mASAPP_CI():
 
         v_to_print = [[]]
 
-        for category in user.scan_result['vulnerabilities'].keys():
-            for element in user.scan_result['vulnerabilities'][category]:
+        for category in self.scan_result['vulnerabilities'].keys():
+            for element in self.scan_result['vulnerabilities'][category]:
                 v_to_print.append(['Title', element['title']])
                 v_to_print.append(['Risk', element['riskLevel']])
                 v_to_print.append(['nOcurrences', element['count']])
@@ -110,8 +83,8 @@ class mASAPP_CI():
 
         b_to_print = [[]]
 
-        for category in user.scan_result['behaviorals'].keys():
-            for element in user.scan_result['behaviorals'][category]:
+        for category in self.scan_result['behaviorals'].keys():
+            for element in self.scan_result['behaviorals'][category]:
                 b_to_print.append(['Title', element['title']])
                 b_to_print.append(['Ocurrences', element['count']])
                 b_to_print.append(['Impact', element['impact']])
@@ -337,89 +310,4 @@ class mASAPP_CI():
             self.__print_details(' ')
 
 
-if __name__ == '__main__':
 
-    parser = argparse.ArgumentParser(prog='masapp', description=ASCII_ART_DESCRIPTION,
-                                     formatter_class=argparse.RawDescriptionHelpFormatter)
-
-    parser.add_argument('-a', '--app', help='path to the .apk or .ipa file', metavar=".ipa/.apk",
-                        required=True)
-    parser.add_argument('-p', '--packageNameOrigin', help='package name origin of the app')
-    parser.add_argument('-r', '--riskscore', help='riskscoring execution', type=float, metavar="N")
-    parser.add_argument('-d', '--detailed', help='add details to the execution', action='store_true')
-    parser.add_argument('-s', '--standard', help='standard execution', metavar=".json")
-
-    args = parser.parse_args()
-
-    if args.riskscore:
-        user = mASAPP_CI(key="", secret="")
-        if args.packageNameOrigin:
-            user.riskscoring_execution(maximum_riskscoring=args.riskscore, app_path=args.app,
-                                       package_name_origin=args.packageNameOrigin,
-                                       detail=args.detailed)
-        else:
-            user.riskscoring_execution(maximum_riskscoring=args.riskscore, app_path=args.app, detail=args.detailed)
-
-
-    else:
-        def check_json(input_json):
-            if ".json" in input_json:
-                try:
-                    input_json = json.load(open(input_json))
-                except:
-                    parser.print_help()
-                    return False
-                correct_json = input_json['vulnerabilities'] != None or input_json['behaviorals']
-
-                if not correct_json:
-                    parser.print_help()
-                    return False
-                else:
-                    return input_json
-            else:
-                parser.print_help()
-                return False
-
-
-        if args.standard:
-            checked_json = check_json(args.standard)
-            if checked_json:
-                user = mASAPP_CI(key="", secret="")
-
-                if type(checked_json) != bool:
-                    user.standard_execution(checked_json, args.app, "com.andreea.android.dev.triplelayerGooglePlay",
-                                            detail=args.detailed)
-
-            else:
-                print(
-                    u"""
-                        -s --standard json structure:
-                            {
-                              "vulnerabilities": {
-                                "critical": maximum of critical vulnerabilities,
-                                "high": maximum of high vulnerabilities,
-                                "medium": maximum of medium vulnerabilities,
-                                "low": maximum of low vulnerabilities
-                              },
-                              "behaviorals": {
-                                "critical": maximum of critical behaviorals,
-                                "high": "maximum of high behaviorals,
-                                "medium": maximum of medium behavioral,
-                                "low": maximum of low behaviorals
-                              }
-                            }     
-                    """
-                )
-
-
-        else:
-            parser.print_help()
-
-    # user = mASAPP_CI(key="", secret="")
-    # user.riskscoring_execution(maximum_riskscoring=8,
-    #                            app_path="internal_resources/com.andreea.android.dev.triplelayer1GooglePlay.apk",
-    #                            detail=True)
-
-    # user.standard_execution(json.load(open("internal_resources/scan-values.json")),
-    #                         "internal_resources/com.andreea.android.dev.triplelayer1GooglePlay.apk",
-    #                         "com.andreea.android.dev.triplelayerGooglePlay", detail=True)

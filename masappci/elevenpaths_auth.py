@@ -1,8 +1,8 @@
-#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 from sdklib.http import HttpSdk
 from sdklib.http.authorization import X11PathsAuthentication
+
 
 
 class mASAPP_CI_auth(HttpSdk):
@@ -74,4 +74,5 @@ class mASAPP_CI_auth(HttpSdk):
                         authentication_instances=[self.authentication_instances],
                         headers={'wg': workgroup},
                         query_params={'scanId': scan_id, 'scanDate': scan_date, 'appKey': app_key, 'lang': lang})
+
 
