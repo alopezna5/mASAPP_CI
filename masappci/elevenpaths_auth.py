@@ -7,7 +7,7 @@ from sdklib.http.authorization import X11PathsAuthentication
 
 class mASAPP_CI_auth(HttpSdk):
     """
-        Class that contains the necessary authorization for working with mASAPP API
+        Class that contains the necessary authorized methods for working with the mASAPP API
     """
 
     API_VERSION = "1.6.2"
@@ -24,7 +24,7 @@ class mASAPP_CI_auth(HttpSdk):
 
     def get_auth_workgroup(self):
         """
-        :return:
+        :return: 
         """
         return self.get(url_path=self.API_WORKGROUPS, authentication_instances=[self.authentication_instances])
 
