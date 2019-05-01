@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>masappci.elevenpaths_auth &mdash; masapp_cli  documentation</title>
+  <title>masappci.elevenpaths_auth &mdash; masapp_ci  documentation</title>
   
 
   
@@ -48,7 +48,7 @@
           
 
           
-            <a href="../../index.html" class="icon icon-home"> masapp_cli
+            <a href="../../index.html" class="icon icon-home"> masapp_ci
           
 
           
@@ -96,7 +96,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../index.html">masapp_cli</a>
+          <a href="../../index.html">masapp_ci</a>
         
       </nav>
 
@@ -151,10 +151,23 @@
 <span class="kn">from</span> <span class="nn">sdklib.http.authorization</span> <span class="k">import</span> <span class="n">X11PathsAuthentication</span>
 
 
-
 <div class="viewcode-block" id="mASAPP_CI_auth"><a class="viewcode-back" href="../../index.html#masappci.elevenpaths_auth.mASAPP_CI_auth">[docs]</a><span class="k">class</span> <span class="nc">mASAPP_CI_auth</span><span class="p">(</span><span class="n">HttpSdk</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Class that contains the necessary authorized methods for working with the mASAPP API</span>
+<span class="sd">        This class contains the necessary authorized methods for working with the mASAPPs API. Inherited from the</span>
+<span class="sd">        **HttpSdk** class it uses the **X11PathsAuthentication** authentication which performs safer requests.</span>
+<span class="sd">        Without this request implementation the user wouldn&#39;t be available to communicate with the mASAPPs API.</span>
+
+<span class="sd">        The initialization of this class needs two parameters obtained from mASAPP in the API Clients section.</span>
+<span class="sd">        This parameters are:</span>
+<span class="sd">            +------------------------+-----------------------+</span>
+<span class="sd">            | mASAPP_CI_auth param   |Equivalent mASAPP value|</span>
+<span class="sd">            +========================+=======================+</span>
+<span class="sd">            | key                    | Client ID             |</span>
+<span class="sd">            +------------------------+-----------------------+</span>
+<span class="sd">            | secret                 | Secret                |</span>
+<span class="sd">            +------------------------+-----------------------+</span>
+
+<span class="sd">        For more information about HttpSdk: https://github.com/ivanprjcts/sdklib</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">API_VERSION</span> <span class="o">=</span> <span class="s2">&quot;1.6.2&quot;</span>
@@ -171,17 +184,25 @@
 
 <div class="viewcode-block" id="mASAPP_CI_auth.get_auth_workgroup"><a class="viewcode-back" href="../../index.html#masappci.elevenpaths_auth.mASAPP_CI_auth.get_auth_workgroup">[docs]</a>    <span class="k">def</span> <span class="nf">get_auth_workgroup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        :return: Makes</span>
+
+<span class="sd">        :return:          The response to the authenticated request **/workgroups**</span>
+<span class="sd">                          to the mASAPP API, which returns the mASAPPs workgroups which the user belongs to.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url_path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">API_WORKGROUPS</span><span class="p">,</span> <span class="n">authentication_instances</span><span class="o">=</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">authentication_instances</span><span class="p">])</span></div>
 
 <div class="viewcode-block" id="mASAPP_CI_auth.post_auth_upload_app"><a class="viewcode-back" href="../../index.html#masappci.elevenpaths_auth.mASAPP_CI_auth.post_auth_upload_app">[docs]</a>    <span class="k">def</span> <span class="nf">post_auth_upload_app</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">workgroup</span><span class="p">,</span> <span class="n">allowTacyt</span><span class="p">,</span> <span class="n">app_path</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        :param workgroup:</span>
-<span class="sd">        :param allowTacyt:</span>
-<span class="sd">        :param app:</span>
-<span class="sd">        :return:</span>
+
+<span class="sd">        :param workgroup:  The workgroup where the user belongs to.</span>
+<span class="sd">        :type workgroup:   String</span>
+<span class="sd">        :param allowTacyt: If the user wants to share the app with the Tacyt/mASAPP community or not.</span>
+<span class="sd">        :type allowTacyt:  Boolean</span>
+<span class="sd">        :param app_path:   The absolute path to the application which the user wants to upload.</span>
+<span class="sd">        :type app_path:    String</span>
+<span class="sd">        :return:           The response to the authenticated request **/upload**</span>
+<span class="sd">                           to the mASAPP API, which returns the result of the uploading the app to mASAPP.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="n">body_params</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;allowTacyt&quot;</span><span class="p">:</span> <span class="n">allowTacyt</span>
         <span class="p">}</span>
@@ -191,17 +212,24 @@
 
 <div class="viewcode-block" id="mASAPP_CI_auth.get_auth_scans"><a class="viewcode-back" href="../../index.html#masappci.elevenpaths_auth.mASAPP_CI_auth.get_auth_scans">[docs]</a>    <span class="k">def</span> <span class="nf">get_auth_scans</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">workgroup</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        :param workgroup:</span>
-<span class="sd">        :return:</span>
+
+<span class="sd">        :param workgroup:  The workgroup where the user belongs to.</span>
+<span class="sd">        :type workgroup:   String</span>
+<span class="sd">        :return:           The response to the authenticated request **/scans**</span>
+<span class="sd">                           to the mASAPP API, which returns a brief summary of all the apps contained in the user scans.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url_path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">API_SCANS</span><span class="p">,</span> <span class="n">authentication_instances</span><span class="o">=</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">authentication_instances</span><span class="p">],</span>
                         <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;wg&#39;</span><span class="p">:</span> <span class="n">workgroup</span><span class="p">})</span></div>
 
 <div class="viewcode-block" id="mASAPP_CI_auth.get_scan_summary"><a class="viewcode-back" href="../../index.html#masappci.elevenpaths_auth.mASAPP_CI_auth.get_scan_summary">[docs]</a>    <span class="k">def</span> <span class="nf">get_scan_summary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">workgroup</span><span class="p">,</span> <span class="n">scan_id</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        :param workgroup:</span>
-<span class="sd">        :param scan_id:</span>
-<span class="sd">        :return:</span>
+
+<span class="sd">        :param workgroup:  The workgroup where the user belongs to.</span>
+<span class="sd">        :type workgroup:   String</span>
+<span class="sd">        :param scan_id:    The scan ID from the scan which the user wants to obtain a summary.</span>
+<span class="sd">        :type scan_id:     String</span>
+<span class="sd">        :return:           The response to the authenticated request **/scanSummary**</span>
+<span class="sd">                           to the mASAPP API, which returns a summary of the scan with the scan_id introduced.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url_path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">API_SCAN_SUMMARY</span> <span class="o">+</span> <span class="n">scan_id</span><span class="p">,</span>
                         <span class="n">authentication_instances</span><span class="o">=</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">authentication_instances</span><span class="p">],</span>
@@ -209,20 +237,31 @@
 
 <div class="viewcode-block" id="mASAPP_CI_auth.get_scan_result"><a class="viewcode-back" href="../../index.html#masappci.elevenpaths_auth.mASAPP_CI_auth.get_scan_result">[docs]</a>    <span class="k">def</span> <span class="nf">get_scan_result</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">workgroup</span><span class="p">,</span> <span class="n">scan_id</span><span class="p">,</span> <span class="n">scan_date</span><span class="p">,</span> <span class="n">app_key</span><span class="p">,</span> <span class="n">lang</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        :param workgroup:</span>
-<span class="sd">        :param scan_id:</span>
-<span class="sd">        :param scan_date:</span>
-<span class="sd">        :param app_key:</span>
-<span class="sd">        :param lang:</span>
-<span class="sd">        :return:</span>
+
+<span class="sd">        :param workgroup: The workgroup where the user belongs to.</span>
+<span class="sd">        :type workgroup:  String</span>
+<span class="sd">        :param scan_id:   The scan ID from the scan which the user wants to obtain the result.</span>
+<span class="sd">        :type scan_id:    String</span>
+<span class="sd">        :param scan_date: The date from the scan which the user wants to obtain the result.</span>
+<span class="sd">        :type scan_date:  Date</span>
+<span class="sd">        :param app_key:   The key of the app which the user wants to obtain the result.</span>
+<span class="sd">        :type app_key:    String</span>
+<span class="sd">        :param lang:      The language in which the user wants to get the analysis result.</span>
+<span class="sd">        :type lang:       &quot;en&quot;, &quot;es&quot;</span>
+<span class="sd">        :return:          The response to the authenticated request **/scanResults**</span>
+<span class="sd">                          to the mASAPP API, which returns the result of the mASAPPs analysis for the scan with</span>
+<span class="sd">                          the scan_id, scan_date and app_key introduced, including **vulnerabilities and behaviors**</span>
+<span class="sd">                          among other things.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">LANGUAGES</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="s2">&quot;es&quot;</span><span class="p">]</span>
+
+        <span class="k">assert</span> <span class="n">lang</span> <span class="ow">in</span> <span class="n">LANGUAGES</span><span class="p">,</span> <span class="s2">&quot;Language </span><span class="si">{language}</span><span class="s2"> Only supported languages: </span><span class="si">{langs}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">language</span><span class="o">=</span><span class="n">lang</span><span class="p">,</span>
+                                                                                                 <span class="n">langs</span><span class="o">=</span><span class="n">LANGUAGES</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url_path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">API_SCAN_RESULT</span><span class="p">,</span>
                         <span class="n">authentication_instances</span><span class="o">=</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">authentication_instances</span><span class="p">],</span>
                         <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;wg&#39;</span><span class="p">:</span> <span class="n">workgroup</span><span class="p">},</span>
                         <span class="n">query_params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;scanId&#39;</span><span class="p">:</span> <span class="n">scan_id</span><span class="p">,</span> <span class="s1">&#39;scanDate&#39;</span><span class="p">:</span> <span class="n">scan_date</span><span class="p">,</span> <span class="s1">&#39;appKey&#39;</span><span class="p">:</span> <span class="n">app_key</span><span class="p">,</span> <span class="s1">&#39;lang&#39;</span><span class="p">:</span> <span class="n">lang</span><span class="p">})</span></div></div>
-
-
 </pre></div>
 
            </div>

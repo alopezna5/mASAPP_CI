@@ -8,6 +8,11 @@ import json
 
 
 class mASAPP_CI():
+    """
+
+    TODO ADD MASAPP_CI INFO
+    """
+
     LANGUAGES = ["en", "es"]
 
     def __init__(self, key, secret):

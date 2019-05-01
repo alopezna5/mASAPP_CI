@@ -1,0 +1,507 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>masappci.masappci &mdash; masapp_ci  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> masapp_ci
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">masapp_ci</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>masappci.masappci</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for masappci.masappci</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="kn">from</span> <span class="nn">elevenpaths_auth</span> <span class="k">import</span> <span class="n">mASAPP_CI_auth</span>
+<span class="kn">from</span> <span class="nn">tabulate</span> <span class="k">import</span> <span class="n">tabulate</span>
+<span class="kn">import</span> <span class="nn">json</span>
+
+
+<div class="viewcode-block" id="mASAPP_CI"><a class="viewcode-back" href="../../index.html#masappci.masappci.mASAPP_CI">[docs]</a><span class="k">class</span> <span class="nc">mASAPP_CI</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">    TODO ADD MASAPP_CI INFO</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">LANGUAGES</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="s2">&quot;es&quot;</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">secret</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">key</span> <span class="o">=</span> <span class="n">key</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">secret</span> <span class="o">=</span> <span class="n">secret</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">auth_user</span> <span class="o">=</span> <span class="n">mASAPP_CI_auth</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">secret</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scan_info</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;wg&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s1">&#39;scanId&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s1">&#39;appKey&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s1">&#39;scanDate&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s1">&#39;lang&#39;</span><span class="p">:</span> <span class="kc">None</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">scan_result</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;riskScore&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s1">&#39;behaviorals&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;critical&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;high&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;medium&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;low&#39;</span><span class="p">:</span> <span class="p">[]},</span>
+            <span class="s1">&#39;vulnerabilities&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;critical&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;high&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;medium&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;low&#39;</span><span class="p">:</span> <span class="p">[]}</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">exceeded_limit</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;expected&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s2">&quot;obtained&quot;</span><span class="p">:</span> <span class="kc">None</span>
+        <span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">_print_excess</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">expected</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">exceeded_limit</span><span class="p">[</span><span class="s2">&quot;expected&quot;</span><span class="p">]</span>
+        <span class="n">obtained</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">exceeded_limit</span><span class="p">[</span><span class="s2">&quot;obtained&quot;</span><span class="p">]</span>
+
+        <span class="n">to_print</span> <span class="o">=</span> <span class="p">[[</span><span class="s2">&quot;ELEMENT&quot;</span><span class="p">,</span> <span class="s2">&quot;EXPECTED&quot;</span><span class="p">,</span> <span class="s2">&quot;OBTAINED&quot;</span><span class="p">]]</span>
+
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">obtained</span><span class="p">)</span> <span class="o">==</span> <span class="nb">dict</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">obtained</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="k">for</span> <span class="n">risk_key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">obtained</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="n">to_print</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                        <span class="p">[</span><span class="s1">&#39;</span><span class="si">{risk_key}</span><span class="s1"> </span><span class="si">{key}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">risk_key</span><span class="o">=</span><span class="n">risk_key</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">key</span><span class="p">))</span><span class="o">.</span><span class="n">capitalize</span><span class="p">(),</span> <span class="n">value</span><span class="p">,</span>
+                         <span class="n">expected</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="n">risk_key</span><span class="p">]])</span>
+
+            <span class="nb">print</span><span class="p">(</span><span class="n">tabulate</span><span class="p">(</span><span class="n">to_print</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="s1">&#39;firstrow&#39;</span><span class="p">,</span> <span class="n">stralign</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">))</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">to_print</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="s1">&#39;risk&#39;</span><span class="p">,</span> <span class="n">expected</span><span class="p">,</span> <span class="n">obtained</span><span class="p">])</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">tabulate</span><span class="p">(</span><span class="n">to_print</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="s1">&#39;firstrow&#39;</span><span class="p">,</span> <span class="n">stralign</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">))</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__print_details</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="p">):</span>
+
+        <span class="n">v_to_print</span> <span class="o">=</span> <span class="p">[[]]</span>
+
+        <span class="k">for</span> <span class="n">category</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">scan_result</span><span class="p">[</span><span class="s1">&#39;vulnerabilities&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">scan_result</span><span class="p">[</span><span class="s1">&#39;vulnerabilities&#39;</span><span class="p">][</span><span class="n">category</span><span class="p">]:</span>
+                <span class="n">v_to_print</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="s1">&#39;Title&#39;</span><span class="p">,</span> <span class="n">element</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">]])</span>
+                <span class="n">v_to_print</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="s1">&#39;Risk&#39;</span><span class="p">,</span> <span class="n">element</span><span class="p">[</span><span class="s1">&#39;riskLevel&#39;</span><span class="p">]])</span>
+                <span class="n">v_to_print</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="s1">&#39;nOcurrences&#39;</span><span class="p">,</span> <span class="n">element</span><span class="p">[</span><span class="s1">&#39;count&#39;</span><span class="p">]])</span>
+                <span class="n">v_to_print</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="s1">&#39;Recommendation&#39;</span><span class="p">,</span> <span class="n">element</span><span class="p">[</span><span class="s1">&#39;recommendation&#39;</span><span class="p">]])</span>
+                <span class="n">v_to_print</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="s1">&#39;Ocurrences:&#39;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">])</span>
+
+                <span class="k">for</span> <span class="n">occurrence</span> <span class="ow">in</span> <span class="n">element</span><span class="p">[</span><span class="s1">&#39;result&#39;</span><span class="p">]:</span>
+                    <span class="n">occurrence_path</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+                    <span class="k">for</span> <span class="n">ocurrence_path_element</span> <span class="ow">in</span> <span class="n">occurrence</span><span class="p">[</span><span class="s1">&#39;source&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]:</span>
+                        <span class="n">occurrence_path</span> <span class="o">+=</span> <span class="n">ocurrence_path_element</span> <span class="o">+</span> <span class="s2">&quot; &gt; &quot;</span>
+
+                    <span class="n">v_to_print</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="s1">&#39;&gt;&gt;&gt;&gt; Source&#39;</span><span class="p">,</span> <span class="n">occurrence_path</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]])</span>
+                    <span class="n">v_to_print</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="s1">&#39;&gt;&gt;&gt;&gt; Evidence&#39;</span><span class="p">,</span> <span class="n">occurrence</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]])</span>
+                    <span class="n">v_to_print</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">])</span>
+
+                <span class="n">v_to_print</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">])</span>
+                <span class="n">v_to_print</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">])</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;VULNERABILITIES DETECTED&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">tabulate</span><span class="p">(</span><span class="n">v_to_print</span><span class="p">,</span> <span class="n">stralign</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">tablefmt</span><span class="o">=</span><span class="s1">&#39;plain&#39;</span><span class="p">))</span>
+
+        <span class="n">b_to_print</span> <span class="o">=</span> <span class="p">[[]]</span>
+
+        <span class="k">for</span> <span class="n">category</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">scan_result</span><span class="p">[</span><span class="s1">&#39;behaviorals&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">scan_result</span><span class="p">[</span><span class="s1">&#39;behaviorals&#39;</span><span class="p">][</span><span class="n">category</span><span class="p">]:</span>
+                <span class="n">b_to_print</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="s1">&#39;Title&#39;</span><span class="p">,</span> <span class="n">element</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">]])</span>
+                <span class="n">b_to_print</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="s1">&#39;Ocurrences&#39;</span><span class="p">,</span> <span class="n">element</span><span class="p">[</span><span class="s1">&#39;count&#39;</span><span class="p">]])</span>
+                <span class="n">b_to_print</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="s1">&#39;Impact&#39;</span><span class="p">,</span> <span class="n">element</span><span class="p">[</span><span class="s1">&#39;impact&#39;</span><span class="p">]])</span>
+
+                <span class="k">for</span> <span class="n">occurrence</span> <span class="ow">in</span> <span class="n">element</span><span class="p">[</span><span class="s1">&#39;result&#39;</span><span class="p">]:</span>
+                    <span class="n">occurrence_path</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+                    <span class="k">for</span> <span class="n">ocurrence_path_element</span> <span class="ow">in</span> <span class="n">occurrence</span><span class="p">[</span><span class="s1">&#39;source&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]:</span>
+                        <span class="n">occurrence_path</span> <span class="o">+=</span> <span class="n">ocurrence_path_element</span> <span class="o">+</span> <span class="s2">&quot; &gt; &quot;</span>
+
+                    <span class="n">b_to_print</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="s1">&#39;&gt;&gt;&gt;&gt; Source&#39;</span><span class="p">,</span> <span class="n">occurrence_path</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]])</span>
+                    <span class="n">b_to_print</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="s1">&#39;&gt;&gt;&gt;&gt; Evidence&#39;</span><span class="p">,</span> <span class="n">occurrence</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]])</span>
+                    <span class="n">b_to_print</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">])</span>
+
+                <span class="n">b_to_print</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">])</span>
+                <span class="n">b_to_print</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">])</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;BEHAVIORS DETECTED&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">tabulate</span><span class="p">(</span><span class="n">b_to_print</span><span class="p">,</span> <span class="n">stralign</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">tablefmt</span><span class="o">=</span><span class="s1">&#39;plain&#39;</span><span class="p">))</span>
+
+        <span class="n">vulnerabilities</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scan_result</span><span class="p">[</span><span class="s1">&#39;vulnerabilities&#39;</span><span class="p">]</span>
+        <span class="n">v_critical</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">vulnerabilities</span><span class="p">[</span><span class="s1">&#39;critical&#39;</span><span class="p">])</span>
+        <span class="n">v_high</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">vulnerabilities</span><span class="p">[</span><span class="s1">&#39;high&#39;</span><span class="p">])</span>
+        <span class="n">v_medium</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">vulnerabilities</span><span class="p">[</span><span class="s1">&#39;medium&#39;</span><span class="p">])</span>
+        <span class="n">v_low</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">vulnerabilities</span><span class="p">[</span><span class="s1">&#39;low&#39;</span><span class="p">])</span>
+
+        <span class="n">behaviorals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scan_result</span><span class="p">[</span><span class="s1">&#39;behaviorals&#39;</span><span class="p">]</span>
+        <span class="n">b_critical</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">behaviorals</span><span class="p">[</span><span class="s1">&#39;critical&#39;</span><span class="p">])</span>
+        <span class="n">b_high</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">behaviorals</span><span class="p">[</span><span class="s1">&#39;high&#39;</span><span class="p">])</span>
+        <span class="n">b_medium</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">behaviorals</span><span class="p">[</span><span class="s1">&#39;medium&#39;</span><span class="p">])</span>
+        <span class="n">b_low</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">behaviorals</span><span class="p">[</span><span class="s1">&#39;low&#39;</span><span class="p">])</span>
+
+        <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;riskscoring&#39;</span><span class="p">:</span>
+            <span class="n">nvulns_to_print</span> <span class="o">=</span> <span class="p">[[</span><span class="s1">&#39;Risk category&#39;</span><span class="p">,</span> <span class="s1">&#39;Obtained&#39;</span><span class="p">]]</span>
+            <span class="n">nvulns_to_print</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="s1">&#39;Critical&#39;</span><span class="p">,</span> <span class="n">v_critical</span><span class="p">])</span>
+            <span class="n">nvulns_to_print</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="s1">&#39;High&#39;</span><span class="p">,</span> <span class="n">v_high</span><span class="p">])</span>
+            <span class="n">nvulns_to_print</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="s1">&#39;Medium&#39;</span><span class="p">,</span> <span class="n">v_medium</span><span class="p">])</span>
+            <span class="n">nvulns_to_print</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="s1">&#39;Low&#39;</span><span class="p">,</span> <span class="n">v_low</span><span class="p">])</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">Vulnerabilities&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">tabulate</span><span class="p">(</span><span class="n">nvulns_to_print</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="s1">&#39;firstrow&#39;</span><span class="p">,</span> <span class="n">stralign</span><span class="o">=</span><span class="s1">&#39;medium&#39;</span><span class="p">,</span> <span class="n">tablefmt</span><span class="o">=</span><span class="s1">&#39;simple&#39;</span><span class="p">))</span>
+
+            <span class="n">nbehav_to_print</span> <span class="o">=</span> <span class="p">[[</span><span class="s1">&#39;Risk category&#39;</span><span class="p">,</span> <span class="s1">&#39;Obtained&#39;</span><span class="p">]]</span>
+            <span class="n">nbehav_to_print</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="s1">&#39;Critical&#39;</span><span class="p">,</span> <span class="n">b_critical</span><span class="p">])</span>
+            <span class="n">nbehav_to_print</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="s1">&#39;High&#39;</span><span class="p">,</span> <span class="n">b_high</span><span class="p">])</span>
+            <span class="n">nbehav_to_print</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="s1">&#39;Medium&#39;</span><span class="p">,</span> <span class="n">b_medium</span><span class="p">])</span>
+            <span class="n">nbehav_to_print</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="s1">&#39;Low&#39;</span><span class="p">,</span> <span class="n">b_low</span><span class="p">])</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">Behaviors&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">tabulate</span><span class="p">(</span><span class="n">nbehav_to_print</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="s1">&#39;firstrow&#39;</span><span class="p">,</span> <span class="n">stralign</span><span class="o">=</span><span class="s1">&#39;medium&#39;</span><span class="p">,</span> <span class="n">tablefmt</span><span class="o">=</span><span class="s1">&#39;simple&#39;</span><span class="p">))</span>
+
+
+        <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;standard&#39;</span><span class="p">:</span>
+            <span class="n">nvulns_to_print</span> <span class="o">=</span> <span class="p">[[</span><span class="s1">&#39;Risk category&#39;</span><span class="p">,</span> <span class="s1">&#39;Expected&#39;</span><span class="p">,</span> <span class="s1">&#39;Obtained&#39;</span><span class="p">]]</span>
+            <span class="n">nvulns_to_print</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="s1">&#39;Critical&#39;</span><span class="p">,</span> <span class="n">v_critical</span><span class="p">])</span>
+            <span class="n">nvulns_to_print</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="s1">&#39;High&#39;</span><span class="p">,</span> <span class="n">v_high</span><span class="p">])</span>
+            <span class="n">nvulns_to_print</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="s1">&#39;Medium&#39;</span><span class="p">,</span> <span class="n">v_medium</span><span class="p">])</span>
+            <span class="n">nvulns_to_print</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="s1">&#39;Low&#39;</span><span class="p">,</span> <span class="n">v_low</span><span class="p">])</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">Vulnerabilities&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">tabulate</span><span class="p">(</span><span class="n">nvulns_to_print</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="s1">&#39;firstrow&#39;</span><span class="p">,</span> <span class="n">stralign</span><span class="o">=</span><span class="s1">&#39;medium&#39;</span><span class="p">,</span> <span class="n">tablefmt</span><span class="o">=</span><span class="s1">&#39;simple&#39;</span><span class="p">))</span>
+
+            <span class="n">nbehav_to_print</span> <span class="o">=</span> <span class="p">[[</span><span class="s1">&#39;Risk category&#39;</span><span class="p">,</span> <span class="s1">&#39;Expected&#39;</span><span class="p">,</span> <span class="s1">&#39;Obtained&#39;</span><span class="p">]]</span>
+            <span class="n">nbehav_to_print</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="s1">&#39;Critical&#39;</span><span class="p">,</span> <span class="n">b_critical</span><span class="p">])</span>
+            <span class="n">nbehav_to_print</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="s1">&#39;High&#39;</span><span class="p">,</span> <span class="n">b_high</span><span class="p">])</span>
+            <span class="n">nbehav_to_print</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="s1">&#39;Medium&#39;</span><span class="p">,</span> <span class="n">b_medium</span><span class="p">])</span>
+            <span class="n">nbehav_to_print</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="s1">&#39;Low&#39;</span><span class="p">,</span> <span class="n">b_low</span><span class="p">])</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">Behaviors&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">tabulate</span><span class="p">(</span><span class="n">nbehav_to_print</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="s1">&#39;firstrow&#39;</span><span class="p">,</span> <span class="n">stralign</span><span class="o">=</span><span class="s1">&#39;medium&#39;</span><span class="p">,</span> <span class="n">tablefmt</span><span class="o">=</span><span class="s1">&#39;simple&#39;</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">_lower_than_scan_result</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">element</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">value</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scan_result</span><span class="p">[</span><span class="n">element</span><span class="p">][</span><span class="n">key</span><span class="p">])</span> <span class="o">&gt;</span> <span class="nb">int</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">_check_not_api_error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">api_response</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="n">api_response</span><span class="o">.</span><span class="n">_status</span> <span class="o">==</span> <span class="mi">200</span><span class="p">,</span> <span class="s2">&quot;ERROR Api response is </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">api_response</span><span class="o">.</span><span class="n">_body</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="ow">not</span> <span class="s1">&#39;error&#39;</span> <span class="ow">in</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">api_response</span><span class="o">.</span><span class="n">_body</span><span class="p">),</span> <span class="s2">&quot;ERROR Api response is </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">api_response</span><span class="o">.</span><span class="n">_body</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">store_workgroup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wg_number</span><span class="p">):</span>
+        <span class="n">wg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">auth_user</span><span class="o">.</span><span class="n">get_auth_workgroup</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_not_api_error</span><span class="p">(</span><span class="n">wg</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scan_info</span><span class="p">[</span><span class="s1">&#39;wg&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">wg</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="s1">&#39;workgroups&#39;</span><span class="p">][</span><span class="n">wg_number</span><span class="p">][</span><span class="s1">&#39;workgroupId&#39;</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">upload_app</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app_path</span><span class="p">):</span>
+        <span class="n">filePath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">app_path</span><span class="p">)</span>
+        <span class="n">api_response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">auth_user</span><span class="o">.</span><span class="n">post_auth_upload_app</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scan_info</span><span class="p">[</span><span class="s2">&quot;wg&quot;</span><span class="p">],</span> <span class="s2">&quot;false&quot;</span><span class="p">,</span> <span class="n">filePath</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_not_api_error</span><span class="p">(</span><span class="n">api_response</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">store_scan_info_from_package_name_origin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">package_name_origin</span><span class="p">):</span>
+        <span class="n">user_scans</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">auth_user</span><span class="o">.</span><span class="n">get_auth_scans</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scan_info</span><span class="p">[</span><span class="s2">&quot;wg&quot;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_not_api_error</span><span class="p">(</span><span class="n">user_scans</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">scan</span> <span class="ow">in</span> <span class="n">user_scans</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="s1">&#39;scans&#39;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">scan</span><span class="p">[</span><span class="s1">&#39;packageNameOrigin&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">package_name_origin</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">scan_info</span><span class="p">[</span><span class="s1">&#39;scanId&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">scan</span><span class="p">[</span><span class="s1">&#39;scanId&#39;</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">scan_info</span><span class="p">[</span><span class="s1">&#39;scanDate&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">scan</span><span class="p">[</span><span class="s1">&#39;lastScanDate&#39;</span><span class="p">]</span>
+                <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;Application </span><span class="si">{package_name_origin}</span><span class="s2"> not found&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">package_name_origin</span><span class="o">=</span><span class="n">package_name_origin</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">store_scan_info_from_package_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app_path</span><span class="p">):</span>
+        <span class="n">user_scans</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">auth_user</span><span class="o">.</span><span class="n">get_auth_scans</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scan_info</span><span class="p">[</span><span class="s2">&quot;wg&quot;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_not_api_error</span><span class="p">(</span><span class="n">user_scans</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">scan</span> <span class="ow">in</span> <span class="n">user_scans</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="s1">&#39;scans&#39;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="s1">&#39;packageName&#39;</span> <span class="ow">in</span> <span class="n">scan</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">scan</span><span class="p">[</span><span class="s1">&#39;packageName&#39;</span><span class="p">]</span> <span class="ow">in</span> <span class="n">app_path</span> <span class="ow">or</span> <span class="n">scan</span><span class="p">[</span><span class="s1">&#39;packageNameOrigin&#39;</span><span class="p">]</span> <span class="ow">in</span> <span class="n">app_path</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">scan_info</span><span class="p">[</span><span class="s1">&#39;scanId&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">scan</span><span class="p">[</span><span class="s1">&#39;scanId&#39;</span><span class="p">]</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">scan_info</span><span class="p">[</span><span class="s1">&#39;scanDate&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">scan</span><span class="p">[</span><span class="s1">&#39;lastScanDate&#39;</span><span class="p">]</span>
+                    <span class="k">return</span> <span class="kc">True</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">scan</span><span class="p">[</span><span class="s1">&#39;packageNameOrigin&#39;</span><span class="p">]</span> <span class="ow">in</span> <span class="n">app_path</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">scan_info</span><span class="p">[</span><span class="s1">&#39;scanId&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">scan</span><span class="p">[</span><span class="s1">&#39;scanId&#39;</span><span class="p">]</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">scan_info</span><span class="p">[</span><span class="s1">&#39;scanDate&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">scan</span><span class="p">[</span><span class="s1">&#39;lastScanDate&#39;</span><span class="p">]</span>
+                    <span class="k">return</span> <span class="kc">True</span>
+
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="s2">&quot;Sometimes there are error in mASAPP and the application is saved without package name, so, please add the packageNameOrigin of your application with the param -p&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;You could find your app in the following list:&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">scan</span> <span class="ow">in</span> <span class="n">user_scans</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="s1">&#39;scans&#39;</span><span class="p">]:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">scan</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+
+        <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;Application </span><span class="si">{app_path}</span><span class="s2"> not found&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">app_path</span><span class="o">=</span><span class="n">app_path</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">store_scan_summary_from_scan_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scan_id</span><span class="p">):</span>
+        <span class="n">user_scan_summary</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">auth_user</span><span class="o">.</span><span class="n">get_scan_summary</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scan_info</span><span class="p">[</span><span class="s2">&quot;wg&quot;</span><span class="p">],</span> <span class="n">scan_id</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_not_api_error</span><span class="p">(</span><span class="n">user_scan_summary</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">scan_summary</span> <span class="ow">in</span> <span class="n">user_scan_summary</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span>
+            <span class="s1">&#39;scanSummaries&#39;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">scan_summary</span><span class="p">[</span><span class="s1">&#39;scanDate&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">scan_info</span><span class="p">[</span><span class="s1">&#39;scanDate&#39;</span><span class="p">]:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">scan_info</span><span class="p">[</span><span class="s1">&#39;appKey&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">scan_summary</span><span class="p">[</span><span class="s1">&#39;scannedVersions&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;appKey&#39;</span><span class="p">]</span>
+                <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;Scan </span><span class="si">{scan_id}</span><span class="s2"> not found&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">scan_id</span><span class="o">=</span><span class="n">scan_id</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">store_scan_result</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">scan_info</span><span class="p">[</span>
+                   <span class="s1">&#39;lang&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">LANGUAGES</span><span class="p">,</span> <span class="s2">&quot;Language </span><span class="si">{language}</span><span class="s2"> Only supported languages: en , es&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">language</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">scan_info</span><span class="p">[</span><span class="s1">&#39;lang&#39;</span><span class="p">])</span>
+
+        <span class="n">scan_result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">auth_user</span><span class="o">.</span><span class="n">get_scan_result</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scan_info</span><span class="p">[</span><span class="s1">&#39;wg&#39;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">scan_info</span><span class="p">[</span><span class="s1">&#39;scanId&#39;</span><span class="p">],</span>
+                                                     <span class="bp">self</span><span class="o">.</span><span class="n">scan_info</span><span class="p">[</span><span class="s1">&#39;scanDate&#39;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">scan_info</span><span class="p">[</span><span class="s1">&#39;appKey&#39;</span><span class="p">],</span>
+                                                     <span class="bp">self</span><span class="o">.</span><span class="n">scan_info</span><span class="p">[</span><span class="s1">&#39;lang&#39;</span><span class="p">])</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_not_api_error</span><span class="p">(</span><span class="n">scan_result</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">scan_result</span><span class="p">[</span><span class="s1">&#39;riskScore&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">scan_result</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="s1">&#39;riskScore&#39;</span><span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">vulnerability</span> <span class="ow">in</span> <span class="n">scan_result</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="s1">&#39;vulnerabilities&#39;</span><span class="p">]:</span>
+            <span class="n">risk</span> <span class="o">=</span> <span class="n">vulnerability</span><span class="p">[</span><span class="s1">&#39;riskLevel&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">scan_result</span><span class="p">[</span><span class="s1">&#39;vulnerabilities&#39;</span><span class="p">][</span><span class="n">risk</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vulnerability</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">behavioral</span> <span class="ow">in</span> <span class="n">scan_result</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="s1">&#39;behaviorals&#39;</span><span class="p">]:</span>
+            <span class="n">risk</span> <span class="o">=</span> <span class="n">behavioral</span><span class="p">[</span><span class="s1">&#39;riskLevel&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">scan_result</span><span class="p">[</span><span class="s1">&#39;behaviorals&#39;</span><span class="p">][</span><span class="n">risk</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">behavioral</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">upload_and_analyse_app</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app_path</span><span class="p">,</span> <span class="n">package_name_origin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">workgroup</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">workgroup</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">store_workgroup</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">store_workgroup</span><span class="p">(</span><span class="n">workgroup</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">upload_app</span><span class="p">(</span><span class="n">app_path</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">package_name_origin</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">store_scan_info_from_package_name_origin</span><span class="p">(</span><span class="n">package_name_origin</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">store_scan_info_from_package_name</span><span class="p">(</span><span class="n">app_path</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">lang</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">scan_info</span><span class="p">[</span><span class="s1">&#39;lang&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;en&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">scan_info</span><span class="p">[</span><span class="s1">&#39;lang&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lang</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">store_scan_summary_from_scan_id</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scan_info</span><span class="p">[</span><span class="s1">&#39;scanId&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">store_scan_result</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">riskscoring_execution</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">maximum_riskscoring</span><span class="p">,</span> <span class="n">app_path</span><span class="p">,</span> <span class="n">package_name_origin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">workgroup</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                              <span class="n">detail</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">upload_and_analyse_app</span><span class="p">(</span><span class="n">app_path</span><span class="o">=</span><span class="n">app_path</span><span class="p">,</span> <span class="n">package_name_origin</span><span class="o">=</span><span class="n">package_name_origin</span><span class="p">,</span> <span class="n">workgroup</span><span class="o">=</span><span class="n">workgroup</span><span class="p">,</span>
+                                    <span class="n">lang</span><span class="o">=</span><span class="n">lang</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">scan_result</span><span class="p">[</span><span class="s1">&#39;riskScore&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">maximum_riskscoring</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;---- RISKSCORING SUCCESS ----</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">detail</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__print_details</span><span class="p">(</span><span class="s1">&#39;riskscoring&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">exceeded_limit</span><span class="p">[</span><span class="s2">&quot;expected&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">maximum_riskscoring</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">exceeded_limit</span><span class="p">[</span><span class="s2">&quot;obtained&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scan_result</span><span class="p">[</span><span class="s1">&#39;riskScore&#39;</span><span class="p">]</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;---- RISKSCORING ERROR ----</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_print_excess</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">detail</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__print_details</span><span class="p">(</span><span class="s1">&#39;riskscoring&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="nf">standard_execution</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scan_maximum_values</span><span class="p">,</span> <span class="n">app_path</span><span class="p">,</span> <span class="n">package_name_origin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">workgroup</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                           <span class="n">detail</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">upload_and_analyse_app</span><span class="p">(</span><span class="n">app_path</span><span class="o">=</span><span class="n">app_path</span><span class="p">,</span> <span class="n">package_name_origin</span><span class="o">=</span><span class="n">package_name_origin</span><span class="p">,</span> <span class="n">workgroup</span><span class="o">=</span><span class="n">workgroup</span><span class="p">,</span>
+                                    <span class="n">lang</span><span class="o">=</span><span class="n">lang</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">exceeded_limit</span><span class="p">[</span><span class="s2">&quot;expected&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;vulnerabilities&quot;</span><span class="p">:</span> <span class="p">{},</span> <span class="s2">&quot;behaviorals&quot;</span><span class="p">:</span> <span class="p">{}}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">exceeded_limit</span><span class="p">[</span><span class="s2">&quot;obtained&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;vulnerabilities&quot;</span><span class="p">:</span> <span class="p">{},</span> <span class="s2">&quot;behaviorals&quot;</span><span class="p">:</span> <span class="p">{}}</span>
+        <span class="n">correct_execution</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">scan_maximum_values</span><span class="p">[</span><span class="s1">&#39;vulnerabilities&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lower_than_scan_result</span><span class="p">(</span><span class="s1">&#39;vulnerabilities&#39;</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">exceeded_limit</span><span class="p">[</span><span class="s2">&quot;expected&quot;</span><span class="p">][</span><span class="s1">&#39;vulnerabilities&#39;</span><span class="p">][</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">exceeded_limit</span><span class="p">[</span><span class="s2">&quot;obtained&quot;</span><span class="p">][</span><span class="s1">&#39;vulnerabilities&#39;</span><span class="p">][</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scan_result</span><span class="p">[</span><span class="s1">&#39;vulnerabilities&#39;</span><span class="p">][</span><span class="n">key</span><span class="p">])</span>
+                <span class="n">correct_execution</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">scan_maximum_values</span><span class="p">[</span><span class="s1">&#39;behaviorals&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lower_than_scan_result</span><span class="p">(</span><span class="s1">&#39;behaviorals&#39;</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">exceeded_limit</span><span class="p">[</span><span class="s2">&quot;expected&quot;</span><span class="p">][</span><span class="s1">&#39;behaviorals&#39;</span><span class="p">][</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">exceeded_limit</span><span class="p">[</span><span class="s2">&quot;obtained&quot;</span><span class="p">][</span><span class="s1">&#39;behaviorals&#39;</span><span class="p">][</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scan_result</span><span class="p">[</span><span class="s1">&#39;behaviorals&#39;</span><span class="p">][</span><span class="n">key</span><span class="p">])</span>
+                <span class="n">correct_execution</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">correct_execution</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;---- STANDARD ERROR ----&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_print_excess</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;---- STANDARD SUCCESS ----&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">detail</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__print_details</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span></div>
+
+
+
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Alvaro Lopez-Gil
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

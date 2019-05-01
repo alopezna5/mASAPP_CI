@@ -19,7 +19,7 @@ sys.path.insert(0, os.path.abspath('../..'))
 
 # -- Project information -----------------------------------------------------
 
-project = u'masapp_cli'
+project = u'masapp_ci'
 copyright = u'2019, Alvaro Lopez-Gil'
 author = u'Alvaro Lopez-Gil'
 
@@ -105,7 +105,7 @@ html_static_path = ['_static']
 # -- Options for HTMLHelp output ---------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'masapp_clidoc'
+htmlhelp_basename = 'masapp_cidoc'
 
 
 # -- Options for LaTeX output ------------------------------------------------
@@ -132,7 +132,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'masapp_cli.tex', u'masapp\\_cli Documentation',
+    (master_doc, 'masapp_ci.tex', u'masapp\\_cli Documentation',
      u'Alvaro Lopez-Gil', 'manual'),
 ]
 
@@ -142,7 +142,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'masapp_cli', u'masapp_cli Documentation',
+    (master_doc, 'masapp_ci', u'masapp_ci Documentation',
      [author], 1)
 ]
 
@@ -153,8 +153,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'masapp_cli', u'masapp_cli Documentation',
-     author, 'masapp_cli', 'One line description of project.',
+    (master_doc, 'masapp_ci', u'masapp_ci Documentation',
+     author, 'masapp_ci', 'One line description of project.',
      'Miscellaneous'),
 ]
 

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Welcome to masapp_cli’s documentation! &mdash; masapp_cli  documentation</title>
+  <title>ElevenPaths Authenticated methods &mdash; masapp_ci  documentation</title>
   
 
   
@@ -48,7 +48,7 @@
           
 
           
-            <a href="#" class="icon icon-home"> masapp_cli
+            <a href="#" class="icon icon-home"> masapp_ci
           
 
           
@@ -84,7 +84,8 @@
             
               <!-- Local TOC -->
               <div class="local-toc"><ul>
-<li><a class="reference internal" href="#">Welcome to masapp_cli’s documentation!</a></li>
+<li><a class="reference internal" href="#">ElevenPaths Authenticated methods</a></li>
+<li><a class="reference internal" href="#module-masappci.masappci">MasappCI functionality</a></li>
 <li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
 </ul>
 </div>
@@ -100,7 +101,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="#">masapp_cli</a>
+          <a href="#">masapp_ci</a>
         
       </nav>
 
@@ -131,7 +132,7 @@
     
       <li><a href="#">Docs</a> &raquo;</li>
         
-      <li>Welcome to masapp_cli’s documentation!</li>
+      <li>ElevenPaths Authenticated methods</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -151,11 +152,37 @@
            <div itemprop="articleBody">
             
   <div class="section" id="module-masappci.elevenpaths_auth">
-<span id="welcome-to-masapp-cli-s-documentation"></span><h1>Welcome to masapp_cli’s documentation!<a class="headerlink" href="#module-masappci.elevenpaths_auth" title="Permalink to this headline">¶</a></h1>
+<span id="elevenpaths-authenticated-methods"></span><h1>ElevenPaths Authenticated methods<a class="headerlink" href="#module-masappci.elevenpaths_auth" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="masappci.elevenpaths_auth.mASAPP_CI_auth">
 <em class="property">class </em><code class="descclassname">masappci.elevenpaths_auth.</code><code class="descname">mASAPP_CI_auth</code><span class="sig-paren">(</span><em>key</em>, <em>secret</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/masappci/elevenpaths_auth.html#mASAPP_CI_auth"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#masappci.elevenpaths_auth.mASAPP_CI_auth" title="Permalink to this definition">¶</a></dt>
-<dd><p>Class that contains the necessary authorized methods for working with the mASAPP API</p>
+<dd><p>This class contains the necessary authorized methods for working with the mASAPPs API. Inherited from the
+<strong>HttpSdk</strong> class it uses the <strong>X11PathsAuthentication</strong> authentication which performs safer requests.
+Without this request implementation the user wouldn’t be available to communicate with the mASAPPs API.</p>
+<p>The initialization of this class needs two parameters obtained from mASAPP in the API Clients section.
+This parameters are:</p>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="51%" />
+<col width="49%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">mASAPP_CI_auth param</th>
+<th class="head">Equivalent mASAPP value</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>key</td>
+<td>Client ID</td>
+</tr>
+<tr class="row-odd"><td>secret</td>
+<td>Secret</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p>For more information about HttpSdk: <a class="reference external" href="https://github.com/ivanprjcts/sdklib">https://github.com/ivanprjcts/sdklib</a></p>
 <dl class="method">
 <dt id="masappci.elevenpaths_auth.mASAPP_CI_auth.get_auth_scans">
 <code class="descname">get_auth_scans</code><span class="sig-paren">(</span><em>workgroup</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/masappci/elevenpaths_auth.html#mASAPP_CI_auth.get_auth_scans"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#masappci.elevenpaths_auth.mASAPP_CI_auth.get_auth_scans" title="Permalink to this definition">¶</a></dt>
@@ -163,9 +190,10 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>workgroup</strong> – </td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>workgroup</strong> (<em>String</em>) – The workgroup where the user belongs to.</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The response to the authenticated request <strong>/scans</strong>
+to the mASAPP API, which returns a brief summary of all the apps contained in the user scans.</td>
 </tr>
 </tbody>
 </table>
@@ -178,7 +206,8 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Makes</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The response to the authenticated request <strong>/workgroups</strong>
+to the mASAPP API, which returns the mASAPPs workgroups which the user belongs to.</td>
 </tr>
 </tbody>
 </table>
@@ -192,15 +221,18 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>workgroup</strong> – </li>
-<li><strong>scan_id</strong> – </li>
-<li><strong>scan_date</strong> – </li>
-<li><strong>app_key</strong> – </li>
-<li><strong>lang</strong> – </li>
+<li><strong>workgroup</strong> (<em>String</em>) – The workgroup where the user belongs to.</li>
+<li><strong>scan_id</strong> (<em>String</em>) – The scan ID from the scan which the user wants to obtain the result.</li>
+<li><strong>scan_date</strong> (<em>Date</em>) – The date from the scan which the user wants to obtain the result.</li>
+<li><strong>app_key</strong> (<em>String</em>) – The key of the app which the user wants to obtain the result.</li>
+<li><strong>lang</strong> (<em>&quot;en&quot;</em><em>, </em><em>&quot;es&quot;</em>) – The language in which the user wants to get the analysis result.</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">The response to the authenticated request <strong>/scanResults</strong>
+to the mASAPP API, which returns the result of the mASAPPs analysis for the scan with
+the scan_id, scan_date and app_key introduced, including <strong>vulnerabilities and behaviors</strong>
+among other things.</p>
 </td>
 </tr>
 </tbody>
@@ -215,12 +247,13 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>workgroup</strong> – </li>
-<li><strong>scan_id</strong> – </li>
+<li><strong>workgroup</strong> (<em>String</em>) – The workgroup where the user belongs to.</li>
+<li><strong>scan_id</strong> (<em>String</em>) – The scan ID from the scan which the user wants to obtain a summary.</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">The response to the authenticated request <strong>/scanSummary</strong>
+to the mASAPP API, which returns a summary of the scan with the scan_id introduced.</p>
 </td>
 </tr>
 </tbody>
@@ -235,13 +268,14 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>workgroup</strong> – </li>
-<li><strong>allowTacyt</strong> – </li>
-<li><strong>app</strong> – </li>
+<li><strong>workgroup</strong> (<em>String</em>) – The workgroup where the user belongs to.</li>
+<li><strong>allowTacyt</strong> (<em>Boolean</em>) – If the user wants to share the app with the Tacyt/mASAPP community or not.</li>
+<li><strong>app_path</strong> (<em>String</em>) – The absolute path to the application which the user wants to upload.</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">The response to the authenticated request <strong>/upload</strong>
+to the mASAPP API, which returns the result of the uploading the app to mASAPP.</p>
 </td>
 </tr>
 </tbody>
@@ -250,8 +284,17 @@
 
 </dd></dl>
 
-<span class="target" id="module-masappci.masappci"></span><div class="toctree-wrapper compound">
+<div class="toctree-wrapper compound">
 </div>
+</div>
+<div class="section" id="module-masappci.masappci">
+<span id="masappci-functionality"></span><h1>MasappCI functionality<a class="headerlink" href="#module-masappci.masappci" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="masappci.masappci.mASAPP_CI">
+<em class="property">class </em><code class="descclassname">masappci.masappci.</code><code class="descname">mASAPP_CI</code><span class="sig-paren">(</span><em>key</em>, <em>secret</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/masappci/masappci.html#mASAPP_CI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#masappci.masappci.mASAPP_CI" title="Permalink to this definition">¶</a></dt>
+<dd><p>TODO ADD MASAPP_CI INFO</p>
+</dd></dl>
+
 </div>
 <div class="section" id="indices-and-tables">
 <h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>

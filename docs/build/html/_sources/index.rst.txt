@@ -1,15 +1,16 @@
-Welcome to masapp_cli's documentation!
+ElevenPaths Authenticated methods
 ======================================
 .. automodule:: masappci.elevenpaths_auth
-    :members:
-
-.. automodule:: masappci.masappci
     :members:
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
+MasappCI functionality
+======================================
+.. automodule:: masappci.masappci
+    :members:
 
 Indices and tables
 ==================
