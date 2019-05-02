@@ -6,21 +6,23 @@ from sdklib.http.authorization import X11PathsAuthentication
 
 class mASAPP_CI_auth(HttpSdk):
     """
-        This class contains the necessary authorized methods for working with the mASAPPs API. Inherited from the
-        **HttpSdk** class it uses the **X11PathsAuthentication** authentication which performs safer requests.
-        Without this request implementation the user wouldn't be available to communicate with the mASAPPs API.
 
-        The initialization of this class needs two parameters obtained from mASAPP in the API Clients section.
-        This parameters are:
-            +------------------------+-----------------------+
-            | mASAPP_CI_auth param   |Equivalent mASAPP value|
-            +========================+=======================+
-            | key                    | Client ID             |
-            +------------------------+-----------------------+
-            | secret                 | Secret                |
-            +------------------------+-----------------------+
+    This class contains the necessary authorized methods for working with the mASAPPs API. Inherited from the
+    **HttpSdk** class it uses the **X11PathsAuthentication** authentication which performs safer requests.
+    Without this request implementation the user wouldn't be available to communicate with the mASAPPs API.
 
-        For more information about HttpSdk: https://github.com/ivanprjcts/sdklib
+    The initialization of this class needs two parameters obtained from mASAPP in the API Clients section.
+    This parameters are:
+
+    +------------------------+-----------------------+
+    | mASAPP_CI_auth param   |Equivalent mASAPP value|
+    +========================+=======================+
+    | key                    | Client ID             |
+    +------------------------+-----------------------+
+    | secret                 | Secret                |
+    +------------------------+-----------------------+
+
+    For more information about HttpSdk: https://github.com/ivanprjcts/sdklib
     """
 
     API_VERSION = "1.6.2"
