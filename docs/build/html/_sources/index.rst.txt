@@ -7,10 +7,11 @@ ElevenPaths Authenticated methods
    :maxdepth: 2
    :caption: Contents:
 
-MasappCI functionality
+mASAPP CI functionality
 ======================================
 .. automodule:: masappci.masappci
     :members:
+    :private-members:
 
 Indices and tables
 ==================
