@@ -17,6 +17,10 @@ ASCII_ART_DESCRIPTION = U'''
 
 
 def masappci_cli():
+    """
+
+    :return:
+    """
     parser = argparse.ArgumentParser(prog='masappci', description=ASCII_ART_DESCRIPTION,
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
 

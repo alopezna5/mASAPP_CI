@@ -1,0 +1,6 @@
+mASAPP CI functionality
+=====================================
+
+.. automodule:: masappci.masappci
+    :members:
+    :private-members:
