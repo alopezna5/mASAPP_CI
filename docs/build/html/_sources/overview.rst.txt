@@ -1,3 +1,0 @@
-CLI
-##############
-Esto es una prueba

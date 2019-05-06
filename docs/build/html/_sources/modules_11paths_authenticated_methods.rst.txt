@@ -1,6 +1,0 @@
-ElevenPaths Authenticated methods
-=====================================
-
-.. automodule:: masappci.elevenpaths_auth
-    :members:
-
