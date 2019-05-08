@@ -320,9 +320,9 @@ to the mASAPP API, which returns the result of the uploading the app to mASAPP.<
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>element</strong> – </li>
-<li><strong>key</strong> – </li>
-<li><strong>value</strong> – </li>
+<li><strong>element</strong> (<em>&quot;vulnerabilities&quot;/&quot;behaviorals&quot;/&quot;behaviors&quot;</em>) – T</li>
+<li><strong>key</strong> (<em>A</em>) – A</li>
+<li><strong>value</strong> (<em>A</em>) – A</li>
 </ul>
 </td>
 </tr>
@@ -364,8 +364,8 @@ to the mASAPP API, which returns the result of the uploading the app to mASAPP.<
 <li><p class="first">If detail is equal to True, it will add below two lists:</p>
 <blockquote>
 <div><ul class="simple">
-<li>A list of vulnerabilities, adding the tittle, risk, number of                                                occurrences and the different occurrences with their evidences</li>
-<li>A list of behaviors, adding the tittle, number of occurrences, impact                                                and the different occurrences with their evidences</li>
+<li>A list of vulnerabilities, adding the tittle, risk, number of                                                occurrences and the different occurrences with their evidences.</li>
+<li>A list of behaviors, adding the tittle, number of occurrences, impact                                                and the different occurrences with their evidences.</li>
 </ul>
 </div></blockquote>
 </li>
@@ -517,29 +517,25 @@ API request (/scans) or if there is not any scan with the given packageNameOrigi
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">It get the scan result and store it in “scan_result”. The info that is stored is:<ul class="simple">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">It get the scan result and store it in “scan_result”. The info that is stored is:<ul>
 <li>riskScore</li>
-<li><dl class="first docutils">
-<dt>Vulnerabilities</dt>
-<dd><ul class="first last">
+<li>Vulnerabilities<blockquote>
+<div><ul class="simple">
 <li>Critical</li>
 <li>High</li>
 <li>Medium</li>
 <li>Low</li>
 </ul>
-</dd>
-</dl>
+</div></blockquote>
 </li>
-<li><dl class="first docutils">
-<dt>Behaviors</dt>
-<dd><ul class="first last">
+<li>Behaviors<blockquote>
+<div><ul class="simple">
 <li>Critical</li>
 <li>High</li>
 <li>Medium</li>
 <li>Low</li>
 </ul>
-</dd>
-</dl>
+</div></blockquote>
 </li>
 </ul>
 </td>
