@@ -47,26 +47,57 @@ class mASAPP_CI():
         }
 
     def _print_excess(self):
+        """
+
+        :return: It prints the information that is stored in self.exceeded_limit. This printing will vary depending on
+                the type of the values contained in self.exceeded_limit["expected"] and self.exceeded_limit["obtained"].
+
+                * If both elements are dictionaries it would print the elements that surpass the limit that the user
+                has defined.
+                    **Example:**
+
+                             ELEMENT            MAX_EXPECTED    OBTAINED
+                        ----------------------  --------------  ----------
+                         High vulnerabilities         0             1
+                        Medium vulnerabilities        0             2
+                         Low vulnerabilities          0             5
+                           Low behaviorals            0             1
+
+               * If not, it would print the maximum riskscore defined by the user and the obtained riskscore.
+
+
+        """
+
         expected = self.exceeded_limit["expected"]
         obtained = self.exceeded_limit["obtained"]
 
-        to_print = [["ELEMENT", "EXPECTED", "OBTAINED"]]
+        to_print = [["ELEMENT", "MAX_EXPECTED", "OBTAINED"]]
 
-        if type(obtained) == dict:
+        if type(obtained) == dict and type(expected) == dict:
             for key in obtained.keys():
                 for risk_key, value in obtained[key].items():
                     to_print.append(
-                        ['{risk_key} {key}'.format(risk_key=risk_key, key=str(key)).capitalize(), value,
-                         expected[key][risk_key]])
+                        ['{risk_key} {key}'.format(risk_key=risk_key, key=str(key)).capitalize(),
+                         int(expected[key][risk_key]),
+                         value
+                         ]
+                    )
 
             print(tabulate(to_print, headers='firstrow', stralign='center'))
             print(" ")
-        else:
+        elif type(obtained) != dict and type(expected) != dict:
             to_print.append(['risk', expected, obtained])
             print(tabulate(to_print, headers='firstrow', stralign='center'))
             print(" ")
+        else:
+            assert False, "Error printing the excess"
 
-    def __print_details(self, mode):
+    def _print_details(self, mode, max_values=None):
+        """
+
+        :param mode:
+        :return:
+        """
 
         v_to_print = [[]]
 
@@ -148,33 +179,46 @@ class mASAPP_CI():
             print(tabulate(nbehav_to_print, headers='firstrow', stralign='medium', tablefmt='simple'))
 
 
-        elif mode == 'standard':
+        elif mode == 'standard' and max_values is not None:
             nvulns_to_print = [['Risk category', 'Expected', 'Obtained']]
-            nvulns_to_print.append(['Critical', v_critical])
-            nvulns_to_print.append(['High', v_high])
-            nvulns_to_print.append(['Medium', v_medium])
-            nvulns_to_print.append(['Low', v_low])
+            nvulns_to_print.append(['Critical', max_values['vulnerabilities']['critical'], v_critical])
+            nvulns_to_print.append(['High', max_values['vulnerabilities']['high'], v_high])
+            nvulns_to_print.append(['Medium', max_values['vulnerabilities']['medium'], v_medium])
+            nvulns_to_print.append(['Low', max_values['vulnerabilities']['low'], v_low])
             print(u'\n\nVulnerabilities')
-            print(tabulate(nvulns_to_print, headers='firstrow', stralign='medium', tablefmt='simple'))
+            print(tabulate(nvulns_to_print, headers='firstrow', stralign='center', tablefmt='simple'))
 
             nbehav_to_print = [['Risk category', 'Expected', 'Obtained']]
-            nbehav_to_print.append(['Critical', b_critical])
-            nbehav_to_print.append(['High', b_high])
-            nbehav_to_print.append(['Medium', b_medium])
-            nbehav_to_print.append(['Low', b_low])
+            nbehav_to_print.append(['Critical', max_values['behaviorals']['critical'], b_critical])
+            nbehav_to_print.append(['High', max_values['behaviorals']['high'], b_high])
+            nbehav_to_print.append(['Medium', max_values['behaviorals']['medium'], b_medium])
+            nbehav_to_print.append(['Low', max_values['behaviorals']['low'], b_low])
             print(u'\n\nBehaviors')
-            print(tabulate(nbehav_to_print, headers='firstrow', stralign='medium', tablefmt='simple'))
+            print(tabulate(nbehav_to_print, headers='firstrow', stralign='center', tablefmt='simple'))
 
-    def _lower_than_scan_result(self, element, key, value):
+    def _lower_than_scan_result(self, element, key, max_expected_value):
         """
 
-        :param element:
-        :param key:
-        :param value:
-        :return:
+        :param element:          The element to check from the scan_result dict
+        :type  element:          "vulnerabilities"/"behaviorals"/"behaviors"
+        :param key:              The key from scan_result[element][key] for checking the value of the already done scan
+        :type  key:              String
+        :param expected_value:   The value to compare with scan_result[element][key].
+        :type  expected_value:   String
+        :return:                 It returns True if the given value max_expected_value is  greater or equal than the
+                                 number of vulnerabilities or behaviors (depending on the value of "element") for a
+                                 criticality level given by the param "key".
+
+
         """
-        if not value == "":
-            return len(self.scan_result[element][key]) > int(value)
+        possible_values = ["vulnerabilities", "behaviorals", "behaviors"]
+
+        assert element in possible_values, "Element must be 'vulnerabiliies', 'behaviorals' or 'behaviors'"
+        if element == "behaviors":
+            element = "behaviorals"
+
+        if not max_expected_value == "":
+            return int(max_expected_value) >= len(self.scan_result[element][key])
 
         else:
             return True
@@ -298,12 +342,16 @@ class mASAPP_CI():
         :return: It get the scan result and store it in "scan_result". The info that is stored is:
 
                 * riskScore
+
                 * Vulnerabilities
+
                     * Critical
                     * High
                     * Medium
                     * Low
+
                 * Behaviors
+
                     * Critical
                     * High
                     * Medium
@@ -405,9 +453,10 @@ class mASAPP_CI():
                                             * If detail is equal to True, it will add below two lists:
 
                                                 * A list of vulnerabilities, adding the tittle, risk, number of\
-                                                occurrences and the different occurrences with their evidences
+                                                occurrences and the different occurrences with their evidences.
+
                                                 * A list of behaviors, adding the tittle, number of occurrences, impact\
-                                                and the different occurrences with their evidences
+                                                and the different occurrences with their evidences.
 
 
                                         * If the package_name_origin is not sent, the script will search in the users\
@@ -441,7 +490,7 @@ class mASAPP_CI():
             correct_execution = False
 
         if detail == True:
-            self.__print_details('riskscoring')
+            self._print_details('riskscoring')
 
         return correct_execution
 
@@ -544,6 +593,6 @@ class mASAPP_CI():
             print("---- STANDARD SUCCESS ----")
 
         if detail == True:
-            self.__print_details(' ')
+            self._print_details('standard', max_values=scan_maximum_values)
 
         return correct_execution
