@@ -15,8 +15,7 @@ ASCII_ART_DESCRIPTION = U'''
 '''
 
 
-
-def masappci_cli():
+def main():
     """
 
     **Riskscoring execution**
@@ -141,11 +140,8 @@ def masappci_cli():
             parser.print_help()
 
 
-if __name__ == '__main__':
-    masappci_cli()
-    # user = mASAPP_CI(key="", secret="")
-    #
-    #
-    # user.standard_execution(json.load(open("../json_test.json")), "/com.andreea.android.dev.triplelayer1GooglePlay.apk", "com.andreea.android.dev.triplelayerGooglePlay",
-    #                                 detail=True)
-    #
+if __name__ == "__main__":
+    main()
+
+
+
