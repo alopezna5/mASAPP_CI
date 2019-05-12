@@ -100,9 +100,9 @@ def main():
                     return False
                 else:
                     return input_json
-            else:
-                parser.print_help()
-                return False
+
+            parser.print_help()
+            return False
 
         if args.standard:
             #TODO Add the resolution of relative path

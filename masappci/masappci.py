@@ -211,17 +211,23 @@ class mASAPP_CI():
 
 
         """
-        possible_values = ["vulnerabilities", "behaviorals", "behaviors"]
+        possible_element_values = ["vulnerabilities", "behaviorals", "behaviors"]
+        possible_key_values = ["critical", "high", "medium", "low"]
 
-        assert element in possible_values, "Element must be 'vulnerabiliies', 'behaviorals' or 'behaviors'"
+        if element not in possible_element_values:
+            raise ValueError("Element must be 'vulnerabilities', 'behaviorals' or 'behaviors'")
+
+        if key not in possible_key_values:
+            raise ValueError("Element must be 'critical', 'high', 'medium', 'low'")
+
         if element == "behaviors":
             element = "behaviorals"
 
         if not max_expected_value == "":
             return int(max_expected_value) >= len(self.scan_result[element][key])
 
-        else:
-            return True
+        return True
+
 
     def _check_not_api_error(self, api_response):
         """
@@ -416,10 +422,8 @@ class mASAPP_CI():
         else:
             self.store_scan_info_from_package_name(app_path)
 
-        if lang == None:
-            self.scan_info['lang'] = 'en'
-        else:
-            self.scan_info['lang'] = lang
+
+        self.scan_info['lang'] = lang or 'en'
 
         self.store_scan_summary_from_scan_id(self.scan_info['scanId'])
         self.store_scan_result()
