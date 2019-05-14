@@ -237,8 +237,11 @@ class mASAPP_CI():
         :return:              Some of the errors from mASAPPs API are shown in the response body, so this method\
                               checks that the status and the body don't contains any error code.
         """
-        assert api_response._status == 200, "ERROR Api response is {0}".format(api_response._body)
-        assert not 'error' in json.loads(api_response._body), "ERROR Api response is {0}".format(api_response._body)
+        assert api_response is not None, "ERROR API Response is None"
+        assert api_response is not "", "ERROR API Response is empty"
+        assert api_response._status == 200, "ERROR API response is {0}".format(api_response._body)
+        assert not 'error' in json.loads(api_response._body), "ERROR API response is {0}".format(api_response._body)
+
 
     def store_workgroup(self, wg_number):
         """
