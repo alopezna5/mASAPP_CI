@@ -239,8 +239,14 @@ class mASAPP_CI():
         """
         assert api_response is not None, "ERROR API Response is None"
         assert api_response is not "", "ERROR API Response is empty"
-        assert api_response._status == 200, "ERROR API response is {0}".format(api_response._body)
-        assert not 'error' in json.loads(api_response._body), "ERROR API response is {0}".format(api_response._body)
+
+        if api_response._status is not None:
+            assert api_response._status == 200, "ERROR in API response: status is {0}".format(api_response._status)
+
+        if api_response._body is not None:
+            assert not 'error' in json.loads(api_response._body), "ERROR in API response: body is {0}".format(api_response._body)
+
+        return True
 
 
     def store_workgroup(self, wg_number):
