@@ -105,15 +105,19 @@ def main():
             return False
 
         if args.standard:
-            #TODO Add the resolution of relative path
             checked_json = check_json(args.standard)
             if checked_json:
                 user = mASAPP_CI(key="", secret="")
 
                 if type(checked_json) != bool:
-                    user.standard_execution(checked_json, args.app, "com.andreea.android.dev.triplelayerGooglePlay",
-                                            detail=args.detailed)
+                    if args.packageNameOrigin:
+                        user.standard_execution(scan_maximum_values=checked_json, app_path=args.app,
+                                                package_name_origin=args.packageNameOrigin,
+                                                detail=args.detailed)
 
+                    else:
+                        user.standard_execution(scan_maximum_values=checked_json, app_path=args.app,
+                                                detail=args.detailed)
             else:
                 print(
                     u"""
@@ -142,6 +146,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-
