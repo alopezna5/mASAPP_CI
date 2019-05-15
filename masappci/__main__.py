@@ -3,6 +3,7 @@
 import argparse
 import json
 from masappci import mASAPP_CI
+import getpass
 
 ASCII_ART_DESCRIPTION = U'''
                         _____           _____   _____      _____  _____ 
@@ -58,12 +59,15 @@ def main():
 
 
     """
+
     parser = argparse.ArgumentParser(prog='masappci', description=ASCII_ART_DESCRIPTION,
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
 
     parser.add_argument('-a', '--app', help='path to the .apk or .ipa file', metavar=".ipa/.apk",
                         required=True)
-    parser.add_argument('-p', '--packageNameOrigin', help='package name origin of the app')
+    parser.add_argument('-key', type=str, metavar="mASAPP_key", required=True)
+    parser.add_argument('-secret', type=str, metavar="mASAPP_secret", required=True)
+    parser.add_argument('-p', '--packageNameOrigin', help='package name origin of the app', metavar="packageNameOrigin")
     parser.add_argument('-r', '--riskscore', help='riskscoring execution', type=float, metavar="N")
     parser.add_argument('-d', '--detailed', help='add details to the execution', action='store_true')
     parser.add_argument('-s', '--standard', help='standard execution', metavar=".json")
@@ -75,8 +79,9 @@ def main():
         parser.print_help()
         return False
 
+
     elif args.riskscore:
-        user = mASAPP_CI(key="", secret="")
+        user = mASAPP_CI(key=args.key, secret=args.secret)
         if args.packageNameOrigin:
             user.riskscoring_execution(maximum_riskscoring=args.riskscore, app_path=args.app,
                                        package_name_origin=args.packageNameOrigin,
@@ -107,7 +112,7 @@ def main():
         if args.standard:
             checked_json = check_json(args.standard)
             if checked_json:
-                user = mASAPP_CI(key="", secret="")
+                user = mASAPP_CI(key=args.key, secret=args.secret)
 
                 if type(checked_json) != bool:
                     if args.packageNameOrigin:
