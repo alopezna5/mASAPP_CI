@@ -1,6 +1,6 @@
 import unittest
 from masappci.masappci import mASAPP_CI
-from sdklib.http.response import Api11PathsResponse, HttpResponse
+from sdklib.http.response import HttpResponse
 
 
 class Urllib3ResponseMock(object):
