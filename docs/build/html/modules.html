@@ -314,19 +314,77 @@ to the mASAPP API, which returns the result of the uploading the app to mASAPP.<
 
 <dl class="method">
 <dt id="masappci.masappci.mASAPP_CI._lower_than_scan_result">
-<code class="descname">_lower_than_scan_result</code><span class="sig-paren">(</span><em>element</em>, <em>key</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/masappci/masappci.html#mASAPP_CI._lower_than_scan_result"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#masappci.masappci.mASAPP_CI._lower_than_scan_result" title="Permalink to this definition">¶</a></dt>
+<code class="descname">_lower_than_scan_result</code><span class="sig-paren">(</span><em>element</em>, <em>key</em>, <em>max_expected_value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/masappci/masappci.html#mASAPP_CI._lower_than_scan_result"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#masappci.masappci.mASAPP_CI._lower_than_scan_result" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>element</strong> (<em>&quot;vulnerabilities&quot;/&quot;behaviorals&quot;/&quot;behaviors&quot;</em>) – T</li>
-<li><strong>key</strong> (<em>A</em>) – A</li>
-<li><strong>value</strong> (<em>A</em>) – A</li>
+<li><strong>element</strong> (<em>&quot;vulnerabilities&quot;/&quot;behaviorals&quot;/&quot;behaviors&quot;</em>) – The element to check from the scan_result dict</li>
+<li><strong>key</strong> (<em>String</em>) – The key from scan_result[element][key] for checking the value of the already done scan</li>
+<li><strong>expected_value</strong> (<em>String</em>) – The value to compare with scan_result[element][key].</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">It returns True if the given value max_expected_value is  greater or equal than the
+number of vulnerabilities or behaviors (depending on the value of “element”) for a
+criticality level given by the param “key”.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="masappci.masappci.mASAPP_CI._print_details">
+<code class="descname">_print_details</code><span class="sig-paren">(</span><em>mode</em>, <em>max_values=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/masappci/masappci.html#mASAPP_CI._print_details"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#masappci.masappci.mASAPP_CI._print_details" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>mode</strong> – </td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="masappci.masappci.mASAPP_CI._print_excess">
+<code class="descname">_print_excess</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/masappci/masappci.html#mASAPP_CI._print_excess"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#masappci.masappci.mASAPP_CI._print_excess" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="docutils">
+<dt>It prints the information that is stored in self.exceeded_limit. This printing will vary depending on</dt>
+<dd>the type of the values contained in self.exceeded_limit[“expected”] and self.exceeded_limit[“obtained”].<ul class="simple">
+<li>If both elements are dictionaries it would print the elements that surpass the limit that the user</li>
+</ul>
+<dl class="last docutils">
+<dt>has defined.</dt>
+<dd><strong>Example:</strong><blockquote class="last">
+<div><blockquote>
+<div>ELEMENT            MAX_EXPECTED    OBTAINED</div></blockquote>
+<dl class="docutils">
+<dt>———————-  ————–  ———-</dt>
+<dd>High vulnerabilities         0             1</dd>
+<dt>Medium vulnerabilities        0             2</dt>
+<dd><dl class="first last docutils">
+<dt>Low vulnerabilities          0             5</dt>
+<dd>Low behaviorals            0             1</dd>
+</dl>
+</dd>
+</dl>
+</div></blockquote>
+</dd>
+</dl>
+</dd>
+</dl>
+<ul class="simple">
+<li>If not, it would print the maximum riskscore defined by the user and the obtained riskscore.</li>
+</ul>
 </td>
 </tr>
 </tbody>

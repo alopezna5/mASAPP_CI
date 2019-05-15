@@ -197,27 +197,58 @@
             <span class="s2">&quot;obtained&quot;</span><span class="p">:</span> <span class="kc">None</span>
         <span class="p">}</span>
 
-    <span class="k">def</span> <span class="nf">_print_excess</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="mASAPP_CI._print_excess"><a class="viewcode-back" href="../../modules.html#masappci.masappci.mASAPP_CI._print_excess">[docs]</a>    <span class="k">def</span> <span class="nf">_print_excess</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        :return: It prints the information that is stored in self.exceeded_limit. This printing will vary depending on</span>
+<span class="sd">                the type of the values contained in self.exceeded_limit[&quot;expected&quot;] and self.exceeded_limit[&quot;obtained&quot;].</span>
+
+<span class="sd">                * If both elements are dictionaries it would print the elements that surpass the limit that the user</span>
+<span class="sd">                has defined.</span>
+<span class="sd">                    **Example:**</span>
+
+<span class="sd">                             ELEMENT            MAX_EXPECTED    OBTAINED</span>
+<span class="sd">                        ----------------------  --------------  ----------</span>
+<span class="sd">                         High vulnerabilities         0             1</span>
+<span class="sd">                        Medium vulnerabilities        0             2</span>
+<span class="sd">                         Low vulnerabilities          0             5</span>
+<span class="sd">                           Low behaviorals            0             1</span>
+
+<span class="sd">               * If not, it would print the maximum riskscore defined by the user and the obtained riskscore.</span>
+
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="n">expected</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">exceeded_limit</span><span class="p">[</span><span class="s2">&quot;expected&quot;</span><span class="p">]</span>
         <span class="n">obtained</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">exceeded_limit</span><span class="p">[</span><span class="s2">&quot;obtained&quot;</span><span class="p">]</span>
 
-        <span class="n">to_print</span> <span class="o">=</span> <span class="p">[[</span><span class="s2">&quot;ELEMENT&quot;</span><span class="p">,</span> <span class="s2">&quot;EXPECTED&quot;</span><span class="p">,</span> <span class="s2">&quot;OBTAINED&quot;</span><span class="p">]]</span>
+        <span class="n">to_print</span> <span class="o">=</span> <span class="p">[[</span><span class="s2">&quot;ELEMENT&quot;</span><span class="p">,</span> <span class="s2">&quot;MAX_EXPECTED&quot;</span><span class="p">,</span> <span class="s2">&quot;OBTAINED&quot;</span><span class="p">]]</span>
 
-        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">obtained</span><span class="p">)</span> <span class="o">==</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">obtained</span><span class="p">)</span> <span class="o">==</span> <span class="nb">dict</span> <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="n">expected</span><span class="p">)</span> <span class="o">==</span> <span class="nb">dict</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">obtained</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
                 <span class="k">for</span> <span class="n">risk_key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">obtained</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                     <span class="n">to_print</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                        <span class="p">[</span><span class="s1">&#39;</span><span class="si">{risk_key}</span><span class="s1"> </span><span class="si">{key}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">risk_key</span><span class="o">=</span><span class="n">risk_key</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">key</span><span class="p">))</span><span class="o">.</span><span class="n">capitalize</span><span class="p">(),</span> <span class="n">value</span><span class="p">,</span>
-                         <span class="n">expected</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="n">risk_key</span><span class="p">]])</span>
+                        <span class="p">[</span><span class="s1">&#39;</span><span class="si">{risk_key}</span><span class="s1"> </span><span class="si">{key}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">risk_key</span><span class="o">=</span><span class="n">risk_key</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">key</span><span class="p">))</span><span class="o">.</span><span class="n">capitalize</span><span class="p">(),</span>
+                         <span class="nb">int</span><span class="p">(</span><span class="n">expected</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="n">risk_key</span><span class="p">]),</span>
+                         <span class="n">value</span>
+                         <span class="p">]</span>
+                    <span class="p">)</span>
 
             <span class="nb">print</span><span class="p">(</span><span class="n">tabulate</span><span class="p">(</span><span class="n">to_print</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="s1">&#39;firstrow&#39;</span><span class="p">,</span> <span class="n">stralign</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">))</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">obtained</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">dict</span> <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="n">expected</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">dict</span><span class="p">:</span>
             <span class="n">to_print</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="s1">&#39;risk&#39;</span><span class="p">,</span> <span class="n">expected</span><span class="p">,</span> <span class="n">obtained</span><span class="p">])</span>
             <span class="nb">print</span><span class="p">(</span><span class="n">tabulate</span><span class="p">(</span><span class="n">to_print</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="s1">&#39;firstrow&#39;</span><span class="p">,</span> <span class="n">stralign</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">))</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;Error printing the excess&quot;</span></div>
 
-    <span class="k">def</span> <span class="nf">__print_details</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="p">):</span>
+<div class="viewcode-block" id="mASAPP_CI._print_details"><a class="viewcode-back" href="../../modules.html#masappci.masappci.mASAPP_CI._print_details">[docs]</a>    <span class="k">def</span> <span class="nf">_print_details</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">max_values</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        :param mode:</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">v_to_print</span> <span class="o">=</span> <span class="p">[[]]</span>
 
@@ -299,41 +330,54 @@
             <span class="nb">print</span><span class="p">(</span><span class="n">tabulate</span><span class="p">(</span><span class="n">nbehav_to_print</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="s1">&#39;firstrow&#39;</span><span class="p">,</span> <span class="n">stralign</span><span class="o">=</span><span class="s1">&#39;medium&#39;</span><span class="p">,</span> <span class="n">tablefmt</span><span class="o">=</span><span class="s1">&#39;simple&#39;</span><span class="p">))</span>
 
 
-        <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;standard&#39;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;standard&#39;</span> <span class="ow">and</span> <span class="n">max_values</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">nvulns_to_print</span> <span class="o">=</span> <span class="p">[[</span><span class="s1">&#39;Risk category&#39;</span><span class="p">,</span> <span class="s1">&#39;Expected&#39;</span><span class="p">,</span> <span class="s1">&#39;Obtained&#39;</span><span class="p">]]</span>
-            <span class="n">nvulns_to_print</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="s1">&#39;Critical&#39;</span><span class="p">,</span> <span class="n">v_critical</span><span class="p">])</span>
-            <span class="n">nvulns_to_print</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="s1">&#39;High&#39;</span><span class="p">,</span> <span class="n">v_high</span><span class="p">])</span>
-            <span class="n">nvulns_to_print</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="s1">&#39;Medium&#39;</span><span class="p">,</span> <span class="n">v_medium</span><span class="p">])</span>
-            <span class="n">nvulns_to_print</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="s1">&#39;Low&#39;</span><span class="p">,</span> <span class="n">v_low</span><span class="p">])</span>
+            <span class="n">nvulns_to_print</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="s1">&#39;Critical&#39;</span><span class="p">,</span> <span class="n">max_values</span><span class="p">[</span><span class="s1">&#39;vulnerabilities&#39;</span><span class="p">][</span><span class="s1">&#39;critical&#39;</span><span class="p">],</span> <span class="n">v_critical</span><span class="p">])</span>
+            <span class="n">nvulns_to_print</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="s1">&#39;High&#39;</span><span class="p">,</span> <span class="n">max_values</span><span class="p">[</span><span class="s1">&#39;vulnerabilities&#39;</span><span class="p">][</span><span class="s1">&#39;high&#39;</span><span class="p">],</span> <span class="n">v_high</span><span class="p">])</span>
+            <span class="n">nvulns_to_print</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="s1">&#39;Medium&#39;</span><span class="p">,</span> <span class="n">max_values</span><span class="p">[</span><span class="s1">&#39;vulnerabilities&#39;</span><span class="p">][</span><span class="s1">&#39;medium&#39;</span><span class="p">],</span> <span class="n">v_medium</span><span class="p">])</span>
+            <span class="n">nvulns_to_print</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="s1">&#39;Low&#39;</span><span class="p">,</span> <span class="n">max_values</span><span class="p">[</span><span class="s1">&#39;vulnerabilities&#39;</span><span class="p">][</span><span class="s1">&#39;low&#39;</span><span class="p">],</span> <span class="n">v_low</span><span class="p">])</span>
             <span class="nb">print</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">Vulnerabilities&#39;</span><span class="p">)</span>
-            <span class="nb">print</span><span class="p">(</span><span class="n">tabulate</span><span class="p">(</span><span class="n">nvulns_to_print</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="s1">&#39;firstrow&#39;</span><span class="p">,</span> <span class="n">stralign</span><span class="o">=</span><span class="s1">&#39;medium&#39;</span><span class="p">,</span> <span class="n">tablefmt</span><span class="o">=</span><span class="s1">&#39;simple&#39;</span><span class="p">))</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">tabulate</span><span class="p">(</span><span class="n">nvulns_to_print</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="s1">&#39;firstrow&#39;</span><span class="p">,</span> <span class="n">stralign</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">tablefmt</span><span class="o">=</span><span class="s1">&#39;simple&#39;</span><span class="p">))</span>
 
             <span class="n">nbehav_to_print</span> <span class="o">=</span> <span class="p">[[</span><span class="s1">&#39;Risk category&#39;</span><span class="p">,</span> <span class="s1">&#39;Expected&#39;</span><span class="p">,</span> <span class="s1">&#39;Obtained&#39;</span><span class="p">]]</span>
-            <span class="n">nbehav_to_print</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="s1">&#39;Critical&#39;</span><span class="p">,</span> <span class="n">b_critical</span><span class="p">])</span>
-            <span class="n">nbehav_to_print</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="s1">&#39;High&#39;</span><span class="p">,</span> <span class="n">b_high</span><span class="p">])</span>
-            <span class="n">nbehav_to_print</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="s1">&#39;Medium&#39;</span><span class="p">,</span> <span class="n">b_medium</span><span class="p">])</span>
-            <span class="n">nbehav_to_print</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="s1">&#39;Low&#39;</span><span class="p">,</span> <span class="n">b_low</span><span class="p">])</span>
+            <span class="n">nbehav_to_print</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="s1">&#39;Critical&#39;</span><span class="p">,</span> <span class="n">max_values</span><span class="p">[</span><span class="s1">&#39;behaviorals&#39;</span><span class="p">][</span><span class="s1">&#39;critical&#39;</span><span class="p">],</span> <span class="n">b_critical</span><span class="p">])</span>
+            <span class="n">nbehav_to_print</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="s1">&#39;High&#39;</span><span class="p">,</span> <span class="n">max_values</span><span class="p">[</span><span class="s1">&#39;behaviorals&#39;</span><span class="p">][</span><span class="s1">&#39;high&#39;</span><span class="p">],</span> <span class="n">b_high</span><span class="p">])</span>
+            <span class="n">nbehav_to_print</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="s1">&#39;Medium&#39;</span><span class="p">,</span> <span class="n">max_values</span><span class="p">[</span><span class="s1">&#39;behaviorals&#39;</span><span class="p">][</span><span class="s1">&#39;medium&#39;</span><span class="p">],</span> <span class="n">b_medium</span><span class="p">])</span>
+            <span class="n">nbehav_to_print</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="s1">&#39;Low&#39;</span><span class="p">,</span> <span class="n">max_values</span><span class="p">[</span><span class="s1">&#39;behaviorals&#39;</span><span class="p">][</span><span class="s1">&#39;low&#39;</span><span class="p">],</span> <span class="n">b_low</span><span class="p">])</span>
             <span class="nb">print</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">Behaviors&#39;</span><span class="p">)</span>
-            <span class="nb">print</span><span class="p">(</span><span class="n">tabulate</span><span class="p">(</span><span class="n">nbehav_to_print</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="s1">&#39;firstrow&#39;</span><span class="p">,</span> <span class="n">stralign</span><span class="o">=</span><span class="s1">&#39;medium&#39;</span><span class="p">,</span> <span class="n">tablefmt</span><span class="o">=</span><span class="s1">&#39;simple&#39;</span><span class="p">))</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">tabulate</span><span class="p">(</span><span class="n">nbehav_to_print</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="s1">&#39;firstrow&#39;</span><span class="p">,</span> <span class="n">stralign</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">tablefmt</span><span class="o">=</span><span class="s1">&#39;simple&#39;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="mASAPP_CI._lower_than_scan_result"><a class="viewcode-back" href="../../modules.html#masappci.masappci.mASAPP_CI._lower_than_scan_result">[docs]</a>    <span class="k">def</span> <span class="nf">_lower_than_scan_result</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">element</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="mASAPP_CI._lower_than_scan_result"><a class="viewcode-back" href="../../modules.html#masappci.masappci.mASAPP_CI._lower_than_scan_result">[docs]</a>    <span class="k">def</span> <span class="nf">_lower_than_scan_result</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">element</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">max_expected_value</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="sd">        :param element: T</span>
-<span class="sd">        :type  element: &quot;vulnerabilities&quot;/&quot;behaviorals&quot;/&quot;behaviors&quot;</span>
-<span class="sd">        :param key:     A</span>
-<span class="sd">        :type  key:     A</span>
-<span class="sd">        :param value:   A</span>
-<span class="sd">        :type  value:   A</span>
-<span class="sd">        :return:</span>
+<span class="sd">        :param element:          The element to check from the scan_result dict</span>
+<span class="sd">        :type  element:          &quot;vulnerabilities&quot;/&quot;behaviorals&quot;/&quot;behaviors&quot;</span>
+<span class="sd">        :param key:              The key from scan_result[element][key] for checking the value of the already done scan</span>
+<span class="sd">        :type  key:              String</span>
+<span class="sd">        :param expected_value:   The value to compare with scan_result[element][key].</span>
+<span class="sd">        :type  expected_value:   String</span>
+<span class="sd">        :return:                 It returns True if the given value max_expected_value is  greater or equal than the</span>
+<span class="sd">                                 number of vulnerabilities or behaviors (depending on the value of &quot;element&quot;) for a</span>
+<span class="sd">                                 criticality level given by the param &quot;key&quot;.</span>
+
+
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">possible_element_values</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;vulnerabilities&quot;</span><span class="p">,</span> <span class="s2">&quot;behaviorals&quot;</span><span class="p">,</span> <span class="s2">&quot;behaviors&quot;</span><span class="p">]</span>
+        <span class="n">possible_key_values</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;critical&quot;</span><span class="p">,</span> <span class="s2">&quot;high&quot;</span><span class="p">,</span> <span class="s2">&quot;medium&quot;</span><span class="p">,</span> <span class="s2">&quot;low&quot;</span><span class="p">]</span>
 
-        <span class="k">assert</span> <span class="n">element</span> <span class="o">==</span> <span class="s2">&quot;vulnerabilities&quot;</span> <span class="ow">or</span> <span class="n">element</span> <span class="o">==</span> <span class="s2">&quot;behaviorals&quot;</span> <span class="ow">or</span> <span class="n">element</span> <span class="o">==</span> <span class="s2">&quot;behaviors&quot;</span><span class="p">,</span> <span class="s2">&quot;Element must be &#39;vulnerabiliies&#39;, &#39;behaviorals&#39; or &#39;behaviors&#39;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">value</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">scan_result</span><span class="p">[</span><span class="n">element</span><span class="p">][</span><span class="n">key</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scan_result</span><span class="p">[</span><span class="n">element</span><span class="p">][</span><span class="n">key</span><span class="p">])</span> <span class="o">&gt;</span> <span class="nb">int</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">element</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">possible_element_values</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Element must be &#39;vulnerabilities&#39;, &#39;behaviorals&#39; or &#39;behaviors&#39;&quot;</span><span class="p">)</span>
 
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">True</span></div>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">possible_key_values</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Element must be &#39;critical&#39;, &#39;high&#39;, &#39;medium&#39;, &#39;low&#39;&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">element</span> <span class="o">==</span> <span class="s2">&quot;behaviors&quot;</span><span class="p">:</span>
+            <span class="n">element</span> <span class="o">=</span> <span class="s2">&quot;behaviorals&quot;</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">max_expected_value</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">max_expected_value</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scan_result</span><span class="p">[</span><span class="n">element</span><span class="p">][</span><span class="n">key</span><span class="p">])</span>
+
+        <span class="k">return</span> <span class="kc">True</span></div>
 
 <div class="viewcode-block" id="mASAPP_CI._check_not_api_error"><a class="viewcode-back" href="../../modules.html#masappci.masappci.mASAPP_CI._check_not_api_error">[docs]</a>    <span class="k">def</span> <span class="nf">_check_not_api_error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">api_response</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -343,8 +387,17 @@
 <span class="sd">        :return:              Some of the errors from mASAPPs API are shown in the response body, so this method\</span>
 <span class="sd">                              checks that the status and the body don&#39;t contains any error code.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">assert</span> <span class="n">api_response</span><span class="o">.</span><span class="n">_status</span> <span class="o">==</span> <span class="mi">200</span><span class="p">,</span> <span class="s2">&quot;ERROR Api response is </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">api_response</span><span class="o">.</span><span class="n">_body</span><span class="p">)</span>
-        <span class="k">assert</span> <span class="ow">not</span> <span class="s1">&#39;error&#39;</span> <span class="ow">in</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">api_response</span><span class="o">.</span><span class="n">_body</span><span class="p">),</span> <span class="s2">&quot;ERROR Api response is </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">api_response</span><span class="o">.</span><span class="n">_body</span><span class="p">)</span></div>
+        <span class="k">assert</span> <span class="n">api_response</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;ERROR API Response is None&quot;</span>
+        <span class="k">assert</span> <span class="n">api_response</span> <span class="ow">is</span> <span class="ow">not</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;ERROR API Response is empty&quot;</span>
+
+        <span class="k">if</span> <span class="n">api_response</span><span class="o">.</span><span class="n">_status</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="n">api_response</span><span class="o">.</span><span class="n">_status</span> <span class="o">==</span> <span class="mi">200</span><span class="p">,</span> <span class="s2">&quot;ERROR in API response: status is </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">api_response</span><span class="o">.</span><span class="n">_status</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">api_response</span><span class="o">.</span><span class="n">_body</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="ow">not</span> <span class="s1">&#39;error&#39;</span> <span class="ow">in</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">api_response</span><span class="o">.</span><span class="n">_body</span><span class="p">),</span> <span class="s2">&quot;ERROR in API response: body is </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">api_response</span><span class="o">.</span><span class="n">_body</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="kc">True</span></div>
 
 <div class="viewcode-block" id="mASAPP_CI.store_workgroup"><a class="viewcode-back" href="../../modules.html#masappci.masappci.mASAPP_CI.store_workgroup">[docs]</a>    <span class="k">def</span> <span class="nf">store_workgroup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wg_number</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -444,9 +497,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_check_not_api_error</span><span class="p">(</span><span class="n">user_scan_summary</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">scan_summary</span> <span class="ow">in</span> <span class="n">user_scan_summary</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="s1">&#39;scanSummaries&#39;</span><span class="p">]:</span>
             <span class="k">if</span> <span class="n">scan_summary</span><span class="p">[</span><span class="s1">&#39;scanDate&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">scan_info</span><span class="p">[</span><span class="s1">&#39;scanDate&#39;</span><span class="p">]:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">scan_info</span><span class="p">[</span><span class="s1">&#39;appKey&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">scan_summary</span><span class="p">[</span><span class="s1">&#39;scannedVersions&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;appKey&#39;</span><span class="p">]</span>
-                <span class="k">return</span> <span class="kc">True</span>
-        <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;Scan </span><span class="si">{scan_id}</span><span class="s2"> not found&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">scan_id</span><span class="o">=</span><span class="n">scan_id</span><span class="p">)</span></div>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">scan_summary</span><span class="p">[</span><span class="s1">&#39;scannedVersions&#39;</span><span class="p">])</span> <span class="ow">is</span> <span class="ow">not</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">scan_info</span><span class="p">[</span><span class="s1">&#39;appKey&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">scan_summary</span><span class="p">[</span><span class="s1">&#39;scannedVersions&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;appKey&#39;</span><span class="p">]</span>
+                    <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
 
 <div class="viewcode-block" id="mASAPP_CI.store_scan_result"><a class="viewcode-back" href="../../modules.html#masappci.masappci.mASAPP_CI.store_scan_result">[docs]</a>    <span class="k">def</span> <span class="nf">store_scan_result</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -520,20 +574,25 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">store_workgroup</span><span class="p">(</span><span class="n">workgroup</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">upload_app</span><span class="p">(</span><span class="n">app_path</span><span class="p">)</span>
+        <span class="n">retries</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">scan_found</span> <span class="o">=</span> <span class="kc">False</span>
 
-        <span class="k">if</span> <span class="n">package_name_origin</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">store_scan_info_from_package_name_origin</span><span class="p">(</span><span class="n">package_name_origin</span><span class="p">)</span>
+        <span class="k">while</span> <span class="n">retries</span> <span class="o">&lt;</span> <span class="mi">5</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">scan_found</span><span class="p">:</span>
+            <span class="n">retries</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">upload_app</span><span class="p">(</span><span class="n">app_path</span><span class="p">)</span>
 
-        <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">store_scan_info_from_package_name</span><span class="p">(</span><span class="n">app_path</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">package_name_origin</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">store_scan_info_from_package_name_origin</span><span class="p">(</span><span class="n">package_name_origin</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">lang</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">scan_info</span><span class="p">[</span><span class="s1">&#39;lang&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;en&#39;</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">scan_info</span><span class="p">[</span><span class="s1">&#39;lang&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lang</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">store_scan_info_from_package_name</span><span class="p">(</span><span class="n">app_path</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">store_scan_summary_from_scan_id</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scan_info</span><span class="p">[</span><span class="s1">&#39;scanId&#39;</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">scan_info</span><span class="p">[</span><span class="s1">&#39;lang&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lang</span> <span class="ow">or</span> <span class="s1">&#39;en&#39;</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">store_scan_summary_from_scan_id</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scan_info</span><span class="p">[</span><span class="s1">&#39;scanId&#39;</span><span class="p">]):</span>
+                <span class="n">scan_found</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">assert</span> <span class="n">scan_found</span><span class="p">,</span> <span class="s2">&quot;There is an error  in mASAPP and your application hasn&#39;t been successfully processed&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">store_scan_result</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="mASAPP_CI.riskscoring_execution"><a class="viewcode-back" href="../../modules.html#masappci.masappci.mASAPP_CI.riskscoring_execution">[docs]</a>    <span class="k">def</span> <span class="nf">riskscoring_execution</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">maximum_riskscoring</span><span class="p">,</span> <span class="n">app_path</span><span class="p">,</span> <span class="n">package_name_origin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">workgroup</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -602,7 +661,7 @@
             <span class="n">correct_execution</span> <span class="o">=</span> <span class="kc">False</span>
 
         <span class="k">if</span> <span class="n">detail</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__print_details</span><span class="p">(</span><span class="s1">&#39;riskscoring&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_print_details</span><span class="p">(</span><span class="s1">&#39;riskscoring&#39;</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">correct_execution</span></div>
 
@@ -705,7 +764,7 @@
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;---- STANDARD SUCCESS ----&quot;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">detail</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__print_details</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_print_details</span><span class="p">(</span><span class="s1">&#39;standard&#39;</span><span class="p">,</span> <span class="n">max_values</span><span class="o">=</span><span class="n">scan_maximum_values</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">correct_execution</span></div></div>
 </pre></div>
