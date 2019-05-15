@@ -16,7 +16,7 @@ Welcome to mASAPP_CIs documentation!
 |Docs| |Version| |Codacy|
 
 
-.. |Docs| image:: https://readthedocs.org/projects/awspice/badge/?version=latest
+.. |Docs| image:: https://masappci.readthedocs.io/en/dev/getting_started.html
    :target: http://prueba.readthedocs.io/en/latest/?badge=latest
    :alt: Read the Docs
 .. |Version| image:: http://img.shields.io/pypi/v/prueba.svg?style=flat
