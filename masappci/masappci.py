@@ -228,7 +228,6 @@ class mASAPP_CI():
 
         return True
 
-
     def _check_not_api_error(self, api_response):
         """
 
@@ -244,10 +243,10 @@ class mASAPP_CI():
             assert api_response._status == 200, "ERROR in API response: status is {0}".format(api_response._status)
 
         if api_response._body is not None:
-            assert not 'error' in json.loads(api_response._body), "ERROR in API response: body is {0}".format(api_response._body)
+            assert not 'error' in json.loads(api_response._body), "ERROR in API response: body is {0}".format(
+                api_response._body)
 
         return True
-
 
     def store_workgroup(self, wg_number):
         """
@@ -347,9 +346,10 @@ class mASAPP_CI():
         self._check_not_api_error(user_scan_summary)
         for scan_summary in user_scan_summary.data['data']['scanSummaries']:
             if scan_summary['scanDate'] == self.scan_info['scanDate']:
-                self.scan_info['appKey'] = scan_summary['scannedVersions'][0]['appKey']
-                return True
-        assert False, "Scan {scan_id} not found".format(scan_id=scan_id)
+                if len(scan_summary['scannedVersions']) is not 0:
+                    self.scan_info['appKey'] = scan_summary['scannedVersions'][0]['appKey']
+                    return True
+        return False
 
     def store_scan_result(self):
         """
@@ -423,18 +423,25 @@ class mASAPP_CI():
         else:
             self.store_workgroup(workgroup)
 
-        self.upload_app(app_path)
+        retries = 0
+        scan_found = False
 
-        if package_name_origin != None:
-            self.store_scan_info_from_package_name_origin(package_name_origin)
+        while retries < 5 and not scan_found:
+            retries += 1
+            self.upload_app(app_path)
 
-        else:
-            self.store_scan_info_from_package_name(app_path)
+            if package_name_origin != None:
+                self.store_scan_info_from_package_name_origin(package_name_origin)
 
+            else:
+                self.store_scan_info_from_package_name(app_path)
 
-        self.scan_info['lang'] = lang or 'en'
+            self.scan_info['lang'] = lang or 'en'
 
-        self.store_scan_summary_from_scan_id(self.scan_info['scanId'])
+            if self.store_scan_summary_from_scan_id(self.scan_info['scanId']):
+                scan_found = True
+
+        assert scan_found, "There is an error  in mASAPP and your application hasn't been successfully processed"
         self.store_scan_result()
 
     def riskscoring_execution(self, maximum_riskscoring, app_path, package_name_origin=None, workgroup=None, lang=None,
