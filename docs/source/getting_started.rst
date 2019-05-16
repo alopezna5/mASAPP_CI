@@ -1,5 +1,5 @@
 CLI
 ======
 
-.. automodule:: __main__
+.. automodule:: __main__.main
     :members:
