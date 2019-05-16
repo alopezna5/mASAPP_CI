@@ -1,5 +1,5 @@
 CLI
 ======
 
-.. automodule:: masappci.__main__
+.. automodule:: __main__
     :members:
