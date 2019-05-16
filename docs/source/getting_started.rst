@@ -9,6 +9,8 @@ CLI
 
         Usage example:
 
+        .. code-block:: bash
+
             masappci -r float -a path/to/the/app.ipa (or apk) [-p packageNameOrigin] [-d]
 
 
@@ -18,6 +20,8 @@ CLI
         than the given in the in the json file. This operation can not being thrown simultaneously with riskscoring execution.
 
         Usage example
+
+         .. code-block:: bash
 
             masappci -s path/to/vulns_and_behaviors.json -a path/to/the/app.ipa (or apk) [-p packageNameOrigin] [-d]
 
