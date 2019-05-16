@@ -7,6 +7,8 @@
 __pycache__/
 *.py[cod]
 *$py.class
+*.pyc
+*Pipfile*
 
 # C extensions
 *.so
@@ -118,6 +120,7 @@ venv.bak/
 
 # mkdocs documentation
 /site
+/build
 
 # mypy
 .mypy_cache/
