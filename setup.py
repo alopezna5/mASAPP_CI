@@ -15,7 +15,7 @@ limitations under the License.
 from distutils.core import setup
 
 setup(
-    name='masappci',
+    name='masappcli',
     packages=['masappci'],
     version='0.1',
     license='MIT',
@@ -34,7 +34,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'masappci = masappci.__main__:main',
+            'masappcli = masappci.__main__:main',
         ]
     }
 )

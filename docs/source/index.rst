@@ -1,5 +1,5 @@
 Welcome to mASAPP_CIs documentation!
-=====================================
+======================================
 
 .. toctree::
   :hidden:
