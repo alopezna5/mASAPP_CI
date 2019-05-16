@@ -16,9 +16,9 @@ Welcome to mASAPP_CIs documentation!
 |Docs| |Version| |Codacy|
 
 
-.. |Docs| image:: https://masappci.readthedocs.io/en/dev/getting_started.html
-   :target: http://prueba.readthedocs.io/en/latest/?badge=latest
-   :alt: Read the Docs
+.. |Docs| image:: https://readthedocs.org/projects/masappci/badge/?version=latest
+    :target: https://masappci.readthedocs.io/en/latest/?badge=latest
+    :alt: Documentation Status
 .. |Version| image:: http://img.shields.io/pypi/v/prueba.svg?style=flat
     :target: https://pypi.python.org/pypi/prueba/
     :alt: Version
