@@ -1,0 +1,346 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>masappci.__main__ &mdash; masapp_ci  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> masapp_ci
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">  Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">  Modules</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">masapp_ci</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>masappci.__main__</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for masappci.__main__</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="kn">import</span> <span class="nn">argparse</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">from</span> <span class="nn">masappci</span> <span class="k">import</span> <span class="n">mASAPP_CI</span>
+<span class="kn">import</span> <span class="nn">getpass</span>
+
+<span class="n">ASCII_ART_DESCRIPTION</span> <span class="o">=</span> <span class="sa">U</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">                        _____           _____   _____      _____  _____ </span>
+<span class="s1">                /\     / ____|   /\    |  __ \ |  __ \    / ____||_   _|</span>
+<span class="s1">  _ __ ___     /  \   | (___    /  \   | |__) || |__) |  | |       | |  </span>
+<span class="s1"> | &#39;_ ` _ \   / /\ \   \___ \  / /\ \  |  ___/ |  ___/   | |       | |  </span>
+<span class="s1"> | | | | | | / ____ \  ____) |/ ____ \ | |     | |       | |____  _| |_ </span>
+<span class="s1"> |_| |_| |_|/_/    \_\|_____//_/    \_\|_|     |_|        \_____||_____|</span>
+
+<span class="s1">&#39;&#39;&#39;</span>
+
+
+<div class="viewcode-block" id="main"><a class="viewcode-back" href="../../getting_started.html#masappci.__main__.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">    **Riskscoring execution**</span>
+
+<span class="sd">        It would analyse the given app throwing an error only if the risk is greater than the given</span>
+<span class="sd">        with the param -r. This operation can not being thrown simultaneously with standard execution.</span>
+
+<span class="sd">        Usage example:</span>
+<span class="sd">        ::</span>
+<span class="sd">            masappci -r float -a path/to/the/app.ipa (or apk) [-p packageNameOrigin] [-d]</span>
+
+<span class="sd">    **Standard execution:**</span>
+
+<span class="sd">        It would analyse the given app throwing an error if there are more vulnerabilities or behaviors</span>
+<span class="sd">        than the given in the in the json file. This operation can not being thrown simultaneously with riskscoring execution.</span>
+
+<span class="sd">        Usage example</span>
+<span class="sd">        ::</span>
+<span class="sd">            masappci -s path/to/vulns_and_behaviors.json -a path/to/the/app.ipa (or apk) [-p packageNameOrigin] [-d]</span>
+
+
+<span class="sd">    **Additional params**</span>
+
+<span class="sd">        * PackageNameOrigin: The packageNameOrigin is an unequivocally value generated by mASAPP for identifying the \</span>
+<span class="sd">        applications. Giving this param you would help to the script to find your application in your user&#39;s \</span>
+<span class="sd">        scans if you don&#39;t use this param, the script would look into the user scans using the name of your \</span>
+<span class="sd">        .apk or .ipa file but sometimes it doesn&#39;t find because of a different interpretation of this field by mASAPP \</span>
+<span class="sd">        or an error generating this field. If the script doesn&#39;t find your app will show a list of all the scans that \</span>
+<span class="sd">        your user has, asking you to find your application and to execute it again using the param -p with the \</span>
+<span class="sd">        correct packageNameOrigin. \</span>
+
+<span class="sd">        * Detailed execution: If the user use this param, the following information will be shown after a successful\</span>
+<span class="sd">        execution:</span>
+
+<span class="sd">            * A list of vulnerabilities, adding the tittle, risk, number of occurrences and the different occurrences\</span>
+<span class="sd">            with their evidences.</span>
+
+<span class="sd">            * A list of behaviors, adding the tittle, number of occurrences, impact and the different occurrences\</span>
+<span class="sd">            with their evidences.</span>
+
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">prog</span><span class="o">=</span><span class="s1">&#39;masappci&#39;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="n">ASCII_ART_DESCRIPTION</span><span class="p">,</span>
+                                     <span class="n">formatter_class</span><span class="o">=</span><span class="n">argparse</span><span class="o">.</span><span class="n">RawDescriptionHelpFormatter</span><span class="p">)</span>
+
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-a&#39;</span><span class="p">,</span> <span class="s1">&#39;--app&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;path to the .apk or .ipa file&#39;</span><span class="p">,</span> <span class="n">metavar</span><span class="o">=</span><span class="s2">&quot;.ipa/.apk&quot;</span><span class="p">,</span>
+                        <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-key&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">metavar</span><span class="o">=</span><span class="s2">&quot;mASAPP_key&quot;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-secret&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">metavar</span><span class="o">=</span><span class="s2">&quot;mASAPP_secret&quot;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-p&#39;</span><span class="p">,</span> <span class="s1">&#39;--packageNameOrigin&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;package name origin of the app&#39;</span><span class="p">,</span> <span class="n">metavar</span><span class="o">=</span><span class="s2">&quot;packageNameOrigin&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-r&#39;</span><span class="p">,</span> <span class="s1">&#39;--riskscore&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;riskscoring execution&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">metavar</span><span class="o">=</span><span class="s2">&quot;N&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-d&#39;</span><span class="p">,</span> <span class="s1">&#39;--detailed&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;add details to the execution&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-s&#39;</span><span class="p">,</span> <span class="s1">&#39;--standard&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;standard execution&#39;</span><span class="p">,</span> <span class="n">metavar</span><span class="o">=</span><span class="s2">&quot;.json&quot;</span><span class="p">)</span>
+
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">riskscore</span> <span class="ow">and</span> <span class="n">args</span><span class="o">.</span><span class="n">standard</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Riskscore and standard execution can not being thrown simultaneously&quot;</span><span class="p">)</span>
+        <span class="n">parser</span><span class="o">.</span><span class="n">print_help</span><span class="p">()</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+
+    <span class="k">elif</span> <span class="n">args</span><span class="o">.</span><span class="n">riskscore</span><span class="p">:</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="n">mASAPP_CI</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">key</span><span class="p">,</span> <span class="n">secret</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">secret</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">packageNameOrigin</span><span class="p">:</span>
+            <span class="n">user</span><span class="o">.</span><span class="n">riskscoring_execution</span><span class="p">(</span><span class="n">maximum_riskscoring</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">riskscore</span><span class="p">,</span> <span class="n">app_path</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">app</span><span class="p">,</span>
+                                       <span class="n">package_name_origin</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">packageNameOrigin</span><span class="p">,</span>
+                                       <span class="n">detail</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">detailed</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">user</span><span class="o">.</span><span class="n">riskscoring_execution</span><span class="p">(</span><span class="n">maximum_riskscoring</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">riskscore</span><span class="p">,</span> <span class="n">app_path</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">app</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">detailed</span><span class="p">)</span>
+
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">def</span> <span class="nf">check_json</span><span class="p">(</span><span class="n">input_json</span><span class="p">):</span>
+            <span class="k">if</span> <span class="s2">&quot;.json&quot;</span> <span class="ow">in</span> <span class="n">input_json</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">input_json</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">input_json</span><span class="p">))</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="n">parser</span><span class="o">.</span><span class="n">print_help</span><span class="p">()</span>
+                    <span class="k">return</span> <span class="kc">False</span>
+                <span class="n">correct_json</span> <span class="o">=</span> <span class="n">input_json</span><span class="p">[</span><span class="s1">&#39;vulnerabilities&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">input_json</span><span class="p">[</span><span class="s1">&#39;behaviorals&#39;</span><span class="p">]</span>
+
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">correct_json</span><span class="p">:</span>
+                    <span class="n">parser</span><span class="o">.</span><span class="n">print_help</span><span class="p">()</span>
+                    <span class="k">return</span> <span class="kc">False</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">input_json</span>
+
+            <span class="n">parser</span><span class="o">.</span><span class="n">print_help</span><span class="p">()</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">standard</span><span class="p">:</span>
+            <span class="n">checked_json</span> <span class="o">=</span> <span class="n">check_json</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">standard</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">checked_json</span><span class="p">:</span>
+                <span class="n">user</span> <span class="o">=</span> <span class="n">mASAPP_CI</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">key</span><span class="p">,</span> <span class="n">secret</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">secret</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">checked_json</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">bool</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">packageNameOrigin</span><span class="p">:</span>
+                        <span class="n">user</span><span class="o">.</span><span class="n">standard_execution</span><span class="p">(</span><span class="n">scan_maximum_values</span><span class="o">=</span><span class="n">checked_json</span><span class="p">,</span> <span class="n">app_path</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">app</span><span class="p">,</span>
+                                                <span class="n">package_name_origin</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">packageNameOrigin</span><span class="p">,</span>
+                                                <span class="n">detail</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">detailed</span><span class="p">)</span>
+
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">user</span><span class="o">.</span><span class="n">standard_execution</span><span class="p">(</span><span class="n">scan_maximum_values</span><span class="o">=</span><span class="n">checked_json</span><span class="p">,</span> <span class="n">app_path</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">app</span><span class="p">,</span>
+                                                <span class="n">detail</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">detailed</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span>
+                    <span class="sa">u</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">                        -s --standard json structure:</span>
+<span class="sd">                            {</span>
+<span class="sd">                              &quot;vulnerabilities&quot;: {</span>
+<span class="sd">                                &quot;critical&quot;: maximum of critical vulnerabilities,</span>
+<span class="sd">                                &quot;high&quot;: maximum of high vulnerabilities,</span>
+<span class="sd">                                &quot;medium&quot;: maximum of medium vulnerabilities,</span>
+<span class="sd">                                &quot;low&quot;: maximum of low vulnerabilities</span>
+<span class="sd">                              },</span>
+<span class="sd">                              &quot;behaviorals&quot;: {</span>
+<span class="sd">                                &quot;critical&quot;: maximum of critical behaviorals,</span>
+<span class="sd">                                &quot;high&quot;: &quot;maximum of high behaviorals,</span>
+<span class="sd">                                &quot;medium&quot;: maximum of medium behavioral,</span>
+<span class="sd">                                &quot;low&quot;: maximum of low behaviorals</span>
+<span class="sd">                              }</span>
+<span class="sd">                            }     </span>
+<span class="sd">                    &quot;&quot;&quot;</span>
+                <span class="p">)</span>
+
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">parser</span><span class="o">.</span><span class="n">print_help</span><span class="p">()</span></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Alvaro Lopez-Gil
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

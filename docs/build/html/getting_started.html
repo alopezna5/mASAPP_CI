@@ -1,0 +1,246 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>CLI &mdash; masapp_ci  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Modules" href="modules.html" />
+    <link rel="prev" title="Welcome to mASAPP_CIs documentation!" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> masapp_ci
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">  Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">  Modules</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">masapp_ci</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>CLI</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/getting_started.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-masappci.__main__">
+<span id="cli"></span><h1>CLI<a class="headerlink" href="#module-masappci.__main__" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="masappci.__main__.main">
+<code class="descclassname">masappci.__main__.</code><code class="descname">main</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/masappci/__main__.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#masappci.__main__.main" title="Permalink to this definition">¶</a></dt>
+<dd><p><strong>Riskscoring execution</strong></p>
+<blockquote>
+<div><p>It would analyse the given app throwing an error only if the risk is greater than the given
+with the param -r. This operation can not being thrown simultaneously with standard execution.</p>
+<p>Usage example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">masappci</span> <span class="o">-</span><span class="n">r</span> <span class="nb">float</span> <span class="o">-</span><span class="n">a</span> <span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">the</span><span class="o">/</span><span class="n">app</span><span class="o">.</span><span class="n">ipa</span> <span class="p">(</span><span class="ow">or</span> <span class="n">apk</span><span class="p">)</span> <span class="p">[</span><span class="o">-</span><span class="n">p</span> <span class="n">packageNameOrigin</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">d</span><span class="p">]</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p><strong>Standard execution:</strong></p>
+<blockquote>
+<div><p>It would analyse the given app throwing an error if there are more vulnerabilities or behaviors
+than the given in the in the json file. This operation can not being thrown simultaneously with riskscoring execution.</p>
+<p>Usage example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">masappci</span> <span class="o">-</span><span class="n">s</span> <span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">vulns_and_behaviors</span><span class="o">.</span><span class="n">json</span> <span class="o">-</span><span class="n">a</span> <span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">the</span><span class="o">/</span><span class="n">app</span><span class="o">.</span><span class="n">ipa</span> <span class="p">(</span><span class="ow">or</span> <span class="n">apk</span><span class="p">)</span> <span class="p">[</span><span class="o">-</span><span class="n">p</span> <span class="n">packageNameOrigin</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">d</span><span class="p">]</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p><strong>Additional params</strong></p>
+<blockquote>
+<div><ul>
+<li><p class="first">PackageNameOrigin: The packageNameOrigin is an unequivocally value generated by mASAPP for identifying the         applications. Giving this param you would help to the script to find your application in your user’s         scans if you don’t use this param, the script would look into the user scans using the name of your         .apk or .ipa file but sometimes it doesn’t find because of a different interpretation of this field by mASAPP         or an error generating this field. If the script doesn’t find your app will show a list of all the scans that         your user has, asking you to find your application and to execute it again using the param -p with the         correct packageNameOrigin.</p>
+</li>
+<li><p class="first">Detailed execution: If the user use this param, the following information will be shown after a successful        execution:</p>
+<blockquote>
+<div><ul class="simple">
+<li>A list of vulnerabilities, adding the tittle, risk, number of occurrences and the different occurrences            with their evidences.</li>
+<li>A list of behaviors, adding the tittle, number of occurrences, impact and the different occurrences            with their evidences.</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="modules.html" class="btn btn-neutral float-right" title="Modules" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to mASAPP_CIs documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Alvaro Lopez-Gil
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

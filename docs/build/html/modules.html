@@ -1,0 +1,734 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Modules &mdash; masapp_ci  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="CLI" href="getting_started.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> masapp_ci
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">  Getting started</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">  Modules</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-masappci.elevenpaths_auth">ElevenPaths Authenticated methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-masappci.masappci">mASAPP CI functionality</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">masapp_ci</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Modules</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/modules.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="modules">
+<h1>Modules<a class="headerlink" href="#modules" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<div class="section" id="module-masappci.elevenpaths_auth">
+<span id="elevenpaths-authenticated-methods"></span><h2>ElevenPaths Authenticated methods<a class="headerlink" href="#module-masappci.elevenpaths_auth" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="masappci.elevenpaths_auth.mASAPP_CI_auth">
+<em class="property">class </em><code class="descclassname">masappci.elevenpaths_auth.</code><code class="descname">mASAPP_CI_auth</code><span class="sig-paren">(</span><em>key</em>, <em>secret</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/masappci/elevenpaths_auth.html#mASAPP_CI_auth"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#masappci.elevenpaths_auth.mASAPP_CI_auth" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class contains the necessary authorized methods for working with the mASAPPs API. Inherited from the
+<strong>HttpSdk</strong> class it uses the <strong>X11PathsAuthentication</strong> authentication which performs safer requests.
+Without this request implementation the user wouldn’t be available to communicate with the mASAPPs API.</p>
+<p>The initialization of this class needs two parameters obtained from mASAPP in the API Clients section.
+This parameters are:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="51%" />
+<col width="49%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">mASAPP_CI_auth param</th>
+<th class="head">Equivalent mASAPP value</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>key</td>
+<td>Client ID</td>
+</tr>
+<tr class="row-odd"><td>secret</td>
+<td>Secret</td>
+</tr>
+</tbody>
+</table>
+<p>For more information about HttpSdk: <a class="reference external" href="https://github.com/ivanprjcts/sdklib">https://github.com/ivanprjcts/sdklib</a></p>
+<dl class="method">
+<dt id="masappci.elevenpaths_auth.mASAPP_CI_auth.get_auth_scans">
+<code class="descname">get_auth_scans</code><span class="sig-paren">(</span><em>workgroup</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/masappci/elevenpaths_auth.html#mASAPP_CI_auth.get_auth_scans"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#masappci.elevenpaths_auth.mASAPP_CI_auth.get_auth_scans" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>workgroup</strong> (<em>String</em>) – The workgroup where the user belongs to.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The response to the authenticated request <strong>/scans</strong>
+to the mASAPP API, which returns a brief summary of all the apps contained in the user scans.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="masappci.elevenpaths_auth.mASAPP_CI_auth.get_auth_workgroup">
+<code class="descname">get_auth_workgroup</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/masappci/elevenpaths_auth.html#mASAPP_CI_auth.get_auth_workgroup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#masappci.elevenpaths_auth.mASAPP_CI_auth.get_auth_workgroup" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The response to the authenticated request <strong>/workgroups</strong>
+to the mASAPP API, which returns the mASAPPs workgroups which the user belongs to.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="masappci.elevenpaths_auth.mASAPP_CI_auth.get_scan_result">
+<code class="descname">get_scan_result</code><span class="sig-paren">(</span><em>workgroup</em>, <em>scan_id</em>, <em>scan_date</em>, <em>app_key</em>, <em>lang</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/masappci/elevenpaths_auth.html#mASAPP_CI_auth.get_scan_result"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#masappci.elevenpaths_auth.mASAPP_CI_auth.get_scan_result" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>workgroup</strong> (<em>String</em>) – The workgroup where the user belongs to.</li>
+<li><strong>scan_id</strong> (<em>String</em>) – The scan ID from the scan which the user wants to obtain the result.</li>
+<li><strong>scan_date</strong> (<em>Date</em>) – The date from the scan which the user wants to obtain the result.</li>
+<li><strong>app_key</strong> (<em>String</em>) – The key of the app which the user wants to obtain the result.</li>
+<li><strong>lang</strong> (<em>&quot;en&quot;</em><em>, </em><em>&quot;es&quot;</em>) – The language in which the user wants to get the analysis result.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">The response to the authenticated request <strong>/scanResults</strong>
+to the mASAPP API, which returns the result of the mASAPPs analysis for the scan with
+the scan_id, scan_date and app_key introduced, including <strong>vulnerabilities and behaviors</strong>
+among other things.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="masappci.elevenpaths_auth.mASAPP_CI_auth.get_scan_summary">
+<code class="descname">get_scan_summary</code><span class="sig-paren">(</span><em>workgroup</em>, <em>scan_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/masappci/elevenpaths_auth.html#mASAPP_CI_auth.get_scan_summary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#masappci.elevenpaths_auth.mASAPP_CI_auth.get_scan_summary" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>workgroup</strong> (<em>String</em>) – The workgroup where the user belongs to.</li>
+<li><strong>scan_id</strong> (<em>String</em>) – The scan ID from the scan which the user wants to obtain a summary.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">The response to the authenticated request <strong>/scanSummary</strong>
+to the mASAPP API, which returns a summary of the scan with the scan_id introduced.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="masappci.elevenpaths_auth.mASAPP_CI_auth.post_auth_upload_app">
+<code class="descname">post_auth_upload_app</code><span class="sig-paren">(</span><em>workgroup</em>, <em>allowTacyt</em>, <em>app_path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/masappci/elevenpaths_auth.html#mASAPP_CI_auth.post_auth_upload_app"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#masappci.elevenpaths_auth.mASAPP_CI_auth.post_auth_upload_app" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>workgroup</strong> (<em>String</em>) – The workgroup where the user belongs to.</li>
+<li><strong>allowTacyt</strong> (<em>Boolean</em>) – If the user wants to share the app with the Tacyt/mASAPP community or not.</li>
+<li><strong>app_path</strong> (<em>String</em>) – The absolute path to the application which the user wants to upload.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">The response to the authenticated request <strong>/upload</strong>
+to the mASAPP API, which returns the result of the uploading the app to mASAPP.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-masappci.masappci">
+<span id="masapp-ci-functionality"></span><h2>mASAPP CI functionality<a class="headerlink" href="#module-masappci.masappci" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="masappci.masappci.mASAPP_CI">
+<em class="property">class </em><code class="descclassname">masappci.masappci.</code><code class="descname">mASAPP_CI</code><span class="sig-paren">(</span><em>key</em>, <em>secret</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/masappci/masappci.html#mASAPP_CI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#masappci.masappci.mASAPP_CI" title="Permalink to this definition">¶</a></dt>
+<dd><p>TODO ADD MASAPP_CI INFO</p>
+<dl class="method">
+<dt id="masappci.masappci.mASAPP_CI._check_not_api_error">
+<code class="descname">_check_not_api_error</code><span class="sig-paren">(</span><em>api_response</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/masappci/masappci.html#mASAPP_CI._check_not_api_error"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#masappci.masappci.mASAPP_CI._check_not_api_error" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>api_response</strong> (<em>Dictionary</em>) – An API response that contains the fields “_status” and “_body”.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Some of the errors from mASAPPs API are shown in the response body, so this method                              checks that the status and the body don’t contains any error code.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="masappci.masappci.mASAPP_CI._lower_than_scan_result">
+<code class="descname">_lower_than_scan_result</code><span class="sig-paren">(</span><em>element</em>, <em>key</em>, <em>max_expected_value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/masappci/masappci.html#mASAPP_CI._lower_than_scan_result"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#masappci.masappci.mASAPP_CI._lower_than_scan_result" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>element</strong> (<em>&quot;vulnerabilities&quot;/&quot;behaviorals&quot;/&quot;behaviors&quot;</em>) – The element to check from the scan_result dict</li>
+<li><strong>key</strong> (<em>String</em>) – The key from scan_result[element][key] for checking the value of the already done scan</li>
+<li><strong>expected_value</strong> (<em>String</em>) – The value to compare with scan_result[element][key].</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">It returns True if the given value max_expected_value is  greater or equal than the
+number of vulnerabilities or behaviors (depending on the value of “element”) for a
+criticality level given by the param “key”.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="masappci.masappci.mASAPP_CI._print_details">
+<code class="descname">_print_details</code><span class="sig-paren">(</span><em>mode</em>, <em>max_values=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/masappci/masappci.html#mASAPP_CI._print_details"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#masappci.masappci.mASAPP_CI._print_details" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>mode</strong> – </td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="masappci.masappci.mASAPP_CI._print_excess">
+<code class="descname">_print_excess</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/masappci/masappci.html#mASAPP_CI._print_excess"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#masappci.masappci.mASAPP_CI._print_excess" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="docutils">
+<dt>It prints the information that is stored in self.exceeded_limit. This printing will vary depending on</dt>
+<dd>the type of the values contained in self.exceeded_limit[“expected”] and self.exceeded_limit[“obtained”].<ul class="simple">
+<li>If both elements are dictionaries it would print the elements that surpass the limit that the user</li>
+</ul>
+<dl class="last docutils">
+<dt>has defined.</dt>
+<dd><strong>Example:</strong><blockquote class="last">
+<div><blockquote>
+<div>ELEMENT            MAX_EXPECTED    OBTAINED</div></blockquote>
+<dl class="docutils">
+<dt>———————-  ————–  ———-</dt>
+<dd>High vulnerabilities         0             1</dd>
+<dt>Medium vulnerabilities        0             2</dt>
+<dd><dl class="first last docutils">
+<dt>Low vulnerabilities          0             5</dt>
+<dd>Low behaviorals            0             1</dd>
+</dl>
+</dd>
+</dl>
+</div></blockquote>
+</dd>
+</dl>
+</dd>
+</dl>
+<ul class="simple">
+<li>If not, it would print the maximum riskscore defined by the user and the obtained riskscore.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="masappci.masappci.mASAPP_CI.riskscoring_execution">
+<code class="descname">riskscoring_execution</code><span class="sig-paren">(</span><em>maximum_riskscoring</em>, <em>app_path</em>, <em>package_name_origin=None</em>, <em>workgroup=None</em>, <em>lang=None</em>, <em>detail=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/masappci/masappci.html#mASAPP_CI.riskscoring_execution"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#masappci.masappci.mASAPP_CI.riskscoring_execution" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>maximum_riskscoring</strong> (<em>Float</em>) – The maximum risk score allowed without throing an error.</li>
+<li><strong>app_path</strong> (<em>String</em>) – The absolute path to the application which the user wants to upload.</li>
+<li><strong>package_name_origin</strong> (<em>String</em>) – The packageNameOrigin that mASAPP gave to the app. If is the first uploading of the                                    app, don’t add this parameter.</li>
+<li><strong>workgroup</strong> (<em>Integer</em>) – The position of the workgroup that the user wants to use in the scan.</li>
+<li><strong>lang</strong> (<em>&quot;en&quot;</em><em>, </em><em>&quot;es&quot;</em>) – The language in which the user wants to get the analysis result.</li>
+<li><strong>detail</strong> (<em>Boolean</em>) – If the user wants a detailed execution or not.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><ul>
+<li><p class="first">If package_name_origin is sent, it returns an static analysis from the app                                        code showing the following information:</p>
+<blockquote>
+<div><ul>
+<li><p class="first">RISKSCORING SUCCESS or RISKSCORING ERROR depending on whether the                                             obtained riskscore surpass the maximum given as maximum_riskscoring.</p>
+<blockquote>
+<div><ul class="simple">
+<li>The standard error includes a table with all the defined limits surpassed</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">If detail is equal to True, it will add below two lists:</p>
+<blockquote>
+<div><ul class="simple">
+<li>A list of vulnerabilities, adding the tittle, risk, number of                                                occurrences and the different occurrences with their evidences.</li>
+<li>A list of behaviors, adding the tittle, number of occurrences, impact                                                and the different occurrences with their evidences.</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">If the package_name_origin is not sent, the script will search in the users                                        scans for the correct package_name_origin using the package name.</p>
+<blockquote>
+<div><ul class="simple">
+<li>If it is correctly found, the app would be analysed</li>
+<li>If not, it would throw an error asking the user for the packageNameOrigin.                                            In order to facilitate the user to find the packageNameOrigin it would throw                                            a list of all the user scans.</li>
+</ul>
+<p>The <strong>packageNameOrigin error text</strong> is exactly: <em>Sometimes the                                            packageNameOrigin is not correctly generated by mASAPP and the application                                            is saved without it, so, please add the packageNameOrigin of your                                            application with the param -p</em></p>
+</div></blockquote>
+</li>
+</ul>
+</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="masappci.masappci.mASAPP_CI.standard_execution">
+<code class="descname">standard_execution</code><span class="sig-paren">(</span><em>scan_maximum_values</em>, <em>app_path</em>, <em>package_name_origin=None</em>, <em>workgroup=None</em>, <em>lang=None</em>, <em>detail=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/masappci/masappci.html#mASAPP_CI.standard_execution"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#masappci.masappci.mASAPP_CI.standard_execution" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>scan_maximum_values</strong> (<em>Dictionary</em>) – <p>Maximum results allowed without throwing an error.</p>
+<p><strong>Example</strong>:</p>
+<blockquote>
+<div><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;vulnerabilities&quot;</span><span class="p">:</span>
+        <span class="p">{</span>
+            <span class="nt">&quot;critical&quot;</span><span class="p">:</span><span class="s2">&quot;maximum of critical vulnerabilities&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;high&quot;</span><span class="p">:</span><span class="s2">&quot;maximum of high vulnerabilities&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;medium&quot;</span><span class="p">:</span><span class="s2">&quot;maximum of medium vulnerabilities&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;low&quot;</span><span class="p">:</span><span class="s2">&quot;maximum of low vulnerabilities&quot;</span>
+
+        <span class="p">},</span>
+    <span class="nt">&quot;behaviorals&quot;</span><span class="p">:</span>
+        <span class="p">{</span>
+            <span class="nt">&quot;critical&quot;</span><span class="p">:</span><span class="s2">&quot;maximum of critical behaviors&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;high&quot;</span><span class="p">:</span><span class="s2">&quot;maximum of high behaviors&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;medium&quot;</span><span class="p">:</span><span class="s2">&quot;maximum of medium behaviors&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;low&quot;</span><span class="p">:</span><span class="s2">&quot;maximum of low behaviors&quot;</span>
+        <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><strong>app_path</strong> (<em>String</em>) – The absolute path to the application which the user wants to upload.</li>
+<li><strong>package_name_origin</strong> (<em>String</em>) – The packageNameOrigin that mASAPP gave to the app. If is the first uploading of the                                    app, don’t add this parameter.</li>
+<li><strong>workgroup</strong> (<em>Integer</em>) – The position of the workgroup that the user wants to use in the scan.</li>
+<li><strong>lang</strong> (<em>&quot;en&quot;</em><em>, </em><em>&quot;es&quot;</em>) – The language in which the user wants to get the analysis result.</li>
+<li><strong>detail</strong> (<em>Boolean</em>) – If the user wants a detailed execution or not.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><ul>
+<li><p class="first">If package_name_origin is sent, it returns an static analysis from the app                                        code showing the following information:</p>
+<blockquote>
+<div><ul>
+<li><p class="first">STANDARD SUCCESS or STANDARD ERROR depending on whether or not there are                                            elements that exceed the limits contained in the scan_maximum_values json.</p>
+<blockquote>
+<div><ul class="simple">
+<li>The standard error includes a table with all the defined limits surpassed</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">If detail is equal to True, it will add below two lists:</p>
+<blockquote>
+<div><ul class="simple">
+<li>A list of vulnerabilities, adding the tittle, risk, number of                                                occurrences and the different occurrences with their evidences</li>
+<li>A list of behaviors, adding the tittle, number of occurrences, impact                                                and the different occurrences with their evidences</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">If the package_name_origin is not sent, the script will search in the users                                        scans for the correct package_name_origin using the package name.</p>
+<blockquote>
+<div><ul class="simple">
+<li>If it is correctly found, the app would be analysed</li>
+<li>If not, it would throw an error asking the user for the packageNameOrigin.                                            In order to facilitate the user to find the packageNameOrigin it would throw                                            a list of all the user scans.</li>
+</ul>
+<p>The <strong>packageNameOrigin error text</strong> is exactly: <em>Sometimes mASAPP                                            can not generate all the necessary fields for unequivocally automatic                                             finding of the application, so, please add the packageNameOrigin of your                                            application with the param -p</em></p>
+</div></blockquote>
+</li>
+</ul>
+</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="masappci.masappci.mASAPP_CI.store_scan_info_from_package_name">
+<code class="descname">store_scan_info_from_package_name</code><span class="sig-paren">(</span><em>app_path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/masappci/masappci.html#mASAPP_CI.store_scan_info_from_package_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#masappci.masappci.mASAPP_CI.store_scan_info_from_package_name" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>app_path</strong> (<em>String</em>) – The absolute path to the application which the user wants to upload.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">It obtains all the scans from the user with the given credentials and look for the
+scan whose packageName is contained in the name of the file (app_path).
+This field is not always generated by mASAPP, so if it is not in the API response it makes the
+same comparison with the packageNameOrigin.<blockquote>
+<div><ul class="simple">
+<li>If it is found, it returns True and store the scanId and scanDate in scan_info.</li>
+<li>If it is not found, it throw an error and a list of the different scans of the user for                            adding it manually.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="masappci.masappci.mASAPP_CI.store_scan_info_from_package_name_origin">
+<code class="descname">store_scan_info_from_package_name_origin</code><span class="sig-paren">(</span><em>package_name_origin</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/masappci/masappci.html#mASAPP_CI.store_scan_info_from_package_name_origin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#masappci.masappci.mASAPP_CI.store_scan_info_from_package_name_origin" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>package_name_origin</strong> (<em>String</em>) – The packageNameOrigin that mASAPP gives to the app.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">It obtains all the scans from the user with the given credentials and look for the
+scan with the same packageNameOrigin than the given as package_name_origin and store
+the scanId and scanDate in scan_info. It could throw errors due to: an error in the
+API request (/scans) or if there is not any scan with the given packageNameOrigin.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="masappci.masappci.mASAPP_CI.store_scan_result">
+<code class="descname">store_scan_result</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/masappci/masappci.html#mASAPP_CI.store_scan_result"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#masappci.masappci.mASAPP_CI.store_scan_result" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">It get the scan result and store it in “scan_result”. The info that is stored is:<ul>
+<li>riskScore</li>
+<li>Vulnerabilities<blockquote>
+<div><ul class="simple">
+<li>Critical</li>
+<li>High</li>
+<li>Medium</li>
+<li>Low</li>
+</ul>
+</div></blockquote>
+</li>
+<li>Behaviors<blockquote>
+<div><ul class="simple">
+<li>Critical</li>
+<li>High</li>
+<li>Medium</li>
+<li>Low</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="masappci.masappci.mASAPP_CI.store_scan_summary_from_scan_id">
+<code class="descname">store_scan_summary_from_scan_id</code><span class="sig-paren">(</span><em>scan_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/masappci/masappci.html#mASAPP_CI.store_scan_summary_from_scan_id"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#masappci.masappci.mASAPP_CI.store_scan_summary_from_scan_id" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>scan_id</strong> (<em>String</em>) – The scanId of the scan that the user wants to analyse</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">If the scanId is found, it stores the appKey, which is the last necessary field for getting the
+scan result.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="masappci.masappci.mASAPP_CI.store_workgroup">
+<code class="descname">store_workgroup</code><span class="sig-paren">(</span><em>wg_number</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/masappci/masappci.html#mASAPP_CI.store_workgroup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#masappci.masappci.mASAPP_CI.store_workgroup" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>wg_number</strong> (<em>Integer</em>) – The position of the workgroup that the user wants to use in the scan.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">It returns the workgroup in the position given in wg_number.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="masappci.masappci.mASAPP_CI.upload_and_analyse_app">
+<code class="descname">upload_and_analyse_app</code><span class="sig-paren">(</span><em>app_path</em>, <em>package_name_origin=None</em>, <em>workgroup=None</em>, <em>lang=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/masappci/masappci.html#mASAPP_CI.upload_and_analyse_app"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#masappci.masappci.mASAPP_CI.upload_and_analyse_app" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>app_path</strong> (<em>String</em>) – The absolute path to the application which the user wants to upload.</li>
+<li><strong>package_name_origin</strong> (<em>String</em>) – The packageNameOrigin that mASAPP gives to the app.</li>
+<li><strong>workgroup</strong> (<em>Integer</em>) – The position of the workgroup that the user wants to use in the scan.</li>
+<li><strong>lang</strong> (<em>&quot;en&quot;</em><em>, </em><em>&quot;es&quot;</em>) – The language in which the user wants to get the analysis result.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><p>It store the app scan result in “scan_result”. The process that it follow is:</p>
+<ol class="arabic simple">
+<li>It store the workgroup in the position given (or the first workgroup by default)</li>
+<li>Application uploading to mASAPP</li>
+<li>Storing of the scan info looking for it in the user scans</li>
+<li>Language setting</li>
+<li>Scan summary storing</li>
+<li>Storing the scan result using the info stored in steps 1,3,5 for making a                                         request to mASAPP API</li>
+</ol>
+</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="masappci.masappci.mASAPP_CI.upload_app">
+<code class="descname">upload_app</code><span class="sig-paren">(</span><em>app_path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/masappci/masappci.html#mASAPP_CI.upload_app"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#masappci.masappci.mASAPP_CI.upload_app" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>app_path</strong> (<em>String</em>) – The absolute path to the application which the user wants to upload.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">It makes a check that would throw an error if there is any error in the api response.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="getting_started.html" class="btn btn-neutral float-left" title="CLI" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Alvaro Lopez-Gil
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
