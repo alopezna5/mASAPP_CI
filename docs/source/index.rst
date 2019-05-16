@@ -22,8 +22,8 @@ Welcome to mASAPP_CIs documentation!
 .. |Version| image:: http://img.shields.io/pypi/v/prueba.svg?style=flat
     :target: https://pypi.python.org/pypi/prueba/
     :alt: Version
-.. |Codacy| image:: https://api.codacy.com/project/badge/Grade/827a55c2ed47488c8e642fe799028319
-    :target: https://www.codacy.com/app/alopezna5/prueba?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=prueba/awspice&amp;utm_campaign=Badge_Grade
+.. |Codacy| image:: https://api.codacy.com/project/badge/Grade/789361eff9e54d6cb15b1c267b866280
+    :target: https://www.codacy.com/app/alopezna5/mASAPP_CI?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=alopezna5/mASAPP_CI&amp;utm_campaign=Badge_Grade
     :alt: Codacy
 
 
