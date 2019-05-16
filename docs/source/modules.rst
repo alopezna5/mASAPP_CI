@@ -9,12 +9,12 @@ Modules
 ElevenPaths Authenticated methods
 ----------------------------------
 
-.. automodule:: masappci.elevenpaths_auth
+.. automodule:: elevenpaths_auth
     :members:
 
 mASAPP CI functionality
 ----------------------------------
 
-.. automodule:: masappci.masappci
+.. automodule:: masappci
     :members:
     :private-members:
