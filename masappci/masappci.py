@@ -50,18 +50,21 @@ class mASAPP_CI():
         """
 
         :return: It prints the information that is stored in self.exceeded_limit. This printing will vary depending on
-                the type of the values contained in self.exceeded_limit["expected"] and self.exceeded_limit["obtained"].
+                 the type of the values contained in self.exceeded_limit["expected"] and self.exceeded_limit["obtained"].
 
-                * If both elements are dictionaries it would print the elements that surpass the limit that the user
+                * If both elements are dictionaries it would print the elements that surpass the limit that the user\
                 has defined.
+
                     **Example:**
 
-                             ELEMENT            MAX_EXPECTED    OBTAINED
+                    .. code-block:: bash
+
+                         ELEMENT                MAX_EXPECTED    OBTAINED
                         ----------------------  --------------  ----------
-                         High vulnerabilities         0             1
-                        Medium vulnerabilities        0             2
-                         Low vulnerabilities          0             5
-                           Low behaviorals            0             1
+                        High vulnerabilities         0             1
+                        Medium vulnerabilities       0             2
+                        Low vulnerabilities          0             5
+                        Low behaviorals              0             1
 
                * If not, it would print the maximum riskscore defined by the user and the obtained riskscore.
 

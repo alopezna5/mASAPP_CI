@@ -1,5 +1,5 @@
-CLI
-======
+Command Line Interface usage
+=============================
 
 
     **Riskscoring execution**
