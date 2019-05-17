@@ -3,7 +3,6 @@
 import argparse
 import json
 from masappci import mASAPP_CI
-import getpass
 
 ASCII_ART_DESCRIPTION = U'''
                         _____           _____   _____      _____  _____ 
@@ -17,7 +16,6 @@ ASCII_ART_DESCRIPTION = U'''
 
 
 def main():
-
     parser = argparse.ArgumentParser(prog='masappci', description=ASCII_ART_DESCRIPTION,
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
 
@@ -49,23 +47,6 @@ def main():
 
 
     else:
-        def check_json(input_json):
-            if ".json" in input_json:
-                try:
-                    input_json = json.load(open(input_json))
-                except:
-                    parser.print_help()
-                    return False
-                correct_json = input_json['vulnerabilities'] != None or input_json['behaviorals']
-
-                if not correct_json:
-                    parser.print_help()
-                    return False
-                else:
-                    return input_json
-
-            parser.print_help()
-            return False
 
         if args.standard:
             checked_json = check_json(args.standard)
@@ -101,10 +82,37 @@ def main():
                             }     
                     """
                 )
+                parser.print_help()
 
 
         else:
             parser.print_help()
+
+
+def check_json(input_json):
+    if input_json is not None:
+
+        if ".json" in input_json:
+            try:
+                input_json = json.load(open(input_json))
+            except:
+                return False
+
+        else:
+            try:
+                input_json = json.loads(input_json)
+            except:
+                return False
+
+        keys = input_json.keys()
+        correct_json = 'vulnerabilities' in keys or 'behaviorals' in keys
+
+        if not correct_json:
+            return False
+        else:
+            return input_json
+
+    return False
 
 
 if __name__ == "__main__":
