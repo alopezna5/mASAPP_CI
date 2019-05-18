@@ -93,7 +93,7 @@ class mASAPP_CI():
             print(tabulate(to_print, headers='firstrow', stralign='center'))
             print(" ")
         else:
-            assert False, "Error printing the excess"
+            raise TypeError("Error in the expected and obtained values type")
 
     def _print_details(self, mode, max_values=None):
         """
@@ -239,15 +239,23 @@ class mASAPP_CI():
         :return:              Some of the errors from mASAPPs API are shown in the response body, so this method\
                               checks that the status and the body don't contains any error code.
         """
-        assert api_response is not None, "ERROR API Response is None"
-        assert api_response is not "", "ERROR API Response is empty"
+
+        if api_response is None:
+            raise TypeError("ERROR API Response is None")
+
+        if api_response is "":
+            raise ValueError("ERROR API Response is empty")
+
+        if api_response == json.loads("{}"):
+            raise ValueError("ERROR API Response dict is empty")
 
         if api_response._status is not None:
-            assert api_response._status == 200, "ERROR in API response: status is {0}".format(api_response._status)
+            if api_response._status != 200:
+                raise ValueError("ERROR in API response: status is {0}".format(api_response._status))
 
         if api_response._body is not None:
-            assert not 'error' in json.loads(api_response._body), "ERROR in API response: body is {0}".format(
-                api_response._body)
+            if 'error' in json.loads(api_response._body):
+                raise ValueError("ERROR in API response: body is {0}".format(api_response._body))
 
         return True
 
@@ -294,7 +302,7 @@ class mASAPP_CI():
                 self.scan_info['scanId'] = scan['scanId']
                 self.scan_info['scanDate'] = scan['lastScanDate']
                 return True
-        assert False, "Application {package_name_origin} not found".format(package_name_origin=package_name_origin)
+        raise ValueError("Application {package_name_origin} not found".format(package_name_origin=package_name_origin))
 
     def store_scan_info_from_package_name(self, app_path):
         """
@@ -333,7 +341,7 @@ class mASAPP_CI():
             print(scan)
             print(" ")
 
-        assert False, "Application {app_path} not found".format(app_path=app_path)
+        raise ValueError("Application {app_path} not found".format(app_path=app_path))
 
     def store_scan_summary_from_scan_id(self, scan_id):
         """
@@ -376,9 +384,10 @@ class mASAPP_CI():
                     * Low
 
         """
-        assert self.scan_info[
-                   'lang'].lower() in self.LANGUAGES, "Language {language} Only supported languages: en , es".format(
-            language=self.scan_info['lang'])
+
+        if self.scan_info['lang'].lower() not in self.LANGUAGES:
+            raise ValueError(
+                "Language {language} Only supported languages: en , es".format(language=self.scan_info['lang']))
 
         scan_result = self.auth_user.get_scan_result(self.scan_info['wg'], self.scan_info['scanId'],
                                                      self.scan_info['scanDate'], self.scan_info['appKey'],
@@ -444,7 +453,8 @@ class mASAPP_CI():
             if self.store_scan_summary_from_scan_id(self.scan_info['scanId']):
                 scan_found = True
 
-        assert scan_found, "There is an error  in mASAPP and your application hasn't been successfully processed"
+        if not scan_found:
+            raise ValueError("There is an error  in mASAPP and your application hasn't been successfully processed")
         self.store_scan_result()
 
     def riskscoring_execution(self, maximum_riskscoring, app_path, package_name_origin=None, workgroup=None, lang=None,
