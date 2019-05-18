@@ -110,8 +110,9 @@ class mASAPP_CI_auth(HttpSdk):
         """
         LANGUAGES = ["en", "es"]
 
-        assert lang in LANGUAGES, "Language {language} Only supported languages: {langs}".format(language=lang,
-                                                                                                 langs=LANGUAGES)
+        if not lang in LANGUAGES:
+            raise ValueError(
+                "Language {language} Only supported languages: {langs}".format(language=lang, langs=LANGUAGES))
 
         return self.get(url_path=self.API_SCAN_RESULT,
                         authentication_instances=[self.authentication_instances],
