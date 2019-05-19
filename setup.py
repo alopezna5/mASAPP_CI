@@ -24,8 +24,7 @@ setup(
     url='https://github.com/alopezna5/mASAPP_CI',
     download_url='https://github.com/user/reponame/archive/v_01.tar.gz', #TODO
     keywords=['MOBILE', 'ANDROID', 'IOS', 'CONTINUOUS INTEGRATION'],
-    install_requires=[  #TODO
-    ],
+    install_requires=[ 'requirements.txt'],
     classifiers=[
         'Intended Audience :: Developers',
         'Topic :: Software Development :: Build Tools',
