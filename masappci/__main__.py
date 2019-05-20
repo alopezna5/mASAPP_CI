@@ -19,7 +19,10 @@ ASCII_ART_DESCRIPTION = U'''
 '''
 
 
-def main():
+def cli(parser):
+    if parser is None:
+        raise TypeError("ERROR, parser is None")
+
     parser = argparse.ArgumentParser(prog='masappci', description=ASCII_ART_DESCRIPTION,
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
 
@@ -60,12 +63,14 @@ def main():
         if os.getenv("MASAPP_KEY"):
             masapp_key = os.getenv("MASAPP_KEY")
         else:
-            print("MASAPP_KEY is not stored in environment")
+            print(
+                "MASAPP_KEY is not stored in environment. Please, use the option --configure or add directly it with -key option")
 
         if os.getenv("MASAPP_SECRET"):
             masapp_secret = os.getenv("MASAPP_KEY")
         else:
-            print("MASAPP_SECRET is not stored in environment")
+            print(
+                "MASAPP_SECRET is not stored in environment. Please, use the option --configure or add directly it with -secret option")
 
     if masapp_key is not None and masapp_secret is not None:
 
@@ -82,7 +87,8 @@ def main():
                                            package_name_origin=args.packageNameOrigin,
                                            detail=args.detailed)
             else:
-                user.riskscoring_execution(maximum_riskscoring=args.riskscore, app_path=args.app, detail=args.detailed)
+                user.riskscoring_execution(maximum_riskscoring=args.riskscore, app_path=args.app,
+                                           detail=args.detailed)
 
 
         else:
@@ -126,6 +132,12 @@ def main():
 
             else:
                 parser.print_help()
+    else:
+        print("mASAPP credentials not successfully set")
+
+
+def main():
+    cli(sys.argv[1:])
 
 
 def check_json(input_json):
