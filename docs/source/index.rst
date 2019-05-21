@@ -26,7 +26,7 @@ Welcome to masappcli documentation!
     :target: https://www.codacy.com/app/alopezna5/mASAPP_CI?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=alopezna5/mASAPP_CI&amp;utm_campaign=Badge_Grade
     :alt: Codacy
 .. |GitHub| image:: https://img.shields.io/github/watchers/alopezna5/masappcli.svg?style=social
-    :target: https://img.shields.io/github/watchers/alopezna5/masappcli.svg?style=social
+    :target: https://github.com/alopezna5/masappcli
 
 
 
