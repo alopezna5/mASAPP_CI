@@ -16,15 +16,18 @@ from distutils.core import setup
 
 setup(
     name='masappcli',
-    packages=['masappci'],
+    packages=['masappcli'],
     version='0.1',
     license='MIT',
     description='',
     author='alopezna5',
     url='https://github.com/alopezna5/mASAPP_CI',
-    download_url='https://github.com/user/reponame/archive/v_01.tar.gz', #TODO
+    download_url='https://github.com/user/reponame/archive/v_01.tar.gz',  # TODO
     keywords=['MOBILE', 'ANDROID', 'IOS', 'CONTINUOUS INTEGRATION'],
-    install_requires=[ 'requirements.txt'],
+    install_requires=[
+        "sdklib",
+        "tabulate"
+    ],
     classifiers=[
         'Intended Audience :: Developers',
         'Topic :: Software Development :: Build Tools',
@@ -33,7 +36,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'masappcli = masappci.__main__:main',
+            'masappcli = masappcli.__main__:main',
         ]
     }
 )

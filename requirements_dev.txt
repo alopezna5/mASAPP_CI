@@ -8,3 +8,6 @@ sphinx_rtd_theme
 mock
 coverage
 codacy-coverage
+
+# PyPi uploading
+twine

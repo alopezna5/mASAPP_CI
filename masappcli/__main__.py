@@ -23,7 +23,7 @@ def cli(parser):
     if parser is None:
         raise TypeError("ERROR, parser is None")
 
-    parser = argparse.ArgumentParser(prog='masappci', description=ASCII_ART_DESCRIPTION,
+    parser = argparse.ArgumentParser(prog='masappcli', description=ASCII_ART_DESCRIPTION,
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
 
     parser.add_argument('-a', '--app', help='path to the .apk or .ipa file', metavar=".ipa/.apk")
