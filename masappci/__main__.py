@@ -43,17 +43,18 @@ def cli(parser):
     masapp_secret = None
 
     if args.configure:
-        print("Fill your mASAPP API key: ")
+        print("[?] Insert your MASSAP Access Key: ")
         masapp_key = str(sys.stdin.readline())
         os.environ["MASAPP_KEY"] = masapp_key
 
-        masapp_secret = str(getpass.getpass(prompt='Fill your mASAPP API secret: '))
+        masapp_secret = str(getpass.getpass(prompt='[?] Insert your MASSAP Secret Key: '))
         os.environ["MASAPP_SECRET"] = masapp_secret
 
-        # TODO make it persistent
+        print("[!] Credentials loaded")
+        # TODO maybe make it persistent
 
     elif (args.key and not args.secret) or (args.secret and not args.key):
-        print("-key and -secret can only be used simultaneously")
+        print("[X] -key and -secret can only be used simultaneously")
 
     elif args.key and args.secret:
         masapp_key = args.key
@@ -64,76 +65,81 @@ def cli(parser):
             masapp_key = os.getenv("MASAPP_KEY")
         else:
             print(
-                "MASAPP_KEY is not stored in environment. Please, use the option --configure or add directly it with -key option")
+                "[X] MASAPP_KEY is not stored in environment. Please, use the option --configure or add directly it with -key option")
 
         if os.getenv("MASAPP_SECRET"):
             masapp_secret = os.getenv("MASAPP_KEY")
         else:
             print(
-                "MASAPP_SECRET is not stored in environment. Please, use the option --configure or add directly it with -secret option")
+                "[X] MASAPP_SECRET is not stored in environment. Please, use the option --configure or add directly it with -secret option")
 
     if masapp_key is not None and masapp_secret is not None:
 
         if args.riskscore and args.standard:
-            print("Riskscore and standard execution can not being thrown simultaneously")
+            print("[X] Riskscore and standard execution can not being thrown simultaneously")
             parser.print_help()
             return False
 
-
         elif args.riskscore:
             user = mASAPP_CI(key=masapp_key, secret=masapp_secret)
-            if args.packageNameOrigin:
-                user.riskscoring_execution(maximum_riskscoring=args.riskscore, app_path=args.app,
-                                           package_name_origin=args.packageNameOrigin,
-                                           detail=args.detailed)
-            else:
-                user.riskscoring_execution(maximum_riskscoring=args.riskscore, app_path=args.app,
-                                           detail=args.detailed)
 
+            if args.app:
+                if args.packageNameOrigin:
+                    user.riskscoring_execution(maximum_riskscoring=args.riskscore, app_path=args.app,
+                                               package_name_origin=args.packageNameOrigin,
+                                               detail=args.detailed)
+                else:
+                    user.riskscoring_execution(maximum_riskscoring=args.riskscore, app_path=args.app,
+                                               detail=args.detailed)
+            else:
+                print("[X] No path to the app added")
 
         else:
 
             if args.standard:
-                checked_json = check_json(args.standard)
-                if checked_json:
-                    user = mASAPP_CI(key=masapp_key, secret=masapp_secret)
+                if args.app:
+                    checked_json = check_json(args.standard)
+                    if checked_json:
+                        user = mASAPP_CI(key=masapp_key, secret=masapp_secret)
 
-                    if type(checked_json) != bool:
-                        if args.packageNameOrigin:
-                            user.standard_execution(scan_maximum_values=checked_json, app_path=args.app,
-                                                    package_name_origin=args.packageNameOrigin,
-                                                    detail=args.detailed)
+                        if type(checked_json) != bool:
+                            if args.packageNameOrigin:
+                                user.standard_execution(scan_maximum_values=checked_json, app_path=args.app,
+                                                        package_name_origin=args.packageNameOrigin,
+                                                        detail=args.detailed)
 
-                        else:
-                            user.standard_execution(scan_maximum_values=checked_json, app_path=args.app,
-                                                    detail=args.detailed)
+                            else:
+                                user.standard_execution(scan_maximum_values=checked_json, app_path=args.app,
+                                                        detail=args.detailed)
+                    else:
+                        print("[X] Wrong json added for standard execution")
+                        print(
+                            u"""
+                                -s --standard json structure:
+                                    {
+                                      "vulnerabilities": {
+                                        "critical": maximum of critical vulnerabilities,
+                                        "high": maximum of high vulnerabilities,
+                                        "medium": maximum of medium vulnerabilities,
+                                        "low": maximum of low vulnerabilities
+                                      },
+                                      "behaviorals": {
+                                        "critical": maximum of critical behaviorals,
+                                        "high": "maximum of high behaviorals,
+                                        "medium": maximum of medium behavioral,
+                                        "low": maximum of low behaviorals
+                                      }
+                                    }     
+                            """
+                        )
+                        parser.print_help()
                 else:
-                    print(
-                        u"""
-                            -s --standard json structure:
-                                {
-                                  "vulnerabilities": {
-                                    "critical": maximum of critical vulnerabilities,
-                                    "high": maximum of high vulnerabilities,
-                                    "medium": maximum of medium vulnerabilities,
-                                    "low": maximum of low vulnerabilities
-                                  },
-                                  "behaviorals": {
-                                    "critical": maximum of critical behaviorals,
-                                    "high": "maximum of high behaviorals,
-                                    "medium": maximum of medium behavioral,
-                                    "low": maximum of low behaviorals
-                                  }
-                                }     
-                        """
-                    )
-                    parser.print_help()
-
+                    print("[X] No path to the app added")
 
             else:
-                parser.print_help()
+                print("[X] No execution mode added")
     else:
-        print("mASAPP credentials not successfully set")
+        print("[X] mASAPP credentials not successfully set")
 
 
 def main():
