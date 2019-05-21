@@ -16,8 +16,8 @@ Welcome to masappcli documentation!
 |Docs| |Version| |Codacy| |GitHub|
 
 
-.. |Docs| image:: https://readthedocs.org/projects/masappci/badge/?version=latest
-    :target: https://masappci.readthedocs.io/en/latest/?badge=latest
+.. |Docs| image:: https://readthedocs.org/projects/masappci/badge/?version=master
+    :target: https://masappci.readthedocs.io/en/master/
     :alt: Documentation Status
 .. |Version| image:: https://img.shields.io/pypi/v/masappcli.svg?color=F609C0
     :target: https://pypi.python.org/project/masappcli/
