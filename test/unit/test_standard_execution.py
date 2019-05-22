@@ -23,14 +23,14 @@ class TestStandardExecution(unittest.TestCase):
     # def mock_upload_and_analyse_app(self):
     #     return True
     #
-    # @mock.patch('masappci.masappci.mASAPP_CI.upload_and_analyse_app', True)
+    # @mock.patch('masappcli.masappcli.mASAPP_CI.upload_and_analyse_app', True)
     # def test_different_element_value_from_expected(self):
     #     """
     #     The supported elements are: "vulnerabilities", "behaviorals" or "behaviors"
     #     If it is different it would throw a ValueError exception
     #     """
     #
-    #     mock = MagicMock(name='masappci.masappci.mASAPP_CI.upload_and_analyse_app',
+    #     mock = MagicMock(name='masappcli.masappcli.mASAPP_CI.upload_and_analyse_app',
     #                           side_effect=self.mock_upload_and_analyse_app())
     #
     #
@@ -42,7 +42,7 @@ class TestStandardExecution(unittest.TestCase):
     #                                      lang=None,
     #                                      detail=None)
 
-    #     @mock.patch('masappci.masappci.mASAPP_CI.upload_and_analyse_app', True)
+    #     @mock.patch('masappcli.masappcli.mASAPP_CI.upload_and_analyse_app', True)
     # def test_different_element_value_from_expected(self):
     #     """
     #     The supported elements are: "vulnerabilities", "behaviorals" or "behaviors"

@@ -1,3 +1,4 @@
+import json
 import unittest
 from masappci.masappci import mASAPP_CI
 from sdklib.http.response import HttpResponse
@@ -36,14 +37,21 @@ class TestCheckNotApiError(unittest.TestCase):
         input_data = ""
         expected_message = "ERROR API Response is empty"
 
-        with self.assertRaisesRegexp(AssertionError, expected_message):
+        with self.assertRaisesRegexp(ValueError, expected_message):
             mASAPP_CI._check_not_api_error(self.usr, input_data)
 
     def test_none_api_response(self):
         input_data = None
         expected_message = "ERROR API Response is None"
 
-        with self.assertRaisesRegexp(AssertionError, expected_message):
+        with self.assertRaisesRegexp(TypeError, expected_message):
+            mASAPP_CI._check_not_api_error(self.usr, input_data)
+
+    def test_empty_dict_api_response(self):
+        input_data = json.loads("{}")
+        expected_message = "ERROR API Response dict is empty"
+
+        with self.assertRaisesRegexp(ValueError, expected_message):
             mASAPP_CI._check_not_api_error(self.usr, input_data)
 
     def test__check_api_response_with_error_in_status_and_no_errors_in_body(self):
@@ -51,7 +59,7 @@ class TestCheckNotApiError(unittest.TestCase):
         input_data = HttpResponse(Urllib3ResponseMock(self.JSON_DATA_WITHOUT_ERROR))
         expected_message = "ERROR in API response: status is 300"
 
-        with self.assertRaisesRegexp(AssertionError, expected_message):
+        with self.assertRaisesRegexp(ValueError, expected_message):
             mASAPP_CI._check_not_api_error(self.usr, input_data)
 
     def test__check_api_response_with_error_in_status_and_errors_in_body(self):
@@ -59,7 +67,7 @@ class TestCheckNotApiError(unittest.TestCase):
         input_data = HttpResponse(Urllib3ResponseMock(self.JSON_DATA_AND_ERROR))
         expected_message = "ERROR in API response: status is 300"
 
-        with self.assertRaisesRegexp(AssertionError, expected_message):
+        with self.assertRaisesRegexp(ValueError, expected_message):
             mASAPP_CI._check_not_api_error(self.usr, input_data)
 
     def test__check_api_response_without_status_and_no_errors_in_body(self):
@@ -73,7 +81,7 @@ class TestCheckNotApiError(unittest.TestCase):
         input_data = HttpResponse(Urllib3ResponseMock(self.JSON_DATA_AND_ERROR))
         expected_message = """ERROR in API response: body is {"data": "Test with error code in body","error":{"code":209,"message":"Error"}}"""
 
-        with self.assertRaisesRegexp(AssertionError, expected_message):
+        with self.assertRaisesRegexp(ValueError, expected_message):
             mASAPP_CI._check_not_api_error(self.usr, input_data)
 
     def test__check_api_response_with_no_error_in_status_and_no_errors_in_body(self):
@@ -87,7 +95,7 @@ class TestCheckNotApiError(unittest.TestCase):
         input_data = HttpResponse(Urllib3ResponseMock(self.JSON_DATA_AND_ERROR))
         expected_message = """ERROR in API response: body is {"data": "Test with error code in body","error":{"code":209,"message":"Error"}}"""
 
-        with self.assertRaisesRegexp(AssertionError, expected_message):
+        with self.assertRaisesRegexp(ValueError, expected_message):
             mASAPP_CI._check_not_api_error(self.usr, input_data)
 
     
@@ -102,4 +110,6 @@ class TestCheckNotApiError(unittest.TestCase):
         input_data = HttpResponse(Urllib3ResponseMock(None))
 
         self.assertTrue(mASAPP_CI._check_not_api_error(self.usr, input_data))
+
+
 

@@ -1,5 +1,5 @@
-Welcome to mASAPP_CIs documentation!
-=====================================
+Welcome to masappcli documentation!
+======================================
 
 .. toctree::
   :hidden:
@@ -13,18 +13,20 @@ Welcome to mASAPP_CIs documentation!
 .. shields-section
 
 
-|Docs| |Version| |Codacy|
+|Docs| |Version| |Codacy| |GitHub|
 
 
-.. |Docs| image:: https://masappci.readthedocs.io/en/dev/getting_started.html
-   :target: http://prueba.readthedocs.io/en/latest/?badge=latest
-   :alt: Read the Docs
-.. |Version| image:: http://img.shields.io/pypi/v/prueba.svg?style=flat
-    :target: https://pypi.python.org/pypi/prueba/
+.. |Docs| image:: https://readthedocs.org/projects/masappci/badge/?version=master
+    :target: https://masappci.readthedocs.io/en/master/
+    :alt: Documentation Status
+.. |Version| image:: https://img.shields.io/pypi/v/masappcli.svg?color=F609C0
+    :target: https://pypi.python.org/project/masappcli/
     :alt: Version
-.. |Codacy| image:: https://api.codacy.com/project/badge/Grade/827a55c2ed47488c8e642fe799028319
-    :target: https://www.codacy.com/app/alopezna5/prueba?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=prueba/awspice&amp;utm_campaign=Badge_Grade
+.. |Codacy| image:: https://api.codacy.com/project/badge/Grade/789361eff9e54d6cb15b1c267b866280
+    :target: https://www.codacy.com/app/alopezna5/mASAPP_CI?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=alopezna5/mASAPP_CI&amp;utm_campaign=Badge_Grade
     :alt: Codacy
+.. |GitHub| image:: https://img.shields.io/github/watchers/alopezna5/masappcli.svg?style=social
+    :target: https://github.com/alopezna5/masappcli
 
 
 

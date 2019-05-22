@@ -7,6 +7,8 @@
 __pycache__/
 *.py[cod]
 *$py.class
+*.pyc
+*Pipfile*
 
 # C extensions
 *.so
@@ -72,7 +74,7 @@ instance/
 .scrapy
 
 # Sphinx documentation
-docs/_build/
+docs/build/
 
 # PyBuilder
 target/
@@ -118,6 +120,7 @@ venv.bak/
 
 # mkdocs documentation
 /site
+/build
 
 # mypy
 .mypy_cache/
@@ -127,4 +130,5 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+.idea/
 # End of https://www.gitignore.io/api/python

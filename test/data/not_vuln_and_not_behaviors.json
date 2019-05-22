@@ -1,0 +1,14 @@
+{
+"thisisnotvulnerabilities": {
+    "critical": 14,
+    "high": 14,
+    "medium": 14,
+    "low": 14
+},
+"thisisnotbehaviorals": {
+    "critical": 14,
+    "high": 14,
+    "medium": 14,
+    "low": 14
+  }
+}
