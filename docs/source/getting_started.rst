@@ -1,5 +1,29 @@
 Command Line Interface usage
 =============================
+    **Credentials management**
+        There are three options for using the mASAPP API credentials:
+
+
+
+            1. Insert key and secret in command with params key and secret
+
+            .. code-block:: bash
+
+                masappcli -key T3STK3Y -secret T3STS3CR3T
+
+
+            2. Configure: The credentials will be inserted by the user.
+
+            .. code-block:: bash
+
+                masappcli --configure
+                [?] Insert your MASSAP Access Key:
+                MASAPPKEY
+                [?] Insert your MASSAP Secret:
+                ##This line will be invisible
+
+            3. Use stored credentials: If no one of the previous params are inserted, the script will try to find them
+            in the environ variables as MASAPP_KEY and MASAPP_SECRET.
 
 
     **Riskscoring execution**
@@ -11,7 +35,7 @@ Command Line Interface usage
 
         .. code-block:: bash
 
-            masappci -r float -a path/to/the/app.ipa (or apk) [-p packageNameOrigin] [-d]
+            masappci -r float -a path/to/the/app.ipa (or apk) [-p packageNameOrigin] [-d] -key T3STK3Y -secret T3STS3CR3T
 
 
     **Standard execution:**
@@ -23,7 +47,7 @@ Command Line Interface usage
 
          .. code-block:: bash
 
-            masappci -s path/to/vulns_and_behaviors.json -a path/to/the/app.ipa (or apk) [-p packageNameOrigin] [-d]
+            masappci -s path/to/vulns_and_behaviors.json -a path/to/the/app.ipa (or apk) [-p packageNameOrigin] [-d] -key T3STK3Y -secret T3STS3CR3T
 
 
     **Additional params**
