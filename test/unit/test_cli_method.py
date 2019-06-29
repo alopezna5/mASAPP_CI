@@ -7,26 +7,49 @@ import sys
 
 class TestCLI(unittest.TestCase):
     def setUp(self):
-
-        self.NO_PARAMS_RESPONSE = """
-"""
-
-    def execute_method_capturing_cli_output(self, input_data):
-        capturedOutput = StringIO.StringIO()  # Create StringIO object
-        sys.stdout = capturedOutput  # and redirect stdout.
-        cli(input_data)  # Call unchanged function.
-        # sys.stdout = sys.__stdout__  # Reset redirect
-
-        return capturedOutput
+        sys.argv = sys.argv[0:1]
 
     def test_no_params(self):
         input_data = []
+        expected_message = "No args added"
 
-        # result = self.execute_method_capturing_cli_output(input_data).getvalue()
-        # self.assertEqual(result, self.NO_PARAMS_RESPONSE)
-        self.assertEqual(cli(input_data), self.NO_PARAMS_RESPONSE)
+        with self.assertRaisesRegexp(ValueError, expected_message):
+            cli(input_data)
 
-    # def test_only_key(self):
-    #     input_data = ["-key"]
-    #     result = self.execute_method_capturing_cli_output(input_data).getvalue()
-    #     self.assertEqual(result, self.NO_PARAMS_RESPONSE)
+    ### Keys and secret tests ###
+
+    def test_added_key_not_added_secret(self):
+        expected_message = "-key and -secret can only be used simultaneously"
+
+        with self.assertRaisesRegexp(ValueError, expected_message):
+            sys.argv.append("-key")
+            sys.argv.append("TESTING KEY")
+            main()
+
+    def test_not_added_key_added_secret(self):
+
+        expected_message = "-key and -secret can only be used simultaneously"
+
+        with self.assertRaisesRegexp(ValueError, expected_message):
+            sys.argv.append("-secret")
+            sys.argv.append("TESTING SECRET")
+            main()
+
+    ### Execution types tests ###
+
+    def test_both_execution(self):
+
+        expected_message = "Riskscore and standard execution can not being thrown simultaneously"
+
+        with self.assertRaisesRegexp(ValueError, expected_message):
+            sys.argv.append("-key")
+            sys.argv.append("TESTING KEY")
+            sys.argv.append("-secret")
+            sys.argv.append("TESTING SECRET")
+            sys.argv.append("-r")
+            sys.argv.append("9.8")
+            sys.argv.append("-s")
+            sys.argv.append("fake/path.json")
+            main()
+
+
