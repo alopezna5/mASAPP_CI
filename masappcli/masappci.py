@@ -511,21 +511,17 @@ class mASAPP_CI():
         self.upload_and_analyse_app(app_path=app_path, package_name_origin=package_name_origin, workgroup=workgroup,
                                     lang=lang)
 
-        correct_execution = True
-
         if self.scan_result['riskScore'] < maximum_riskscoring:
             print("---- RISKSCORING SUCCESS ----\n")
         else:
             self.exceeded_limit["expected"] = maximum_riskscoring
             self.exceeded_limit["obtained"] = self.scan_result['riskScore']
-            print("---- RISKSCORING ERROR ----\n")
-            self._print_excess()
-            correct_execution = False
+
+            raise ValueError("---- RISKSCORING ERROR ----\n {excess}".format(excess=self._print_excess()))
 
         if detail == True:
             self._print_details('riskscoring')
 
-        return correct_execution
 
     def standard_execution(self, scan_maximum_values, app_path, package_name_origin=None, workgroup=None, lang=None,
                            detail=None):
@@ -620,12 +616,9 @@ class mASAPP_CI():
                 correct_execution = False
 
         if not correct_execution:
-            print("---- STANDARD ERROR ----")
-            self._print_excess()
+            raise ValueError("---- STANDARD ERROR ----\n {excess}".format(excess=self._print_excess()))
         else:
             print("---- STANDARD SUCCESS ----")
 
         if detail == True:
             self._print_details('standard', max_values=scan_maximum_values)
-
-        return correct_execution
