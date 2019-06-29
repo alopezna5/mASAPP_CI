@@ -1,7 +1,7 @@
 import StringIO
 import time
 import unittest
-from masappci.__main__ import *
+from masappcli.__main__ import *
 import sys
 
 

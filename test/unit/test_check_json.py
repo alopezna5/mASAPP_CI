@@ -1,5 +1,5 @@
 import unittest
-from masappci.__main__ import *
+from masappcli.__main__ import *
 
 
 class TestCheckJSON(unittest.TestCase):
