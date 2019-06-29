@@ -38,9 +38,14 @@ def cli(parser):
 
     args = parser.parse_args()
 
+    print(ASCII_ART_DESCRIPTION)
     ### Password setting ###
     masapp_key = None
     masapp_secret = None
+
+
+    if args.app is None and args.configure == False and args.detailed == False and args.key is None and args.packageNameOrigin is None and args.riskscore is None and args.secret is None and args.standard is None:
+        raise ValueError("[X] No args added")
 
     if args.configure:
         print("[?] Insert your MASSAP Access Key: ")
@@ -76,9 +81,7 @@ def cli(parser):
     if masapp_key is not None and masapp_secret is not None:
 
         if args.riskscore and args.standard:
-            print("[X] Riskscore and standard execution can not being thrown simultaneously")
-            parser.print_help()
-            return False
+            raise ValueError("[X] Riskscore and standard execution can not being thrown simultaneously")
 
         elif args.riskscore:
             user = mASAPP_CI(key=masapp_key, secret=masapp_secret)
