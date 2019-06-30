@@ -73,7 +73,7 @@ def cli(parser):
                 "[X] MASAPP_KEY is not stored in environment. Please, use the option --configure or add directly it with -key option")
 
         if os.getenv("MASAPP_SECRET"):
-            masapp_secret = os.getenv("MASAPP_KEY")
+            masapp_secret = os.getenv("MASAPP_SECRET")
         else:
             raise ValueError(
                 "[X] MASAPP_SECRET is not stored in environment. Please, use the option --configure or add directly it with -secret option")
