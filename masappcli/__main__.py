@@ -9,12 +9,12 @@ import os
 from masappci import mASAPP_CI
 
 ASCII_ART_DESCRIPTION = U'''
-                        _____           _____   _____      _____  _____ 
-                /\     / ____|   /\    |  __ \ |  __ \    / ____||_   _|
-  _ __ ___     /  \   | (___    /  \   | |__) || |__) |  | |       | |  
- | '_ ` _ \   / /\ \   \___ \  / /\ \  |  ___/ |  ___/   | |       | |  
- | | | | | | / ____ \  ____) |/ ____ \ | |     | |       | |____  _| |_ 
- |_| |_| |_|/_/    \_\|_____//_/    \_\|_|     |_|        \_____||_____|
+                        _____           _____   _____      _____  __      _____   
+                /\     / ____|   /\    |  __ \ |  __ \    / ____||  |    |_   _|  
+  _ __ ___     /  \   | (___    /  \   | |__) || |__) |  | |     |  |      | |    
+ | '_ ` _ \   / /\ \   \___ \  / /\ \  |  ___/ |  ___/   | |     |  |      | |    
+ | | | | | | / ____ \  ____) |/ ____ \ | |     | |       | |____ |  |___  _| |_   
+ |_| |_| |_|/_/    \_\|_____//_/    \_\|_|     |_|        \_____||______||_____|  
 
 '''
 
@@ -95,7 +95,7 @@ def cli(parser):
                     user.riskscoring_execution(maximum_riskscoring=args.riskscore, app_path=args.app,
                                                detail=args.detailed)
             else:
-                raise ValueError("[X] No path to the apap added")
+                raise ValueError("[X] No path to the app added")
 
         else:
 
@@ -134,7 +134,6 @@ def cli(parser):
                                     }     
                             """
                         )
-                        parser.print_help()
                         raise ValueError("[X] Wrong json added for standard execution")
                 else:
                     raise ValueError("[X] No path to the app added")
@@ -165,7 +164,13 @@ def check_json(input_json):
                 return False
 
         keys = input_json.keys()
-        correct_json = 'vulnerabilities' in keys or 'behaviorals' in keys
+
+        correct_json = True
+
+        for key in keys:
+            if not key == "vulnerabilities" and not key == "behaviorals":
+                correct_json = False
+
 
         if not correct_json:
             return False
