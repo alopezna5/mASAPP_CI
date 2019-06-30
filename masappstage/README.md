@@ -1,5 +1,3 @@
-**masappstage**
-
 The file **masappstage_stored_credentials.groovy** from the current folder contains a standard stage for adding mASAPP CI
 to your Jenkins Pipeline.
 
