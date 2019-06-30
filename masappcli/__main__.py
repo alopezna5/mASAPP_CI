@@ -6,7 +6,7 @@ import json
 import sys
 import os
 
-from masappci import mASAPP_CI
+from masappcli import mASAPP_CI
 
 ASCII_ART_DESCRIPTION = U'''
                         _____           _____   _____      _____  __      _____   

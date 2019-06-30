@@ -86,12 +86,10 @@ class mASAPP_CI():
                          ]
                     )
 
-            print(tabulate(to_print, headers='firstrow', stralign='center'))
-            print(" ")
+            return(tabulate(to_print, headers='firstrow', stralign='center'))
         elif type(obtained) != dict and type(expected) != dict:
             to_print.append(['risk', expected, obtained])
-            print(tabulate(to_print, headers='firstrow', stralign='center'))
-            print(" ")
+            return(tabulate(to_print, headers='firstrow', stralign='center'))
         else:
             raise TypeError("Error in the expected and obtained values type")
 
@@ -511,17 +509,20 @@ class mASAPP_CI():
         self.upload_and_analyse_app(app_path=app_path, package_name_origin=package_name_origin, workgroup=workgroup,
                                     lang=lang)
 
+        correct_execution = True
+
         if self.scan_result['riskScore'] < maximum_riskscoring:
             print("---- RISKSCORING SUCCESS ----\n")
         else:
             self.exceeded_limit["expected"] = maximum_riskscoring
             self.exceeded_limit["obtained"] = self.scan_result['riskScore']
-
-            raise ValueError("---- RISKSCORING ERROR ----\n {excess}".format(excess=self._print_excess()))
+            correct_execution = False
 
         if detail == True:
             self._print_details('riskscoring')
 
+        if not correct_execution:
+            raise ValueError("---- RISKSCORING ERROR ----\n {excess}".format(excess=self._print_excess()))
 
     def standard_execution(self, scan_maximum_values, app_path, package_name_origin=None, workgroup=None, lang=None,
                            detail=None):
@@ -615,10 +616,12 @@ class mASAPP_CI():
                 self.exceeded_limit["obtained"]['behaviorals'][key] = len(self.scan_result['behaviorals'][key])
                 correct_execution = False
 
+        if detail == True:
+            self._print_details('standard', max_values=scan_maximum_values)
+
         if not correct_execution:
             raise ValueError("---- STANDARD ERROR ----\n {excess}".format(excess=self._print_excess()))
         else:
             print("---- STANDARD SUCCESS ----")
 
-        if detail == True:
-            self._print_details('standard', max_values=scan_maximum_values)
+

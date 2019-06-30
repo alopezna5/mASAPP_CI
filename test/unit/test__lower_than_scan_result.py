@@ -1,6 +1,6 @@
 import unittest
 
-from masappcli.masappci import mASAPP_CI
+from masappcli.masappcli import mASAPP_CI
 
 
 class TestLowerThanScanResult(unittest.TestCase):
