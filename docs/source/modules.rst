@@ -9,13 +9,13 @@ Modules
 ElevenPaths methods
 ----------------------------------
 
-.. automodule:: masappcli.elevenpaths_auth
+.. automodule:: elevenpaths_auth
     :members:
 
 masappcli
 ----------------------------------
 
-.. automodule:: masappcli.masappci
+.. automodule:: masappci
     :members:
     :private-members:
 
