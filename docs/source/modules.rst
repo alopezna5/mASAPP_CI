@@ -6,15 +6,20 @@ Modules
    :caption: Contents:
 
 
-ElevenPaths Authenticated methods
+ElevenPaths methods
 ----------------------------------
 
-.. automodule:: elevenpaths_auth
+.. automodule:: masappcli.elevenpaths_auth
     :members:
 
-mASAPP CI functionality
+masappcli
 ----------------------------------
 
-.. automodule:: masappci
+.. automodule:: masappcli.masappci
     :members:
     :private-members:
+
+masappstage
+----------------------------------
+
+.. include:: ../../masappstage/README.md
