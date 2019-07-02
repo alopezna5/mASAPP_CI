@@ -3,7 +3,7 @@ import unittest
 import mock
 from mock import MagicMock
 
-from masappci.masappci import mASAPP_CI
+from masappcli.masappcli import mASAPP_CI
 
 
 class TestStandardExecution(unittest.TestCase):

@@ -1,6 +1,6 @@
 import json
 import unittest
-from masappci.masappci import mASAPP_CI
+from masappcli.masappcli import mASAPP_CI
 from sdklib.http.response import HttpResponse
 
 

@@ -1,5 +1,5 @@
 import unittest
-from masappci.__main__ import *
+from masappcli.__main__ import *
 
 
 class TestCheckJSON(unittest.TestCase):
@@ -109,11 +109,11 @@ class TestCheckJSON(unittest.TestCase):
 
     def test_json_file_that_contains_vuln_and_no_behav(self):
         input_data = self.JSON_VULNS_AND_NO_BEHAV_FILE
-        self.assertTrue(check_json(input_data))
+        self.assertFalse(check_json(input_data))
 
     def test_json_file_that_contains_no_vuln_and_behav(self):
         input_data = self.JSON_NO_VULNS_AND_BEHAV_FILE
-        self.assertTrue(check_json(input_data))
+        self.assertFalse(check_json(input_data))
 
     def test_json_file_that_contains_vuln_and_behav(self):
         input_data = self.JSON_VULNS_AND_BEHAV_FILE
@@ -136,11 +136,11 @@ class TestCheckJSON(unittest.TestCase):
 
     def test_json_that_contains_vuln_and_no_behav(self):
         input_data = self.JSON_VULNS_AND_NO_BEHAV
-        self.assertTrue(check_json(input_data))
+        self.assertFalse(check_json(input_data))
 
     def test_json_that_contains_no_vuln_and_behav(self):
         input_data = self.JSON_NO_VULNS_AND_BEHAVE
-        self.assertTrue(check_json(input_data))
+        self.assertFalse(check_json(input_data))
 
     def test_json_that_contains_vuln_and_behav(self):
         input_data = self.JSON_VULNS_AND_BEHAVE

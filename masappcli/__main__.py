@@ -6,15 +6,15 @@ import json
 import sys
 import os
 
-from masappci import mASAPP_CI
+from masappcli import mASAPP_CI
 
 ASCII_ART_DESCRIPTION = U'''
-                        _____           _____   _____      _____  _____ 
-                /\     / ____|   /\    |  __ \ |  __ \    / ____||_   _|
-  _ __ ___     /  \   | (___    /  \   | |__) || |__) |  | |       | |  
- | '_ ` _ \   / /\ \   \___ \  / /\ \  |  ___/ |  ___/   | |       | |  
- | | | | | | / ____ \  ____) |/ ____ \ | |     | |       | |____  _| |_ 
- |_| |_| |_|/_/    \_\|_____//_/    \_\|_|     |_|        \_____||_____|
+                        _____           _____   _____      _____  __      _____   
+                /\     / ____|   /\    |  __ \ |  __ \    / ____||  |    |_   _|  
+  _ __ ___     /  \   | (___    /  \   | |__) || |__) |  | |     |  |      | |    
+ | '_ ` _ \   / /\ \   \___ \  / /\ \  |  ___/ |  ___/   | |     |  |      | |    
+ | | | | | | / ____ \  ____) |/ ____ \ | |     | |       | |____ |  |___  _| |_   
+ |_| |_| |_|/_/    \_\|_____//_/    \_\|_|     |_|        \_____||______||_____|  
 
 '''
 
@@ -38,9 +38,14 @@ def cli(parser):
 
     args = parser.parse_args()
 
+    print(ASCII_ART_DESCRIPTION)
     ### Password setting ###
     masapp_key = None
     masapp_secret = None
+
+
+    if args.app is None and args.configure == False and args.detailed == False and args.key is None and args.packageNameOrigin is None and args.riskscore is None and args.secret is None and args.standard is None:
+        raise ValueError("[X] No args added")
 
     if args.configure:
         print("[?] Insert your MASSAP Access Key: ")
@@ -54,7 +59,7 @@ def cli(parser):
         # TODO maybe make it persistent
 
     elif (args.key and not args.secret) or (args.secret and not args.key):
-        print("[X] -key and -secret can only be used simultaneously")
+        raise ValueError("[X] -key and -secret can only be used simultaneously")
 
     elif args.key and args.secret:
         masapp_key = args.key
@@ -64,21 +69,19 @@ def cli(parser):
         if os.getenv("MASAPP_KEY"):
             masapp_key = os.getenv("MASAPP_KEY")
         else:
-            print(
+            raise ValueError(
                 "[X] MASAPP_KEY is not stored in environment. Please, use the option --configure or add directly it with -key option")
 
         if os.getenv("MASAPP_SECRET"):
-            masapp_secret = os.getenv("MASAPP_KEY")
+            masapp_secret = os.getenv("MASAPP_SECRET")
         else:
-            print(
+            raise ValueError(
                 "[X] MASAPP_SECRET is not stored in environment. Please, use the option --configure or add directly it with -secret option")
 
     if masapp_key is not None and masapp_secret is not None:
 
         if args.riskscore and args.standard:
-            print("[X] Riskscore and standard execution can not being thrown simultaneously")
-            parser.print_help()
-            return False
+            raise ValueError("[X] Riskscore and standard execution can not being thrown simultaneously")
 
         elif args.riskscore:
             user = mASAPP_CI(key=masapp_key, secret=masapp_secret)
@@ -92,7 +95,7 @@ def cli(parser):
                     user.riskscoring_execution(maximum_riskscoring=args.riskscore, app_path=args.app,
                                                detail=args.detailed)
             else:
-                print("[X] No path to the app added")
+                raise ValueError("[X] No path to the app added")
 
         else:
 
@@ -112,7 +115,6 @@ def cli(parser):
                                 user.standard_execution(scan_maximum_values=checked_json, app_path=args.app,
                                                         detail=args.detailed)
                     else:
-                        print("[X] Wrong json added for standard execution")
                         print(
                             u"""
                                 -s --standard json structure:
@@ -132,14 +134,14 @@ def cli(parser):
                                     }     
                             """
                         )
-                        parser.print_help()
+                        raise ValueError("[X] Wrong json added for standard execution")
                 else:
-                    print("[X] No path to the app added")
+                    raise ValueError("[X] No path to the app added")
 
             else:
-                print("[X] No execution mode added")
+                raise ValueError("[X] No execution mode added")
     else:
-        print("[X] mASAPP credentials not successfully set")
+        raise ValueError("[X] mASAPP credentials not successfully set")
 
 
 def main():
@@ -162,7 +164,13 @@ def check_json(input_json):
                 return False
 
         keys = input_json.keys()
-        correct_json = 'vulnerabilities' in keys or 'behaviorals' in keys
+
+        correct_json = True
+
+        for key in keys:
+            if not key == "vulnerabilities" and not key == "behaviorals":
+                correct_json = False
+
 
         if not correct_json:
             return False
@@ -173,4 +181,8 @@ def check_json(input_json):
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except Exception as e:
+        print(e)
+        sys.exit(-1)

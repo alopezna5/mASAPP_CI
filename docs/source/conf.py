@@ -19,7 +19,7 @@ sys.path.insert(0, os.path.abspath('../../masappcli'))
 
 # -- Project information -----------------------------------------------------
 
-project = u'masappcli'
+project = u'mASAPP CI'
 copyright = u'2019, Alvaro Lopez-Gil'
 author = u'Alvaro Lopez-Gil'
 
@@ -51,7 +51,7 @@ extensions = [
 # You can specify multiple suffix as a list of string:
 #
 # source_suffix = ['.rst', '.md']
-source_suffix = '.rst'
+source_suffix = ['.rst', '.md']
 
 # The master toctree document.
 master_doc = 'index'
@@ -150,7 +150,7 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'masappcli', u'masappcli Documentation',
+    (master_doc, 'masappcli', u'mASAPP CI Documentation',
      author, 'masappcli', 'One line description of project.',
      'Miscellaneous'),
 ]
