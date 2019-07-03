@@ -28,7 +28,7 @@ setup(
     description='',
     author='alopezna5',
     url='https://github.com/alopezna5/mASAPP_CI',
-    download_url='https://github.com/user/reponame/archive/v_01.tar.gz',  # TODO
+    download_url='https://github.com/alopezna5/mASAPP_CI/archive/0.2.tar.gz0',
     keywords=['MOBILE', 'ANDROID', 'IOS', 'CONTINUOUS INTEGRATION'],
     install_requires=read_file('requirements.txt').splitlines(),
     classifiers=[
