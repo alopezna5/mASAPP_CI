@@ -145,7 +145,11 @@ def cli(parser):
 
 
 def main():
-    cli(sys.argv[1:])
+    try:
+        cli(sys.argv[1:])
+    except Exception as e:
+        print(e)
+        sys.exit(-1)
 
 
 def check_json(input_json):
@@ -186,3 +190,5 @@ if __name__ == "__main__":
     except Exception as e:
         print(e)
         sys.exit(-1)
+
+
