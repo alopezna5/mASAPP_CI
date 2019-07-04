@@ -14,20 +14,23 @@ limitations under the License.
 
 from distutils.core import setup
 
+
+def read_file(filename):
+    with open(filename) as f:
+        return f.read()
+
+
 setup(
     name='masappcli',
     packages=['masappcli'],
-    version='0.1',
+    version=read_file('VERSION').strip(),
     license='MIT',
     description='',
     author='alopezna5',
     url='https://github.com/alopezna5/mASAPP_CI',
-    download_url='https://github.com/user/reponame/archive/v_01.tar.gz',  # TODO
+    download_url='https://github.com/alopezna5/mASAPP_CI/archive/0.2.tar.gz0',
     keywords=['MOBILE', 'ANDROID', 'IOS', 'CONTINUOUS INTEGRATION'],
-    install_requires=[
-        "sdklib",
-        "tabulate"
-    ],
+    install_requires=read_file('requirements.txt').splitlines(),
     classifiers=[
         'Intended Audience :: Developers',
         'Topic :: Software Development :: Build Tools',
