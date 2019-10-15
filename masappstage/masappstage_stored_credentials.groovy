@@ -39,7 +39,7 @@ stage('mASAPP CI'){
 
                 try{
                 sh '''
-                    echo $MAXIMUM >> max_values.json
+                    echo $MAXIMUM > max_values.json
                     cat max_values.json
                     pip install masappcli --user
                     masappcli -s max_values.json -a [APPLICATION_PATH] --packageNameOrigin [PACKAGE_NAME_ORIGIN]
@@ -56,7 +56,7 @@ stage('mASAPP CI'){
 
                 try{
                 sh '''
-                    echo $MAXIMUM >> max_values.json
+                    echo $MAXIMUM > max_values.json
                     cat max_values.json
                     pip install masappcli --user
                     masappcli -s max_values.json -a [APPLICATION_PATH] --packageNameOrigin [PACKAGE_NAME_ORIGIN] -d
