@@ -1,4 +1,4 @@
-###### mASAPP CI
+# mASAPP CI
 
 mASAPP CI is designed for being an easy automated security check in your mobile development cycle.
 mASAPP CI is the combination of two tools:
@@ -11,31 +11,19 @@ mASAPP CI is the combination of two tools:
  * [masappstage](masappstage/README.md): Groovy stage template that allows you to easy start using mASAPP CI in your jenkins 
  pipeline.
 
-### In progress:####
 
 Motivation
+
+mASAPP CI is 
 A short description of the motivation behind the creation and maintenance of the project. This should explain why the project exists.
+
 
 Build status
 Build status of continus integration i.e. travis, appveyor etc. Ex. -
 
 
-Code style
-If you're using any code style like xo, standard etc. That will help others while contributing to your project. Ex. -
-
-js-standard-style
-
-Screenshots
-Include logo/demo screenshot etc.
-
-Tech/framework used
-
-
-Features
-What makes your project stand out?
-
-
 Installation
+
 Provide step by step series of examples and explanations about how to get a development env running.
 
 How to use?
