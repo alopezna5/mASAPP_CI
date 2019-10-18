@@ -257,17 +257,23 @@ class mASAPP_CI():
 
         return True
 
-    def store_workgroup(self, wg_number):
+    def store_workgroup(self, wg_name):
         """
 
-        :param wg_number: The position of the workgroup that the user wants to use in the scan.
-        :type  wg_number: Integer
-        :return:          It returns the workgroup in the position given in wg_number.
+        :param wg_name: The name of the workgroup that the user wants to use in the scan.
+        :type  wg_name: String
+        :return:        It returns the workgroup in the position given in wg_number.
 
         """
         wg = self.auth_user.get_auth_workgroup()
         self._check_not_api_error(wg)
-        self.scan_info['wg'] = wg.data['data']['workgroups'][wg_number]['workgroupId']
+
+        for workgroup in wg.data['data']['workgroups']:
+            if workgroup['name'] == wg_name:
+                self.scan_info['wg'] = workgroup['workgroupId']
+                return True
+        raise ValueError("[X] Workgroup not found")
+
 
     def upload_app(self, app_path):
         """
@@ -410,7 +416,7 @@ class mASAPP_CI():
         :type  app_path:            String
         :param package_name_origin: The packageNameOrigin that mASAPP gives to the app.
         :type  package_name_origin: String
-        :param workgroup:           The position of the workgroup that the user wants to use in the scan.
+        :param workgroup:           The name of the workgroup that the user wants to use in the scan.
         :type  workgroup:           Integer
         :param lang:                The language in which the user wants to get the analysis result.
         :type  lang:                "en", "es"
@@ -428,9 +434,7 @@ class mASAPP_CI():
 
         """
 
-        if workgroup == None:
-            self.store_workgroup(0)
-        else:
+        if workgroup != None:
             self.store_workgroup(workgroup)
 
         retries = 0
@@ -466,7 +470,7 @@ class mASAPP_CI():
         :param package_name_origin: The packageNameOrigin that mASAPP gave to the app. If is the first uploading of the\
                                     app, don't add this parameter.
         :type  package_name_origin: String
-        :param workgroup:           The position of the workgroup that the user wants to use in the scan.
+        :param workgroup:           The name of the workgroup that the user wants to use in the scan.
         :type  workgroup:           Integer
         :param lang:                The language in which the user wants to get the analysis result.
         :type  lang:                "en", "es"
@@ -558,7 +562,7 @@ class mASAPP_CI():
         :param package_name_origin: The packageNameOrigin that mASAPP gave to the app. If is the first uploading of the\
                                     app, don't add this parameter.
         :type  package_name_origin: String
-        :param workgroup:           The position of the workgroup that the user wants to use in the scan.
+        :param workgroup:           The name of the workgroup that the user wants to use in the scan.
         :type  workgroup:           Integer
         :param lang:                The language in which the user wants to get the analysis result.
         :type  lang:                "en", "es"
