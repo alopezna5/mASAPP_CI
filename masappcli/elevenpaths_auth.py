@@ -33,9 +33,11 @@ class mASAPP_CI_auth(HttpSdk):
     API_SCAN_SUMMARY = "/api/{api_version}/scanSummary?scanId=".format(api_version=API_VERSION)
     API_SCAN_RESULT = "/api/{api_version}/scanResults".format(api_version=API_VERSION)
 
+
     def __init__(self, key, secret):
         self.authentication_instances = X11PathsAuthentication(key, secret)
         super(mASAPP_CI_auth, self).__init__()
+
 
     def get_auth_workgroup(self):
         """
@@ -44,6 +46,7 @@ class mASAPP_CI_auth(HttpSdk):
                           to the mASAPP API, which returns the mASAPPs workgroups which the user belongs to.
         """
         return self.get(url_path=self.API_WORKGROUPS, authentication_instances=[self.authentication_instances])
+
 
     def post_auth_upload_app(self, allowTacyt, app_path, workgroup=None):
         """
@@ -68,6 +71,7 @@ class mASAPP_CI_auth(HttpSdk):
         else:
             return self.post(url_path=self.API_UPLOAD, authentication_instances=[self.authentication_instances],
                              headers={'wg': workgroup}, body_params=body_params, files={'file': app_path})
+
 
     def get_auth_scans(self, workgroup=None):
         """
