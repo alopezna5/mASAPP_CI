@@ -86,10 +86,10 @@ class mASAPP_CI():
                          ]
                     )
 
-            return(tabulate(to_print, headers='firstrow', stralign='center'))
+            return (tabulate(to_print, headers='firstrow', stralign='center'))
         elif type(obtained) != dict and type(expected) != dict:
             to_print.append(['risk', expected, obtained])
-            return(tabulate(to_print, headers='firstrow', stralign='center'))
+            return (tabulate(to_print, headers='firstrow', stralign='center'))
         else:
             raise TypeError("Error in the expected and obtained values type")
 
@@ -274,7 +274,6 @@ class mASAPP_CI():
                 return True
         raise ValueError("[X] Workgroup not found")
 
-
     def upload_app(self, app_path):
         """
 
@@ -284,7 +283,12 @@ class mASAPP_CI():
 
         """
         filePath = os.path.abspath(app_path)
-        api_response = self.auth_user.post_auth_upload_app(self.scan_info["wg"], "false", filePath)
+
+        if self.scan_info["wg"] == None:
+            api_response = self.auth_user.post_auth_upload_app(allowTacyt="false", app_path=filePath)
+        else:
+            api_response = self.auth_user.post_auth_upload_app(allowTacyt="false", app_path=filePath,
+                                                               workgroup=self.scan_info["wg"])
         self._check_not_api_error(api_response)
 
     def store_scan_info_from_package_name_origin(self, package_name_origin):
@@ -299,7 +303,11 @@ class mASAPP_CI():
 
         """
 
-        user_scans = self.auth_user.get_auth_scans(self.scan_info["wg"])
+        if self.scan_info["wg"] == None:
+            user_scans = self.auth_user.get_auth_scans()
+        else:
+            user_scans = self.auth_user.get_auth_scans(self.scan_info["wg"])
+
         self._check_not_api_error(user_scans)
         for scan in user_scans.data['data']['scans']:
             if scan['packageNameOrigin'] == package_name_origin:
@@ -324,7 +332,11 @@ class mASAPP_CI():
 
         """
 
-        user_scans = self.auth_user.get_auth_scans(self.scan_info["wg"])
+        if self.scan_info["wg"] == None:
+            user_scans = self.auth_user.get_auth_scans()
+        else:
+            user_scans = self.auth_user.get_auth_scans(self.scan_info["wg"])
+
         self._check_not_api_error(user_scans)
         for scan in user_scans.data['data']['scans']:
             if 'packageName' in scan.keys():
@@ -357,7 +369,11 @@ class mASAPP_CI():
 
         """
 
-        user_scan_summary = self.auth_user.get_scan_summary(self.scan_info["wg"], scan_id)
+        if self.scan_info["wg"] == None:
+            user_scan_summary = self.auth_user.get_scan_summary(scan_id=scan_id)
+        else:
+            user_scan_summary = self.auth_user.get_scan_summary(scan_id=scan_id, workgroup=self.scan_info["wg"])
+
         self._check_not_api_error(user_scan_summary)
         for scan_summary in user_scan_summary.data['data']['scanSummaries']:
             if scan_summary['scanDate'] == self.scan_info['scanDate']:
@@ -393,9 +409,16 @@ class mASAPP_CI():
             raise ValueError(
                 "Language {language} Only supported languages: en , es".format(language=self.scan_info['lang']))
 
-        scan_result = self.auth_user.get_scan_result(self.scan_info['wg'], self.scan_info['scanId'],
-                                                     self.scan_info['scanDate'], self.scan_info['appKey'],
-                                                     self.scan_info['lang'])
+
+        if self.scan_info["wg"] == None:
+            scan_result = self.auth_user.get_scan_result(scan_id=self.scan_info['scanId'],
+                                                         scan_date=self.scan_info['scanDate'],
+                                                         app_key=self.scan_info['appKey'], lang=self.scan_info['lang'])
+        else:
+            scan_result = self.auth_user.get_scan_result(scan_id=self.scan_info['scanId'],
+                                                         scan_date=self.scan_info['scanDate'],
+                                                         app_key=self.scan_info['appKey'], lang=self.scan_info['lang'],
+                                                         workgroup=self.scan_info['wg'])
 
         self._check_not_api_error(scan_result)
 
@@ -510,8 +533,11 @@ class mASAPP_CI():
 
 
         """
-        self.upload_and_analyse_app(app_path=app_path, package_name_origin=package_name_origin, workgroup=workgroup,
-                                    lang=lang)
+        if workgroup == None:
+            self.upload_and_analyse_app(app_path=app_path, package_name_origin=package_name_origin, lang=lang)
+        else:
+            self.upload_and_analyse_app(app_path=app_path, package_name_origin=package_name_origin, workgroup=workgroup,
+                                        lang=lang)
 
         correct_execution = True
 
@@ -601,8 +627,11 @@ class mASAPP_CI():
 
         """
 
-        self.upload_and_analyse_app(app_path=app_path, package_name_origin=package_name_origin, workgroup=workgroup,
-                                    lang=lang)
+        if workgroup == None:
+            self.upload_and_analyse_app(app_path=app_path, package_name_origin=package_name_origin, lang=lang)
+        else:
+            self.upload_and_analyse_app(app_path=app_path, package_name_origin=package_name_origin, workgroup=workgroup,
+                                        lang=lang)
 
         self.exceeded_limit["expected"] = {"vulnerabilities": {}, "behaviorals": {}}
         self.exceeded_limit["obtained"] = {"vulnerabilities": {}, "behaviorals": {}}
@@ -627,5 +656,3 @@ class mASAPP_CI():
             raise ValueError("---- STANDARD ERROR ----\n {excess}".format(excess=self._print_excess()))
         else:
             print("---- STANDARD SUCCESS ----")
-
-
