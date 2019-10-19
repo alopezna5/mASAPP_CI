@@ -267,12 +267,14 @@ class mASAPP_CI():
         """
         wg = self.auth_user.get_auth_workgroup()
         self._check_not_api_error(wg)
+        workgroups_names = []
 
         for workgroup in wg.data['data']['workgroups']:
+            workgroups_names.append(workgroup['name'])
             if workgroup['name'] == wg_name:
                 self.scan_info['wg'] = workgroup['workgroupId']
                 return True
-        raise ValueError("[X] Workgroup not found")
+        raise ValueError("[X] Workgroup not found \n [!] Workgroups where you belong to: \n {}".format(workgroups_names))
 
     def upload_app(self, app_path):
         """
