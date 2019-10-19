@@ -35,6 +35,8 @@ def cli(parser):
     parser.add_argument('-s', '--standard', help='standard execution', metavar=".json")
     parser.add_argument('-c', '--configure', help='add your mASAPP key and mASAPP secret as environment vars',
                         action='store_true')
+    parser.add_argument('-w', '--workgroup', type=str, metavar="workgroup name",
+                        help="the name of the workgroup you want to analyse in")
 
     args = parser.parse_args()
 
@@ -42,7 +44,6 @@ def cli(parser):
     ### Password setting ###
     masapp_key = None
     masapp_secret = None
-
 
     if args.app is None and args.configure == False and args.detailed == False and args.key is None and args.packageNameOrigin is None and args.riskscore is None and args.secret is None and args.standard is None:
         raise ValueError("[X] No args added")
@@ -79,6 +80,7 @@ def cli(parser):
                 "[X] MASAPP_SECRET is not stored in environment. Please, use the option --configure or add directly it with -secret option")
 
     if masapp_key is not None and masapp_secret is not None:
+        workgroup = getattr(args, 'workgroup', None)
 
         if args.riskscore and args.standard:
             raise ValueError("[X] Riskscore and standard execution can not being thrown simultaneously")
@@ -90,9 +92,11 @@ def cli(parser):
                 if args.packageNameOrigin:
                     user.riskscoring_execution(maximum_riskscoring=args.riskscore, app_path=args.app,
                                                package_name_origin=args.packageNameOrigin,
+                                               workgroup=workgroup,
                                                detail=args.detailed)
                 else:
                     user.riskscoring_execution(maximum_riskscoring=args.riskscore, app_path=args.app,
+                                               workgroup=workgroup,
                                                detail=args.detailed)
             else:
                 raise ValueError("[X] No path to the app added")
@@ -109,10 +113,12 @@ def cli(parser):
                             if args.packageNameOrigin:
                                 user.standard_execution(scan_maximum_values=checked_json, app_path=args.app,
                                                         package_name_origin=args.packageNameOrigin,
+                                                        workgroup=workgroup,
                                                         detail=args.detailed)
 
                             else:
                                 user.standard_execution(scan_maximum_values=checked_json, app_path=args.app,
+                                                        workgroup=workgroup,
                                                         detail=args.detailed)
                     else:
                         print(
@@ -175,7 +181,6 @@ def check_json(input_json):
             if not key == "vulnerabilities" and not key == "behaviorals":
                 correct_json = False
 
-
         if not correct_json:
             return False
         else:
@@ -190,5 +195,3 @@ if __name__ == "__main__":
     except Exception as e:
         print(e)
         sys.exit(-1)
-
-
