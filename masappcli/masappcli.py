@@ -15,6 +15,7 @@ class mASAPP_CI():
 
     LANGUAGES = ["en", "es"]
 
+
     def __init__(self, key, secret):
         """
         :param key:
@@ -45,6 +46,7 @@ class mASAPP_CI():
             "expected": None,
             "obtained": None
         }
+
 
     def _print_excess(self):
         """
@@ -86,12 +88,13 @@ class mASAPP_CI():
                          ]
                     )
 
-            return(tabulate(to_print, headers='firstrow', stralign='center'))
+            return (tabulate(to_print, headers='firstrow', stralign='center'))
         elif type(obtained) != dict and type(expected) != dict:
             to_print.append(['risk', expected, obtained])
-            return(tabulate(to_print, headers='firstrow', stralign='center'))
+            return (tabulate(to_print, headers='firstrow', stralign='center'))
         else:
             raise TypeError("Error in the expected and obtained values type")
+
 
     def _print_details(self, mode, max_values=None):
         """
@@ -197,6 +200,7 @@ class mASAPP_CI():
             print(u'\n\nBehaviors')
             print(tabulate(nbehav_to_print, headers='firstrow', stralign='center', tablefmt='simple'))
 
+
     def _lower_than_scan_result(self, element, key, max_expected_value):
         """
 
@@ -229,6 +233,7 @@ class mASAPP_CI():
 
         return True
 
+
     def _check_not_api_error(self, api_response):
         """
 
@@ -257,17 +262,27 @@ class mASAPP_CI():
 
         return True
 
-    def store_workgroup(self, wg_number):
+
+    def store_workgroup(self, wg_name):
         """
 
-        :param wg_number: The position of the workgroup that the user wants to use in the scan.
-        :type  wg_number: Integer
-        :return:          It returns the workgroup in the position given in wg_number.
+        :param wg_name: The name of the workgroup that the user wants to use in the scan.
+        :type  wg_name: String
+        :return:        It returns the workgroup in the position given in wg_number.
 
         """
         wg = self.auth_user.get_auth_workgroup()
         self._check_not_api_error(wg)
-        self.scan_info['wg'] = wg.data['data']['workgroups'][wg_number]['workgroupId']
+        workgroups_names = []
+
+        for workgroup in wg.data['data']['workgroups']:
+            workgroups_names.append(workgroup['name'])
+            if workgroup['name'] == wg_name:
+                self.scan_info['wg'] = workgroup['workgroupId']
+                return True
+        raise ValueError(
+            "[X] Workgroup not found \n [!] Workgroups where you belong to: \n {}".format(workgroups_names))
+
 
     def upload_app(self, app_path):
         """
@@ -278,8 +293,14 @@ class mASAPP_CI():
 
         """
         filePath = os.path.abspath(app_path)
-        api_response = self.auth_user.post_auth_upload_app(self.scan_info["wg"], "false", filePath)
+
+        if self.scan_info["wg"] == None:
+            api_response = self.auth_user.post_auth_upload_app(allowTacyt="false", app_path=filePath)
+        else:
+            api_response = self.auth_user.post_auth_upload_app(allowTacyt="false", app_path=filePath,
+                                                               workgroup=self.scan_info["wg"])
         self._check_not_api_error(api_response)
+
 
     def store_scan_info_from_package_name_origin(self, package_name_origin):
         """
@@ -293,7 +314,11 @@ class mASAPP_CI():
 
         """
 
-        user_scans = self.auth_user.get_auth_scans(self.scan_info["wg"])
+        if self.scan_info["wg"] == None:
+            user_scans = self.auth_user.get_auth_scans()
+        else:
+            user_scans = self.auth_user.get_auth_scans(self.scan_info["wg"])
+
         self._check_not_api_error(user_scans)
         for scan in user_scans.data['data']['scans']:
             if scan['packageNameOrigin'] == package_name_origin:
@@ -301,6 +326,7 @@ class mASAPP_CI():
                 self.scan_info['scanDate'] = scan['lastScanDate']
                 return True
         raise ValueError("Application {package_name_origin} not found".format(package_name_origin=package_name_origin))
+
 
     def store_scan_info_from_package_name(self, app_path):
         """
@@ -318,7 +344,11 @@ class mASAPP_CI():
 
         """
 
-        user_scans = self.auth_user.get_auth_scans(self.scan_info["wg"])
+        if self.scan_info["wg"] == None:
+            user_scans = self.auth_user.get_auth_scans()
+        else:
+            user_scans = self.auth_user.get_auth_scans(self.scan_info["wg"])
+
         self._check_not_api_error(user_scans)
         for scan in user_scans.data['data']['scans']:
             if 'packageName' in scan.keys():
@@ -341,6 +371,7 @@ class mASAPP_CI():
 
         raise ValueError("Application {app_path} not found".format(app_path=app_path))
 
+
     def store_scan_summary_from_scan_id(self, scan_id):
         """
 
@@ -351,7 +382,11 @@ class mASAPP_CI():
 
         """
 
-        user_scan_summary = self.auth_user.get_scan_summary(self.scan_info["wg"], scan_id)
+        if self.scan_info["wg"] == None:
+            user_scan_summary = self.auth_user.get_scan_summary(scan_id=scan_id)
+        else:
+            user_scan_summary = self.auth_user.get_scan_summary(scan_id=scan_id, workgroup=self.scan_info["wg"])
+
         self._check_not_api_error(user_scan_summary)
         for scan_summary in user_scan_summary.data['data']['scanSummaries']:
             if scan_summary['scanDate'] == self.scan_info['scanDate']:
@@ -359,6 +394,7 @@ class mASAPP_CI():
                     self.scan_info['appKey'] = scan_summary['scannedVersions'][0]['appKey']
                     return True
         return False
+
 
     def store_scan_result(self):
         """
@@ -387,9 +423,15 @@ class mASAPP_CI():
             raise ValueError(
                 "Language {language} Only supported languages: en , es".format(language=self.scan_info['lang']))
 
-        scan_result = self.auth_user.get_scan_result(self.scan_info['wg'], self.scan_info['scanId'],
-                                                     self.scan_info['scanDate'], self.scan_info['appKey'],
-                                                     self.scan_info['lang'])
+        if self.scan_info["wg"] == None:
+            scan_result = self.auth_user.get_scan_result(scan_id=self.scan_info['scanId'],
+                                                         scan_date=self.scan_info['scanDate'],
+                                                         app_key=self.scan_info['appKey'], lang=self.scan_info['lang'])
+        else:
+            scan_result = self.auth_user.get_scan_result(scan_id=self.scan_info['scanId'],
+                                                         scan_date=self.scan_info['scanDate'],
+                                                         app_key=self.scan_info['appKey'], lang=self.scan_info['lang'],
+                                                         workgroup=self.scan_info['wg'])
 
         self._check_not_api_error(scan_result)
 
@@ -403,6 +445,7 @@ class mASAPP_CI():
             risk = behavioral['riskLevel'].lower()
             self.scan_result['behaviorals'][risk].append(behavioral)
 
+
     def upload_and_analyse_app(self, app_path, package_name_origin=None, workgroup=None, lang=None):
         """
 
@@ -410,7 +453,7 @@ class mASAPP_CI():
         :type  app_path:            String
         :param package_name_origin: The packageNameOrigin that mASAPP gives to the app.
         :type  package_name_origin: String
-        :param workgroup:           The position of the workgroup that the user wants to use in the scan.
+        :param workgroup:           The name of the workgroup that the user wants to use in the scan.
         :type  workgroup:           Integer
         :param lang:                The language in which the user wants to get the analysis result.
         :type  lang:                "en", "es"
@@ -428,9 +471,7 @@ class mASAPP_CI():
 
         """
 
-        if workgroup == None:
-            self.store_workgroup(0)
-        else:
+        if workgroup != None:
             self.store_workgroup(workgroup)
 
         retries = 0
@@ -455,6 +496,7 @@ class mASAPP_CI():
             raise ValueError("There is an error  in mASAPP and your application hasn't been successfully processed")
         self.store_scan_result()
 
+
     def riskscoring_execution(self, maximum_riskscoring, app_path, package_name_origin=None, workgroup=None, lang=None,
                               detail=None):
         """
@@ -466,7 +508,7 @@ class mASAPP_CI():
         :param package_name_origin: The packageNameOrigin that mASAPP gave to the app. If is the first uploading of the\
                                     app, don't add this parameter.
         :type  package_name_origin: String
-        :param workgroup:           The position of the workgroup that the user wants to use in the scan.
+        :param workgroup:           The name of the workgroup that the user wants to use in the scan.
         :type  workgroup:           Integer
         :param lang:                The language in which the user wants to get the analysis result.
         :type  lang:                "en", "es"
@@ -506,8 +548,11 @@ class mASAPP_CI():
 
 
         """
-        self.upload_and_analyse_app(app_path=app_path, package_name_origin=package_name_origin, workgroup=workgroup,
-                                    lang=lang)
+        if workgroup == None:
+            self.upload_and_analyse_app(app_path=app_path, package_name_origin=package_name_origin, lang=lang)
+        else:
+            self.upload_and_analyse_app(app_path=app_path, package_name_origin=package_name_origin, workgroup=workgroup,
+                                        lang=lang)
 
         correct_execution = True
 
@@ -523,6 +568,7 @@ class mASAPP_CI():
 
         if not correct_execution:
             raise ValueError("---- RISKSCORING ERROR ----\n {excess}".format(excess=self._print_excess()))
+
 
     def standard_execution(self, scan_maximum_values, app_path, package_name_origin=None, workgroup=None, lang=None,
                            detail=None):
@@ -558,7 +604,7 @@ class mASAPP_CI():
         :param package_name_origin: The packageNameOrigin that mASAPP gave to the app. If is the first uploading of the\
                                     app, don't add this parameter.
         :type  package_name_origin: String
-        :param workgroup:           The position of the workgroup that the user wants to use in the scan.
+        :param workgroup:           The name of the workgroup that the user wants to use in the scan.
         :type  workgroup:           Integer
         :param lang:                The language in which the user wants to get the analysis result.
         :type  lang:                "en", "es"
@@ -597,8 +643,11 @@ class mASAPP_CI():
 
         """
 
-        self.upload_and_analyse_app(app_path=app_path, package_name_origin=package_name_origin, workgroup=workgroup,
-                                    lang=lang)
+        if workgroup == None:
+            self.upload_and_analyse_app(app_path=app_path, package_name_origin=package_name_origin, lang=lang)
+        else:
+            self.upload_and_analyse_app(app_path=app_path, package_name_origin=package_name_origin, workgroup=workgroup,
+                                        lang=lang)
 
         self.exceeded_limit["expected"] = {"vulnerabilities": {}, "behaviorals": {}}
         self.exceeded_limit["obtained"] = {"vulnerabilities": {}, "behaviorals": {}}
@@ -623,5 +672,3 @@ class mASAPP_CI():
             raise ValueError("---- STANDARD ERROR ----\n {excess}".format(excess=self._print_excess()))
         else:
             print("---- STANDARD SUCCESS ----")
-
-
