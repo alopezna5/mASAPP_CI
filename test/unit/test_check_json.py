@@ -117,8 +117,8 @@ class TestCheckJSON(unittest.TestCase):
 
     def test_json_file_that_contains_vuln_and_behav(self):
         input_data = self.JSON_VULNS_AND_BEHAV_FILE
-        expected_json = json.load(open(input_data))
-        self.assertEquals(expected_json, check_json(input_data))
+        expected_json = self.JSON_VULNS_AND_BEHAVE
+        self.assertDictEqual(json.loads(expected_json), check_json(input_data))
 
 
     ######### JSON  #########

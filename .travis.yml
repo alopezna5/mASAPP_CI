@@ -6,4 +6,4 @@ install:
   - pip install -r requirements.txt
 
 script:
-  - python -m unittest discover -v
+  - cd test/unit/ && python -m unittest discover -v
