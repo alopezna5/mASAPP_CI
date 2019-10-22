@@ -6,12 +6,12 @@ class TestCheckJSON(unittest.TestCase):
     def setUp(self):
         # Test files
 
-        self.JSON_EMPTY_FILE = "../data/empty_json.json"
-        self.NOT_JSON_FILE = "../data/txtfile.txt"
-        self.JSON_NO_VULNS_AND_NOT_BEHAV_FILE = "../data/not_vuln_and_not_behaviors.json"
-        self.JSON_VULNS_AND_NO_BEHAV_FILE = "../data/vuln_and_not_behaviors.json"
-        self.JSON_NO_VULNS_AND_BEHAV_FILE = "../data/not_vuln_and_behaviors.json"
-        self.JSON_VULNS_AND_BEHAV_FILE = "../data/vuln_and_behaviors.json"
+        self.JSON_EMPTY_FILE = "test/data/empty_json.json"
+        self.NOT_JSON_FILE = "test/data/txtfile.txt"
+        self.JSON_NO_VULNS_AND_NOT_BEHAV_FILE = "test/data/not_vuln_and_not_behaviors.json"
+        self.JSON_VULNS_AND_NO_BEHAV_FILE = "test/data/vuln_and_not_behaviors.json"
+        self.JSON_NO_VULNS_AND_BEHAV_FILE = "test/data/not_vuln_and_behaviors.json"
+        self.JSON_VULNS_AND_BEHAV_FILE = "test/data/vuln_and_behaviors.json"
 
         #Test jsons
 
