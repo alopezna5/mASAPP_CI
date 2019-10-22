@@ -8,7 +8,7 @@ install:
 script:
   - python -m unittest discover -v
 
-after_success:
+after_script:
   - coverage run masappcli/masappcli.py
   - coverage xml
   - python-codacy-coverage -r coverage.xml
