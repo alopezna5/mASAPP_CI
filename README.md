@@ -15,7 +15,7 @@ mASAPP CI is the combination of two tools:
 ## Why ??
 
 
-[![Foo](readme_resources/tacyt_is_the_answer.png)]('https://tacyt.elevenpaths.com/')
+[![Foo](readme_resources/tacyt_is_the_answer.png)](https://tacyt.elevenpaths.com/)
 
 
 mASAPP CI born for detecting security issues before uploading the apps to the apps markets
