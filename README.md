@@ -1,4 +1,6 @@
-# mASAPP CI
+# mASAPP CI 
+[![Documentation Status](https://readthedocs.org/projects/masappci/badge/?version=master)](https://masappci.readthedocs.io/en/master/?badge=master) [![Build Status](https://travis-ci.org/alopezna5/mASAPP_CI.svg?branch=minor_improvements)](https://travis-ci.org/alopezna5/mASAPP_CI)
+
 
 mASAPP CI is designed for being an easy automated security check in your mobile development cycle.
 mASAPP CI is the combination of two tools:
@@ -13,21 +15,22 @@ mASAPP CI is the combination of two tools:
 
 
 ## Why ??
-
+Tacyt supervisa, almacena, analiza, correlaciona y clasifica millones de apps
+móviles mediante su tecnología de big data añadiendo miles de aplicaciones nuevas cada día.
 
 [![Foo](readme_resources/tacyt_is_the_answer.png)](https://tacyt.elevenpaths.com/)
+Tacyt is a big data tool that analyses and correlates millions of mobile apps and I played with some of the queries that
+it permits obtaining worrying results:
+
+[![Foo](readme_resources/vulnerabilities_tacyt.png)](https://tacyt.elevenpaths.com/)
+[![Foo](readme_resources/behaviors_tacyt.png)](https://tacyt.elevenpaths.com/)
+[![Foo](readme_resources/high_vulns_with_a_lot_of_download.png)](https://tacyt.elevenpaths.com/)
+
+The summary of this results is that the the best known markets do not contains the most safest apps :(  
 
 
-mASAPP CI born for detecting security issues before uploading the apps to the apps markets
+mASAPP CI born for detecting security issues before uploading the apps to the apps markets and make our apps markets a safety place
  
-
-mASAPP CI is 
-A short description of the motivation behind the creation and maintenance of the project. This should explain why the project exists.
-
-
-Build status
-Build status of continus integration i.e. travis, appveyor etc. Ex. -
-
 
 Installation
 
@@ -37,14 +40,9 @@ How to use?
 If people like your project they’ll want to learn how they can use it. To do so include step by step guide to use your project.
 
 
-Tests
-Describe and show how to run the tests with code examples.
 
+## Learn more
 
-More Help
-link a readme de masappcli 
-link a readme de masappstage
-
-
-Credits
-Give proper credits. This could be a link to any repo which inspired you to build this project, any blogposts or links to people who contrbuted in this project.
+* [Learn more about Tacyt](https://www.youtube.com/watch?v=dg4-y5DPnMg)
+* [HowTo for mASAPP Online registry](https://www.youtube.com/watch?v=WatthF8tVwA)
+* [Other mASAPP features](https://www.youtube.com/watch?v=aclSLbqoVxg) 
