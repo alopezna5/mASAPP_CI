@@ -12,7 +12,12 @@ mASAPP CI is the combination of two tools:
  pipeline.
 
 
-Motivation
+## Why ??
+
+![alt text](readme_resources/tacyt_is_the_answer.png)
+
+mASAPP CI born for detecting security issues before uploading the apps to the apps markets
+ 
 
 mASAPP CI is 
 A short description of the motivation behind the creation and maintenance of the project. This should explain why the project exists.
