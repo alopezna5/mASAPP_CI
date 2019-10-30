@@ -4,7 +4,7 @@ to your Jenkins Pipeline.
 **HowTo:**
 
 
-* Configure your Jenkins Pipeline for working with four variables:
+* You have to configure your Jenkins Pipeline for working with three variables:
 
     * mASAPP_CI : In this variable you will send the type of execution for your job. 
     Possible values:
@@ -41,7 +41,10 @@ to your Jenkins Pipeline.
               }
             } 
           ```
-          
-* Replace [APPLICATION_PATH] by the path to your application
-* Replace [PACKAGE_NAME_ORIGIN] by the packageNameOrigin of the application. You can remove this param in the execution.
+     
+    * packageNameOrigin: the parameter returned by mASAPP named packageNameOrigin. It is only necessary when the job fails
+    and **masappcli** requests this param, if not, leave it empty. It is not recommended to set a default value 
+    for this var 
+
+* Replace [APPLICATION_PATH] by the path to your application or add it as a var.
 * Make particular fixes to your Pipeline like modifying the PATH or whatever.

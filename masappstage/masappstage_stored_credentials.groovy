@@ -8,11 +8,15 @@ stage('mASAPP CI'){
             pip install masappcli --user --upgrade
         '''
 
+        if (env.packageNameOrigin != ""){
+            env.packageNameOrigin = "--packageNameOrigin " + env.packageNameOrigin
+        }
+
         if (env.mASAPP_CI=="riskscoring"){
             print "mASAPP CI Riskscoring Execution"
             try{
                 sh '''
-                    masappcli -r $MAXIMUM -a [APPLICATION_PATH] --packageNameOrigin [PACKAGE_NAME_ORIGIN]
+                    masappcli -r $MAXIMUM -a [APPLICATION_PATH] --packageNameOrigin ${packageNameOrigin}
                 '''
 
             }
@@ -25,7 +29,7 @@ stage('mASAPP CI'){
             print "mASAPP CI Detailed Riskscoring Execution"
             try{
                 sh '''
-                    masappcli -r $MAXIMUM -a [APPLICATION_PATH] --packageNameOrigin [PACKAGE_NAME_ORIGIN] -d
+                    masappcli -r $MAXIMUM -a [APPLICATION_PATH] --packageNameOrigin ${packageNameOrigin} -d
                 '''
 
                 }
@@ -42,7 +46,7 @@ stage('mASAPP CI'){
                     echo $MAXIMUM > max_values.json
                     cat max_values.json
                     pip install masappcli --user
-                    masappcli -s max_values.json -a [APPLICATION_PATH] --packageNameOrigin [PACKAGE_NAME_ORIGIN]
+                    masappcli -s max_values.json -a [APPLICATION_PATH] --packageNameOrigin ${packageNameOrigin}
                 '''
 
                 }
@@ -59,7 +63,7 @@ stage('mASAPP CI'){
                     echo $MAXIMUM > max_values.json
                     cat max_values.json
                     pip install masappcli --user
-                    masappcli -s max_values.json -a [APPLICATION_PATH] --packageNameOrigin [PACKAGE_NAME_ORIGIN] -d
+                    masappcli -s max_values.json -a [APPLICATION_PATH] --packageNameOrigin ${packageNameOrigin} -d
                 '''
 
                 }
