@@ -47,7 +47,7 @@ For getting started you only need a [mASAPP](https://masapp.elevenpaths.com) acc
 * [Other mASAPP features](https://www.youtube.com/watch?v=aclSLbqoVxg) 
 
 
-![](masappstage/masapp_header.png)
+![](readme_resources/masapp_header.png)
  
  
 
