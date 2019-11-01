@@ -2,23 +2,12 @@
 [![Documentation Status](https://readthedocs.org/projects/masappci/badge/?version=master)](https://masappci.readthedocs.io/en/master/?badge=master) [![Build Status](https://travis-ci.org/alopezna5/mASAPP_CI.svg?branch=minor_improvements)](https://travis-ci.org/alopezna5/mASAPP_CI)
 
 
-mASAPP CI is designed for being an easy automated security check in your mobile development cycle.
-mASAPP CI is the combination of two tools:
- 
- * [masappcli](docs/source/index.rst): CLI tool that upload and analyse your *.apk or *.ipa file looking for vulnerabilities and behaviors using 
- [mASAPP](https://www.elevenpaths.com/es/tecnologia/masapp/index.html) or 
- [mASAPP Online](https://www.elevenpaths.com/es/tecnologia/masapp-online/index.html).
- This tool will return an error if the analysis exceeds the ceiling previously set by you
-    
- * [masappstage](masappstage/README.md): Groovy stage template that allows you to easy start using mASAPP CI in your jenkins 
- pipeline.
+**mASAPP CI is an easy automated security check in your mobile development cycle.**
 
-
-## Why ??
-Tacyt supervisa, almacena, analiza, correlaciona y clasifica millones de apps
-móviles mediante su tecnología de big data añadiendo miles de aplicaciones nuevas cada día.
+## Why
 
 [![Foo](readme_resources/tacyt_is_the_answer.png)](https://tacyt.elevenpaths.com/)
+
 Tacyt is a big data tool that analyses and correlates millions of mobile apps and I played with some of the queries that
 it permits obtaining worrying results:
 
@@ -29,16 +18,26 @@ it permits obtaining worrying results:
 The summary of this results is that the the best known markets do not contains the most safest apps :(  
 
 
-mASAPP CI born for detecting security issues before uploading the apps to the apps markets and make our apps markets a safety place
+mASAPP CI was born for detecting security issues before uploading the apps to the markets giving the opportunity of solving
+them with a really lower costs than if this issues were discovered by third parties in production environments.
+
+
+mASAPP CI is the combination of two tools:
  
+ * [masappcli](masappcli/): CLI tool that upload and analyse your *.apk or *.ipa file looking for vulnerabilities and behaviors using 
+ [mASAPP](https://www.elevenpaths.com/es/tecnologia/masapp/index.html) or 
+ [mASAPP Online](https://www.elevenpaths.com/es/tecnologia/masapp-online/index.html).
+ This tool will return an error if the analysis exceeds the ceiling previously set by you
+    
+ * [masappstage](masappstage/): Groovy stage template that allows you to easy start using mASAPP CI in your jenkins 
+ pipeline.
 
-Installation
 
-Provide step by step series of examples and explanations about how to get a development env running.
+## Get started!
 
-How to use?
-If people like your project they’ll want to learn how they can use it. To do so include step by step guide to use your project.
-
+For getting started you only need a [mASAPP](https://masapp.elevenpaths.com) account and a simple Jenkins configuration explained in 
+[masappstage README.md](masappstage/README.md). If you want to use masappcli in your CLI follow this 
+[documentation](https://masappci.readthedocs.io/en/master/getting_started.html)
 
 
 ## Learn more
