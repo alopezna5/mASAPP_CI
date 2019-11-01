@@ -44,10 +44,6 @@ For getting started you only need a [mASAPP](https://masapp.elevenpaths.com) acc
 
 * [Learn more about Tacyt](https://www.youtube.com/watch?v=dg4-y5DPnMg)  <img src="readme_resources/tacyt.png" width="100px" height="100px"  align="right"> </a>  <a href="https://masapp.elevenpaths.com"> <img src="readme_resources/mASAPP.png" width="100px" height="100px"  align="right"> </a>   <a href="https://tacyt.elevenpaths.com">                       
 * [HowTo for mASAPP Online registry](https://www.youtube.com/watch?v=WatthF8tVwA)                     
-* [Other mASAPP features](https://www.youtube.com/watch?v=aclSLbqoVxg) 
-
-
-![](readme_resources/masapp_header.png)
- 
+* [Other mASAPP features](https://www.youtube.com/watch?v=aclSLbqoVxg)  
  
 
