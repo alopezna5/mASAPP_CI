@@ -150,7 +150,3 @@ class TestLowerThanScanResult(unittest.TestCase):
         test = mASAPP_CI._lower_than_scan_result(self.usr, "behaviorals", "medium", input_data)
 
         self.assertFalse(test)
-
-
-if __name__ == '__main__':
-    unittest.main()
