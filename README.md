@@ -6,9 +6,8 @@
 
 ## Why
 
-<img src="readme_resources/tacyt_is_the_answer.png" style="max-width:40%;" > </a>
 
-Tacyt is a big data tool that analyses and correlates millions of mobile apps and I played with some of the queries that
+[Tacyt](https://tacyt.elevenpaths.com) is a big data tool that analyses and correlates millions of mobile apps and I played with some of the queries that
 it permits obtaining worrying results:
 
 [![Foo](readme_resources/vulnerabilities_tacyt.png)](https://tacyt.elevenpaths.com/)
@@ -42,7 +41,7 @@ For getting started you only need a [mASAPP](https://masapp.elevenpaths.com) acc
 
 ## Learn more
 
-* [Learn more about Tacyt](https://www.youtube.com/watch?v=dg4-y5DPnMg)  <img src="readme_resources/tacyt.png" width="100px" height="100px"  align="right"> </a>  <a href="https://masapp.elevenpaths.com"> <img src="readme_resources/mASAPP.png" width="100px" height="100px"  align="right"> </a>   <a href="https://tacyt.elevenpaths.com">                       
+* [Learn more about Tacyt](https://www.youtube.com/watch?v=dg4-y5DPnMg)  <img src="readme_resources/tacyt.png" width="8%" height="10%"  align="right"> </a>  <a href="https://masapp.elevenpaths.com"> <img src="readme_resources/mASAPP.png" width="8%" height="10%"  align="right"> </a>   <a href="https://tacyt.elevenpaths.com">                       
 * [HowTo for mASAPP Online registry](https://www.youtube.com/watch?v=WatthF8tVwA)                     
 * [Other mASAPP features](https://www.youtube.com/watch?v=aclSLbqoVxg)  
  
