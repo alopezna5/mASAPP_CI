@@ -1,5 +1,5 @@
 # mASAPP CI 
-[![Documentation Status](https://readthedocs.org/projects/masappci/badge/?version=master)](https://masappci.readthedocs.io/en/master/?badge=master) [![Build Status](https://travis-ci.org/alopezna5/mASAPP_CI.svg?branch=minor_improvements)](https://travis-ci.org/alopezna5/mASAPP_CI)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/789361eff9e54d6cb15b1c267b866280)](https://www.codacy.com/manual/alopezna5/mASAPP_CI?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=alopezna5/mASAPP_CI&amp;utm_campaign=Badge_Grade) [![Version status](https://img.shields.io/pypi/v/masappcli.svg?color=F609C0)](https://pypi.org/project/masappcli/0.2.1/) [![Documentation Status](https://readthedocs.org/projects/masappci/badge/?version=master)](https://masappci.readthedocs.io/en/master/?badge=master) [![Build Status](https://travis-ci.org/alopezna5/mASAPP_CI.svg?branch=minor_improvements)](https://travis-ci.org/alopezna5/mASAPP_CI) 
 
 
 **mASAPP CI is an easy automated security check in your mobile development cycle.**
@@ -41,7 +41,7 @@ For getting started you only need a [mASAPP](https://masapp.elevenpaths.com) acc
 
 ## Learn more
 
-* [Learn more about Tacyt](https://www.youtube.com/watch?v=dg4-y5DPnMg)  <img src="readme_resources/tacyt.png" width="8%" height="10%"  align="right"> </a>  <a href="https://masapp.elevenpaths.com"> <img src="readme_resources/mASAPP.png" width="8%" height="10%"  align="right"> </a>   <a href="https://tacyt.elevenpaths.com">                       
+* [Learn more about Tacyt](https://www.youtube.com/watch?v=dg4-y5DPnMg)  <img src="readme_resources/tacyt.png" width="14%" height="16%"  align="right"> </a>  <a href="https://masapp.elevenpaths.com"> <img src="readme_resources/mASAPP.png" width="14%" height="16%"  align="right"> </a>   <a href="https://tacyt.elevenpaths.com">                       
 * [HowTo for mASAPP Online registry](https://www.youtube.com/watch?v=WatthF8tVwA)                     
 * [Other mASAPP features](https://www.youtube.com/watch?v=aclSLbqoVxg)  
  
