@@ -6,7 +6,7 @@
 
 ## Why
 
-[![Foo](readme_resources/tacyt_is_the_answer.png)](https://tacyt.elevenpaths.com/)
+<img src="readme_resources/tacyt_is_the_answer.png" style="max-width:40%;" > </a>
 
 Tacyt is a big data tool that analyses and correlates millions of mobile apps and I played with some of the queries that
 it permits obtaining worrying results:
