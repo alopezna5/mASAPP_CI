@@ -14,6 +14,8 @@ class mASAPP_CI():
     """
 
     LANGUAGES = ["en", "es"]
+    MASAPP_LINK = "https://masapp.elevenpaths.com/"
+
 
     def __init__(self, key, secret):
         """
@@ -32,7 +34,8 @@ class mASAPP_CI():
             'scanId': None,
             'appKey': None,
             'scanDate': None,
-            'lang': None
+            'lang': None,
+            'packageNameOrigin': None
         }
 
         self.scan_result = {
@@ -45,6 +48,7 @@ class mASAPP_CI():
             "expected": None,
             "obtained": None
         }
+
 
     def _print_excess(self):
         """
@@ -86,12 +90,13 @@ class mASAPP_CI():
                          ]
                     )
 
-            return(tabulate(to_print, headers='firstrow', stralign='center'))
+            return (tabulate(to_print, headers='firstrow', stralign='center'))
         elif type(obtained) != dict and type(expected) != dict:
             to_print.append(['risk', expected, obtained])
-            return(tabulate(to_print, headers='firstrow', stralign='center'))
+            return (tabulate(to_print, headers='firstrow', stralign='center'))
         else:
             raise TypeError("Error in the expected and obtained values type")
+
 
     def _print_details(self, mode, max_values=None):
         """
@@ -197,6 +202,7 @@ class mASAPP_CI():
             print(u'\n\nBehaviors')
             print(tabulate(nbehav_to_print, headers='firstrow', stralign='center', tablefmt='simple'))
 
+
     def _lower_than_scan_result(self, element, key, max_expected_value):
         """
 
@@ -229,6 +235,7 @@ class mASAPP_CI():
 
         return True
 
+
     def _check_not_api_error(self, api_response):
         """
 
@@ -257,6 +264,7 @@ class mASAPP_CI():
 
         return True
 
+
     def store_workgroup(self, wg_number):
         """
 
@@ -269,6 +277,7 @@ class mASAPP_CI():
         self._check_not_api_error(wg)
         self.scan_info['wg'] = wg.data['data']['workgroups'][wg_number]['workgroupId']
 
+
     def upload_app(self, app_path):
         """
 
@@ -280,6 +289,7 @@ class mASAPP_CI():
         filePath = os.path.abspath(app_path)
         api_response = self.auth_user.post_auth_upload_app(self.scan_info["wg"], "false", filePath)
         self._check_not_api_error(api_response)
+
 
     def store_scan_info_from_package_name_origin(self, package_name_origin):
         """
@@ -299,8 +309,10 @@ class mASAPP_CI():
             if scan['packageNameOrigin'] == package_name_origin:
                 self.scan_info['scanId'] = scan['scanId']
                 self.scan_info['scanDate'] = scan['lastScanDate']
+                self.scan_info['packageNameOrigin'] = scan['packageNameOrigin']
                 return True
         raise ValueError("Application {package_name_origin} not found".format(package_name_origin=package_name_origin))
+
 
     def store_scan_info_from_package_name(self, app_path):
         """
@@ -325,21 +337,25 @@ class mASAPP_CI():
                 if scan['packageName'] in app_path or scan['packageNameOrigin'] in app_path:
                     self.scan_info['scanId'] = scan['scanId']
                     self.scan_info['scanDate'] = scan['lastScanDate']
+                    self.scan_info['packageNameOrigin'] = scan['packageNameOrigin']
                     return True
             else:
                 if scan['packageNameOrigin'] in app_path:
                     self.scan_info['scanId'] = scan['scanId']
                     self.scan_info['scanDate'] = scan['lastScanDate']
+                    self.scan_info['packageNameOrigin'] = scan['packageNameOrigin']
                     return True
 
         print(
             "Sometimes mASAPP can not generate all the necessary fields for unequivocally automatic finding of the application, so, please add the packageNameOrigin of your application with the param -p")
         print("You could find your app in the following list:")
         for scan in user_scans.data['data']['scans']:
-            print(scan)
+            scan_link = self.MASAPP_LINK + "scans/" + scan['packageNameOrigin']
+            print(scan, scan_link)
             print(" ")
 
         raise ValueError("Application {app_path} not found".format(app_path=app_path))
+
 
     def store_scan_summary_from_scan_id(self, scan_id):
         """
@@ -359,6 +375,7 @@ class mASAPP_CI():
                     self.scan_info['appKey'] = scan_summary['scannedVersions'][0]['appKey']
                     return True
         return False
+
 
     def store_scan_result(self):
         """
@@ -402,6 +419,7 @@ class mASAPP_CI():
         for behavioral in scan_result.data['data']['behaviorals']:
             risk = behavioral['riskLevel'].lower()
             self.scan_result['behaviorals'][risk].append(behavioral)
+
 
     def upload_and_analyse_app(self, app_path, package_name_origin=None, workgroup=None, lang=None):
         """
@@ -454,6 +472,15 @@ class mASAPP_CI():
         if not scan_found:
             raise ValueError("There is an error  in mASAPP and your application hasn't been successfully processed")
         self.store_scan_result()
+
+
+    def _print_link_to_app(self):
+        try:
+            scan_link = self.MASAPP_LINK + "scans/" + self.scan_info['packageNameOrigin']
+            print("[!] Link of your scan in mASAPP: {} \n".format(scan_link))
+        except:
+            pass
+
 
     def riskscoring_execution(self, maximum_riskscoring, app_path, package_name_origin=None, workgroup=None, lang=None,
                               detail=None):
@@ -511,6 +538,8 @@ class mASAPP_CI():
 
         correct_execution = True
 
+        self._print_link_to_app()
+
         if self.scan_result['riskScore'] < maximum_riskscoring:
             print("---- RISKSCORING SUCCESS ----\n")
         else:
@@ -523,6 +552,8 @@ class mASAPP_CI():
 
         if not correct_execution:
             raise ValueError("---- RISKSCORING ERROR ----\n {excess}".format(excess=self._print_excess()))
+
+
 
     def standard_execution(self, scan_maximum_values, app_path, package_name_origin=None, workgroup=None, lang=None,
                            detail=None):
@@ -618,6 +649,8 @@ class mASAPP_CI():
 
         if detail == True:
             self._print_details('standard', max_values=scan_maximum_values)
+
+        self._print_link_to_app()
 
         if not correct_execution:
             raise ValueError("---- STANDARD ERROR ----\n {excess}".format(excess=self._print_excess()))

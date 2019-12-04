@@ -2,6 +2,7 @@
 
 from sdklib.http import HttpSdk
 from sdklib.http.authorization import X11PathsAuthentication
+import urllib3
 
 
 class mASAPP_CI_auth(HttpSdk):
@@ -33,9 +34,13 @@ class mASAPP_CI_auth(HttpSdk):
     API_SCAN_SUMMARY = "/api/{api_version}/scanSummary?scanId=".format(api_version=API_VERSION)
     API_SCAN_RESULT = "/api/{api_version}/scanResults".format(api_version=API_VERSION)
 
+
     def __init__(self, key, secret):
+        urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)  # hide ugly https warnings
+
         self.authentication_instances = X11PathsAuthentication(key, secret)
         super(mASAPP_CI_auth, self).__init__()
+
 
     def get_auth_workgroup(self):
         """
@@ -44,6 +49,7 @@ class mASAPP_CI_auth(HttpSdk):
                           to the mASAPP API, which returns the mASAPPs workgroups which the user belongs to.
         """
         return self.get(url_path=self.API_WORKGROUPS, authentication_instances=[self.authentication_instances])
+
 
     def post_auth_upload_app(self, workgroup, allowTacyt, app_path):
         """
@@ -65,6 +71,7 @@ class mASAPP_CI_auth(HttpSdk):
         return self.post(url_path=self.API_UPLOAD, authentication_instances=[self.authentication_instances],
                          headers={'wg': workgroup}, body_params=body_params, files={'file': app_path})
 
+
     def get_auth_scans(self, workgroup):
         """
 
@@ -75,6 +82,7 @@ class mASAPP_CI_auth(HttpSdk):
         """
         return self.get(url_path=self.API_SCANS, authentication_instances=[self.authentication_instances],
                         headers={'wg': workgroup})
+
 
     def get_scan_summary(self, workgroup, scan_id):
         """
@@ -89,6 +97,7 @@ class mASAPP_CI_auth(HttpSdk):
         return self.get(url_path=self.API_SCAN_SUMMARY + scan_id,
                         authentication_instances=[self.authentication_instances],
                         headers={'wg': workgroup})
+
 
     def get_scan_result(self, workgroup, scan_id, scan_date, app_key, lang):
         """
