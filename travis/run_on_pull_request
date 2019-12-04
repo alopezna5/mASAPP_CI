@@ -11,5 +11,12 @@ then
 	echo '[!] Generating new version package'
 	python setup.py sdist
 	echo '[!] Uploading new version to PyPI'
-	twine upload dist/*	
+	twine upload dist/*
+	sleep 10
+	echo '[!] Verifying the upload'
+	NEW_CURRENT_VERSION=$(pip search masappcli | cut -d ' ' -f 2 | tr -d '('  | tr -d ')' | tr -d '.')
+
+	if [ $NEW_CURRENT_VERSION -ne $NEW_VERSION ]
+	then
+	  exit 1
 fi
