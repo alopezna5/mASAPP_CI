@@ -1,0 +1,13 @@
+#!/bin/bash
+
+CURRENT_VERSION=$(pip search masappcli | cut -d ' ' -f 2 | tr -d '('  | tr -d ')' | tr -d '.')
+NEW_VERSION=$(cat VERSION | tr -d '.')
+
+
+if [ $CURRENT_VERSION -lt $NEW_VERSION ]
+then
+	echo 'Generating new version package'
+	python setup.py sdist
+	echo 'Uploading new version to PyPI'
+	twine upload dist/*	
+fi
