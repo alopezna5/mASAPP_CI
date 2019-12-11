@@ -332,7 +332,6 @@ class mASAPP_CI():
         raise ValueError("Application {package_name_origin} not found".format(package_name_origin=package_name_origin))
 
 
-store_scan_info_from_hashpath_implementation
     def store_scan_info_from_app_hashPath(self, app_hasPath):
         """
 
