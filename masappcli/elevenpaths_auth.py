@@ -88,6 +88,28 @@ class mASAPP_CI_auth(HttpSdk):
                             headers={'wg': workgroup})
 
 
+    def get_auth_scan_by_hashPath(self, hashPath, workgroup=None):
+        """
+
+        :param hashPath:   The sha1 of the application whose scan the user wants to get
+        :param workgroup:  The workgroup where the user belongs to. (Not mandatory)
+        :type workgroup:   String
+        :return:           The associated scan to the given hashPath.
+        """
+
+        query_params = {
+            "hashPath": hashPath
+        }
+
+        if workgroup == None:
+            return self.get(url_path=self.API_SCANS, authentication_instances=[self.authentication_instances],
+                            headers={"Accept": "application/json"}, query_params=query_params)
+
+        else:
+            return self.get(url_path=self.API_SCANS, authentication_instances=[self.authentication_instances],
+                            headers={'wg': workgroup, "Accept": "application/json"}, query_params=query_params)
+
+
     def get_scan_summary(self, scan_id, workgroup=None):
         """
 
