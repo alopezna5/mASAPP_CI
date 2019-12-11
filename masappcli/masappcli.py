@@ -305,7 +305,6 @@ class mASAPP_CI():
         self.scan_info['hashPath'] = api_response.data['data']['result']
 
 
-
     def store_scan_info_from_package_name_origin(self, package_name_origin):
         """
 
@@ -341,6 +340,7 @@ class mASAPP_CI():
                          scan whose hashPath is equal to the given one.
 
         """
+        time.sleep(10)  # The upload and analysis process is asynchronous so it will wait for the analysis
 
         if self.scan_info["wg"] == None:
             user_scans = self.auth_user.get_auth_scan_by_hashPath(app_hasPath)
@@ -363,7 +363,6 @@ class mASAPP_CI():
             self.scan_info['scanId'] = result_scans[0]['scanId']
             self.scan_info['scanDate'] = result_scans[0]['lastScanDate']
             return True
-
 
 
     def store_scan_summary_from_scan_id(self, scan_id):
@@ -489,7 +488,8 @@ class mASAPP_CI():
                 scan_found = True
 
         if not scan_found:
-            raise ValueError("[X] There is an error in mASAPP and your application hasn't been successfully processed yet")
+            raise ValueError(
+                "[X] There is an error in mASAPP and your application hasn't been successfully processed yet")
         self.store_scan_result()
 
 
