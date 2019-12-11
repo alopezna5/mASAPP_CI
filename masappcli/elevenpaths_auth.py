@@ -2,6 +2,7 @@
 
 from sdklib.http import HttpSdk
 from sdklib.http.authorization import X11PathsAuthentication
+import urllib3
 
 
 class mASAPP_CI_auth(HttpSdk):
@@ -35,6 +36,8 @@ class mASAPP_CI_auth(HttpSdk):
 
 
     def __init__(self, key, secret):
+        urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)  # hide ugly https warnings
+
         self.authentication_instances = X11PathsAuthentication(key, secret)
         super(mASAPP_CI_auth, self).__init__()
 

@@ -8,6 +8,7 @@ install:
 
 script:
   - python -m unittest discover -v
+  - 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then bash ./travis/run_on_pull_request; fi'
 
 after_script:
   - coverage run masappcli/masappcli.py

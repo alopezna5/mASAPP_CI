@@ -15,6 +15,8 @@ class mASAPP_CI():
     """
 
     LANGUAGES = ["en", "es"]
+    MASAPP_LINK = "https://masapp.elevenpaths.com/"
+
 
 
     def __init__(self, key, secret):
@@ -35,7 +37,8 @@ class mASAPP_CI():
             'scanId': None,
             'appKey': None,
             'scanDate': None,
-            'lang': None
+            'lang': None,
+            'packageNameOrigin': None
         }
 
         self.scan_result = {
@@ -286,6 +289,7 @@ class mASAPP_CI():
             "[X] Workgroup not found \n [!] Workgroups where you belong to: \n {}".format(workgroups_names))
 
 
+
     def upload_app(self, app_path):
         """
 
@@ -303,6 +307,7 @@ class mASAPP_CI():
                                                                workgroup=self.scan_info["wg"])
         self._check_not_api_error(api_response)
         self.scan_info['hashPath'] = api_response.data['data']['result']
+
 
 
     def store_scan_info_from_package_name_origin(self, package_name_origin):
@@ -327,6 +332,7 @@ class mASAPP_CI():
             if scan['packageNameOrigin'] == package_name_origin:
                 self.scan_info['scanId'] = scan['scanId']
                 self.scan_info['scanDate'] = scan['lastScanDate']
+                self.scan_info['packageNameOrigin'] = scan['packageNameOrigin']
                 return True
         raise ValueError("Application {package_name_origin} not found".format(package_name_origin=package_name_origin))
 
@@ -364,7 +370,7 @@ class mASAPP_CI():
             self.scan_info['scanDate'] = result_scans[0]['lastScanDate']
             return True
 
-
+          
     def store_scan_summary_from_scan_id(self, scan_id):
         """
 
@@ -493,6 +499,14 @@ class mASAPP_CI():
         self.store_scan_result()
 
 
+    def _print_link_to_app(self):
+        try:
+            scan_link = self.MASAPP_LINK + "scans/" + self.scan_info['packageNameOrigin']
+            print("[!] Link of your scan in mASAPP: {} \n".format(scan_link))
+        except:
+            pass
+
+          
     def riskscoring_execution(self, maximum_riskscoring, app_path, package_name_origin=None, workgroup=None, lang=None,
                               detail=None):
         """
@@ -551,6 +565,8 @@ class mASAPP_CI():
                                         lang=lang)
 
         correct_execution = True
+
+        self._print_link_to_app()
 
         if self.scan_result['riskScore'] < maximum_riskscoring:
             print("---- RISKSCORING SUCCESS ----\n")
@@ -663,6 +679,8 @@ class mASAPP_CI():
 
         if detail == True:
             self._print_details('standard', max_values=scan_maximum_values)
+
+        self._print_link_to_app()
 
         if not correct_execution:
             raise ValueError("---- STANDARD ERROR ----\n {excess}".format(excess=self._print_excess()))
