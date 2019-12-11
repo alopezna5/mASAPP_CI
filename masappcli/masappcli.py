@@ -489,7 +489,7 @@ class mASAPP_CI():
                 scan_found = True
 
         if not scan_found:
-            raise ValueError("There is an error in mASAPP and your application hasn't been successfully processed yet")
+            raise ValueError("[X] There is an error in mASAPP and your application hasn't been successfully processed yet")
         self.store_scan_result()
 
 
