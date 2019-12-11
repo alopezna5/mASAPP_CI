@@ -305,6 +305,7 @@ class mASAPP_CI():
         self.scan_info['hashPath'] = api_response.data['data']['result']
 
 
+
     def store_scan_info_from_package_name_origin(self, package_name_origin):
         """
 
@@ -331,6 +332,7 @@ class mASAPP_CI():
         raise ValueError("Application {package_name_origin} not found".format(package_name_origin=package_name_origin))
 
 
+store_scan_info_from_hashpath_implementation
     def store_scan_info_from_app_hashPath(self, app_hasPath):
         """
 
@@ -362,6 +364,7 @@ class mASAPP_CI():
             self.scan_info['scanId'] = result_scans[0]['scanId']
             self.scan_info['scanDate'] = result_scans[0]['lastScanDate']
             return True
+
 
 
     def store_scan_summary_from_scan_id(self, scan_id):

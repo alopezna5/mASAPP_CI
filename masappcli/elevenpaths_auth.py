@@ -87,7 +87,7 @@ class mASAPP_CI_auth(HttpSdk):
             return self.get(url_path=self.API_SCANS, authentication_instances=[self.authentication_instances],
                             headers={'wg': workgroup})
 
-
+          
     def get_auth_scan_by_hashPath(self, hashPath, workgroup=None):
         """
 
@@ -112,7 +112,6 @@ class mASAPP_CI_auth(HttpSdk):
 
     def get_scan_summary(self, scan_id, workgroup=None):
         """
-
         :param scan_id:    The scan ID from the scan which the user wants to obtain a summary.
         :type scan_id:     String
         :param workgroup:  The workgroup where the user belongs to. (Not mandatory)
