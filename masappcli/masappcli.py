@@ -368,6 +368,7 @@ class mASAPP_CI():
         else:
             self.scan_info['scanId'] = result_scans[0]['scanId']
             self.scan_info['scanDate'] = result_scans[0]['lastScanDate']
+            self.scan_info['packageNameOrigin'] = result_scans[0]['packageNameOrigin']
             return True
 
 
