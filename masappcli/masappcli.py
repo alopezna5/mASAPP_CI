@@ -370,7 +370,7 @@ class mASAPP_CI():
             self.scan_info['scanDate'] = result_scans[0]['lastScanDate']
             return True
 
-          
+
     def store_scan_summary_from_scan_id(self, scan_id):
         """
 
