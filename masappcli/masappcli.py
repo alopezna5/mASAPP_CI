@@ -300,7 +300,7 @@ class mASAPP_CI():
         """
         filePath = os.path.abspath(app_path)
 
-        if self.scan_info["wg"] == None:
+        if self.scan_info["wg"] is None:
             api_response = self.auth_user.post_auth_upload_app(allowTacyt="false", app_path=filePath)
         else:
             api_response = self.auth_user.post_auth_upload_app(allowTacyt="false", app_path=filePath,
@@ -322,7 +322,7 @@ class mASAPP_CI():
 
         """
 
-        if self.scan_info["wg"] == None:
+        if self.scan_info["wg"] is None:
             user_scans = self.auth_user.get_auth_scans()
         else:
             user_scans = self.auth_user.get_auth_scans(self.scan_info["wg"])
@@ -381,7 +381,7 @@ class mASAPP_CI():
 
         """
 
-        if self.scan_info["wg"] == None:
+        if self.scan_info["wg"] is None:
             user_scan_summary = self.auth_user.get_scan_summary(scan_id=scan_id)
         else:
             user_scan_summary = self.auth_user.get_scan_summary(scan_id=scan_id, workgroup=self.scan_info["wg"])
@@ -422,7 +422,7 @@ class mASAPP_CI():
             raise ValueError(
                 "Language {language} Only supported languages: en , es".format(language=self.scan_info['lang']))
 
-        if self.scan_info["wg"] == None:
+        if self.scan_info["wg"] is None:
             scan_result = self.auth_user.get_scan_result(scan_id=self.scan_info['scanId'],
                                                          scan_date=self.scan_info['scanDate'],
                                                          app_key=self.scan_info['appKey'], lang=self.scan_info['lang'])
