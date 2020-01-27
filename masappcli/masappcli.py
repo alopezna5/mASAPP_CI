@@ -348,7 +348,7 @@ class mASAPP_CI():
         """
         time.sleep(10)  # The upload and analysis process is asynchronous so it will wait for the analysis
 
-        if self.scan_info["wg"] == None:
+        if self.scan_info["wg"] is None:
             user_scans = self.auth_user.get_auth_scan_by_hashPath(app_hasPath)
         else:
             user_scans = self.auth_user.get_auth_scan_by_hashPath(app_hasPath, self.scan_info["wg"])
@@ -472,7 +472,7 @@ class mASAPP_CI():
 
         """
 
-        if workgroup != None:
+        if workgroup is not None:
             self.store_workgroup(workgroup)
 
         retries = 0
@@ -508,7 +508,7 @@ class mASAPP_CI():
         except:
             pass
 
-          
+
     def riskscoring_execution(self, maximum_riskscoring, app_path, package_name_origin=None, workgroup=None, lang=None,
                               detail=None):
         """
