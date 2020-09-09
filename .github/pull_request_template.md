@@ -4,7 +4,7 @@ _Who are you? If you are not Álvaro... Thanks and welcome! Could you explain a 
 ### :point_up: Goal(s)
 _Short description of the changes added_ 
 
-### Resolved issues
+### :memo: Resolved issues
 *  [Tittle of the task 1 in Trello](https://trello.com/)
 ...
 *  [Tittle of the task N in Trello](https://trello.com/)
