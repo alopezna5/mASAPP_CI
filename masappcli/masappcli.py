@@ -121,7 +121,7 @@ class mASAPP_CI():
                 for occurrence in element['result']:
                     occurrence_path = ""
 
-                    for occurrence_path_element in occurrence['source'][0]:
+                    for occurrence_path_element in occurrence['source']['path']:
                         occurrence_path += occurrence_path_element + " > "
 
                     v_to_print.append(['>>>> Source', occurrence_path[:-2]])
@@ -145,7 +145,7 @@ class mASAPP_CI():
                 for occurrence in element['result']:
                     occurrence_path = ""
 
-                    for occurrence_path_element in occurrence['source'][0]:
+                    for occurrence_path_element in occurrence['source']['path']:
                         occurrence_path += occurrence_path_element + " > "
 
                     b_to_print.append(['>>>> Source', occurrence_path[:-2]])
