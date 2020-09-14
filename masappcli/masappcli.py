@@ -438,14 +438,16 @@ class mASAPP_CI():
         self.scan_result['riskScore'] = scan_result.data['data']['riskScore']
 
         for vulnerability in scan_result.data['data']['vulnerabilities']:
-            risk = vulnerability['riskLevel'].lower()
-            if risk in self.scan_result['vulnerabilities'].keys():
-                self.scan_result['vulnerabilities'][risk].append(vulnerability)
+            if str(vulnerability['muted']).lower() != 'false':
+                risk = vulnerability['riskLevel'].lower()
+                if risk in self.scan_result['vulnerabilities'].keys():
+                    self.scan_result['vulnerabilities'][risk].append(vulnerability)
 
         for behavioral in scan_result.data['data']['behaviorals']:
-            risk = behavioral['riskLevel'].lower()
-            if risk in self.scan_result['behaviorals'].keys():
-                self.scan_result['behaviorals'][risk].append(behavioral)
+            if str(behavioral['muted']).lower() != 'false':
+                risk = behavioral['riskLevel'].lower()
+                if risk in self.scan_result['behaviorals'].keys():
+                    self.scan_result['behaviorals'][risk].append(behavioral)
 
 
     def upload_and_analyse_app(self, app_path, package_name_origin=None, workgroup=None, lang=None):
