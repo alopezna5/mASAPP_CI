@@ -114,9 +114,9 @@ class mASAPP_CI():
             for element in self.scan_result['vulnerabilities'][category]:
                 v_to_print.append(['Title', element['title']])
                 v_to_print.append(['Risk', element['riskLevel']])
-                v_to_print.append(['nOcurrences', element['count']])
+                v_to_print.append(['nOccurrences', element['count']])
                 v_to_print.append(['Recommendation', element['recommendation']])
-                v_to_print.append(['Ocurrences:', ""])
+                v_to_print.append(['Occurrences:', ""])
 
                 for occurrence in element['result']:
                     occurrence_path = ""
@@ -139,7 +139,7 @@ class mASAPP_CI():
         for category in self.scan_result['behaviorals'].keys():
             for element in self.scan_result['behaviorals'][category]:
                 b_to_print.append(['Title', element['title']])
-                b_to_print.append(['Ocurrences', element['count']])
+                b_to_print.append(['Occurrences', element['count']])
                 b_to_print.append(['Impact', element['impact']])
 
                 for occurrence in element['result']:
