@@ -114,15 +114,15 @@ class mASAPP_CI():
             for element in self.scan_result['vulnerabilities'][category]:
                 v_to_print.append(['Title', element['title']])
                 v_to_print.append(['Risk', element['riskLevel']])
-                v_to_print.append(['nOcurrences', element['count']])
+                v_to_print.append(['nOccurrences', element['count']])
                 v_to_print.append(['Recommendation', element['recommendation']])
-                v_to_print.append(['Ocurrences:', ""])
+                v_to_print.append(['Occurrences:', ""])
 
                 for occurrence in element['result']:
                     occurrence_path = ""
 
-                    for ocurrence_path_element in occurrence['source'][0]:
-                        occurrence_path += ocurrence_path_element + " > "
+                    for occurrence_path_element in occurrence['source']['path']:
+                        occurrence_path += occurrence_path_element + " > "
 
                     v_to_print.append(['>>>> Source', occurrence_path[:-2]])
                     v_to_print.append(['>>>> Evidence', occurrence['value']])
@@ -139,14 +139,14 @@ class mASAPP_CI():
         for category in self.scan_result['behaviorals'].keys():
             for element in self.scan_result['behaviorals'][category]:
                 b_to_print.append(['Title', element['title']])
-                b_to_print.append(['Ocurrences', element['count']])
+                b_to_print.append(['Occurrences', element['count']])
                 b_to_print.append(['Impact', element['impact']])
 
                 for occurrence in element['result']:
                     occurrence_path = ""
 
-                    for ocurrence_path_element in occurrence['source'][0]:
-                        occurrence_path += ocurrence_path_element + " > "
+                    for occurrence_path_element in occurrence['source']['path']:
+                        occurrence_path += occurrence_path_element + " > "
 
                     b_to_print.append(['>>>> Source', occurrence_path[:-2]])
                     b_to_print.append(['>>>> Evidence', occurrence['value']])
@@ -438,14 +438,16 @@ class mASAPP_CI():
         self.scan_result['riskScore'] = scan_result.data['data']['riskScore']
 
         for vulnerability in scan_result.data['data']['vulnerabilities']:
-            risk = vulnerability['riskLevel'].lower()
-            if risk in self.scan_result['vulnerabilities'].keys():
-                self.scan_result['vulnerabilities'][risk].append(vulnerability)
+            if str(vulnerability['muted']).lower() != 'false':
+                risk = vulnerability['riskLevel'].lower()
+                if risk in self.scan_result['vulnerabilities'].keys():
+                    self.scan_result['vulnerabilities'][risk].append(vulnerability)
 
         for behavioral in scan_result.data['data']['behaviorals']:
-            risk = behavioral['riskLevel'].lower()
-            if risk in self.scan_result['behaviorals'].keys():
-                self.scan_result['behaviorals'][risk].append(behavioral)
+            if str(behavioral['muted']).lower() != 'false':
+                risk = behavioral['riskLevel'].lower()
+                if risk in self.scan_result['behaviorals'].keys():
+                    self.scan_result['behaviorals'][risk].append(behavioral)
 
 
     def upload_and_analyse_app(self, app_path, package_name_origin=None, workgroup=None, lang=None):
