@@ -93,7 +93,7 @@ class TestCheckNotApiError(unittest.TestCase):
     def test__check_api_response_with_no_error_in_status_errors_in_body(self):
         Urllib3ResponseMock.status = 200
         input_data = HttpResponse(Urllib3ResponseMock(self.JSON_DATA_AND_ERROR))
-        expected_message = """ERROR in API response: body is .?*{"data": "Test with error code in body","error":{"code":209,"message":"Error"}}"""
+        expected_message = "ERROR in API response\: body is .*?\'\{\"data\": \"Test with error code in body\"\,\"error\"\:\{\"code\"\:209\,\"message\"\:\"Error\"\}\}"
 
         with self.assertRaisesRegexp(ValueError, expected_message):
             mASAPP_CI._check_not_api_error(self.usr, input_data)
