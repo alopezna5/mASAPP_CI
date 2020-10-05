@@ -2,7 +2,7 @@
 
 import os
 
-from elevenpaths_auth import mASAPP_CI_auth
+from masappcli.elevenpaths_auth import mASAPP_CI_auth
 from tabulate import tabulate
 import json
 import time
