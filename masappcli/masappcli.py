@@ -365,11 +365,14 @@ class mASAPP_CI():
                 print scan
                 print(" ")
             return False
-        else:
+        elif len(result_scans) == 1:
             self.scan_info['scanId'] = result_scans[0]['scanId']
             self.scan_info['scanDate'] = result_scans[0]['lastScanDate']
             self.scan_info['packageNameOrigin'] = result_scans[0]['packageNameOrigin']
             return True
+        else:
+            print('[X] Your scan has not been uploaded to mASAPP! Talk to administrators for more info')
+            return False
 
 
     def store_scan_summary_from_scan_id(self, scan_id):
