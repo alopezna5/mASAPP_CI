@@ -2,7 +2,7 @@
 
 import os
 
-from masappcli.elevenpaths_auth import mASAPP_CI_auth
+from elevenpaths_auth import mASAPP_CI_auth
 from tabulate import tabulate
 import json
 import time
@@ -251,7 +251,7 @@ class mASAPP_CI():
         if api_response is None:
             raise TypeError("ERROR API Response is None")
 
-        if api_response is "":
+        if api_response == "":
             raise ValueError("ERROR API Response is empty")
 
         if api_response == json.loads("{}"):
@@ -371,7 +371,7 @@ class mASAPP_CI():
             self.scan_info['packageNameOrigin'] = result_scans[0]['packageNameOrigin']
             return True
         else:
-            print('[X] Your scan has not been uploaded to mASAPP! Talk to administrators for more info')
+            print('[X] Your scan has not been uploaded to mASAPP')
             return False
 
 
@@ -393,7 +393,7 @@ class mASAPP_CI():
         self._check_not_api_error(user_scan_summary)
         for scan_summary in user_scan_summary.data['data']['scanSummaries']:
             if scan_summary['scanDate'] == self.scan_info['scanDate']:
-                if len(scan_summary['scannedVersions']) is not 0:
+                if len(scan_summary['scannedVersions']) != 0:
                     self.scan_info['appKey'] = scan_summary['scannedVersions'][0]['appKey']
                     return True
         return False
@@ -484,6 +484,7 @@ class mASAPP_CI():
 
         while retries < 5 and not scan_found:
             retries += 1
+            print("[!] Uploading and analysing the app to mASAPP - retry:{}".format(retries))
             self.upload_app(app_path)
             time.sleep(10)
 
@@ -492,12 +493,10 @@ class mASAPP_CI():
 
             else:
                 app_hasPath = self.scan_info['hashPath']
-                self.store_scan_info_from_app_hashPath(app_hasPath)
-
-            self.scan_info['lang'] = lang or 'en'
-
-            if self.store_scan_summary_from_scan_id(self.scan_info['scanId']):
-                scan_found = True
+                if self.store_scan_info_from_app_hashPath(app_hasPath):
+                    self.scan_info['lang'] = lang or 'en'
+                    if self.store_scan_summary_from_scan_id(self.scan_info['scanId']):
+                        scan_found = True
 
         if not scan_found:
             raise ValueError(
