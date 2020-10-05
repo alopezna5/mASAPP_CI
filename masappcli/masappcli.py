@@ -362,7 +362,7 @@ class mASAPP_CI():
                 '[X] There are {} scans with the same sha1 than your app! Choose the scan that you want to get from the following list: '.format(
                     len(result_scans)))
             for scan in result_scans:
-                print scan
+                print(scan)
                 print(" ")
             return False
         elif len(result_scans) == 1:
