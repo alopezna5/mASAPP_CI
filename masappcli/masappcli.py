@@ -2,7 +2,7 @@
 
 import os
 
-from elevenpaths_auth import mASAPP_CI_auth
+from masappcli.elevenpaths_auth import mASAPP_CI_auth
 from tabulate import tabulate
 import json
 import time
@@ -251,7 +251,7 @@ class mASAPP_CI():
         if api_response is None:
             raise TypeError("ERROR API Response is None")
 
-        if api_response is "":
+        if api_response == "":
             raise ValueError("ERROR API Response is empty")
 
         if api_response == json.loads("{}"):
@@ -362,14 +362,17 @@ class mASAPP_CI():
                 '[X] There are {} scans with the same sha1 than your app! Choose the scan that you want to get from the following list: '.format(
                     len(result_scans)))
             for scan in result_scans:
-                print scan
+                print(scan)
                 print(" ")
             return False
-        else:
+        elif len(result_scans) == 1:
             self.scan_info['scanId'] = result_scans[0]['scanId']
             self.scan_info['scanDate'] = result_scans[0]['lastScanDate']
             self.scan_info['packageNameOrigin'] = result_scans[0]['packageNameOrigin']
             return True
+        else:
+            print('[X] Your scan has not been uploaded to mASAPP')
+            return False
 
 
     def store_scan_summary_from_scan_id(self, scan_id):
@@ -390,10 +393,30 @@ class mASAPP_CI():
         self._check_not_api_error(user_scan_summary)
         for scan_summary in user_scan_summary.data['data']['scanSummaries']:
             if scan_summary['scanDate'] == self.scan_info['scanDate']:
-                if len(scan_summary['scannedVersions']) is not 0:
+                if len(scan_summary['scannedVersions']) != 0:
                     self.scan_info['appKey'] = scan_summary['scannedVersions'][0]['appKey']
                     return True
         return False
+
+    def _all_evidences_muted(self, element):
+        """
+
+        :param element: A vulnerability or a behavior
+        :type  element: JSON
+        :return:        It returns true if all the evidences are muted
+        """
+        if not isinstance(element, dict):
+            raise ValueError("[X] {} not allowed. Waiting for a vulnerability or behavior JSON".format(element))
+
+        if not 'result' in element.keys():
+            raise ValueError("[X] The mASAPP response has not the expected structure")
+
+        for evidence in element['result']:
+            if not 'muted' in evidence.keys():
+                return False
+            if str(evidence['muted']).lower() == 'false':
+                return False
+        return True
 
 
     def store_scan_result(self):
@@ -419,21 +442,6 @@ class mASAPP_CI():
 
         """
 
-        def __all_evidences_muted(element):
-            """
-
-            :param element: A vulnerability or a behavior
-            :type  element: JSON
-            :return:        It returns true if all the evidences are muted
-            """
-            if not 'result' in element.keys():
-                raise ValueError('[X] The mASAPP response has not the expected structure')
-
-            for evidence in element['result']:
-                if str(evidence['muted']).lower() == 'false':
-                    return False
-            return True
-
         if self.scan_info['lang'].lower() not in self.LANGUAGES:
             raise ValueError(
                 "Language {language} Only supported languages: en , es".format(language=self.scan_info['lang']))
@@ -453,13 +461,13 @@ class mASAPP_CI():
         self.scan_result['riskScore'] = scan_result.data['data']['riskScore']
 
         for vulnerability in scan_result.data['data']['vulnerabilities']:
-            if str(vulnerability['muted']).lower() != 'false' and not __all_evidences_muted(vulnerability):
+            if str(vulnerability['muted']).lower() != 'false' and not self._all_evidences_muted(vulnerability):
                 risk = vulnerability['riskLevel'].lower()
                 if risk in self.scan_result['vulnerabilities'].keys():
                     self.scan_result['vulnerabilities'][risk].append(vulnerability)
 
         for behavioral in scan_result.data['data']['behaviorals']:
-            if str(behavioral['muted']).lower() != 'false' and not __all_evidences_muted(behavioral):
+            if str(behavioral['muted']).lower() != 'false' and not self._all_evidences_muted(behavioral):
                 risk = behavioral['riskLevel'].lower()
                 if risk in self.scan_result['behaviorals'].keys():
                     self.scan_result['behaviorals'][risk].append(behavioral)
@@ -498,6 +506,7 @@ class mASAPP_CI():
 
         while retries < 5 and not scan_found:
             retries += 1
+            print("[!] Uploading and analysing the app to mASAPP - retry:{}".format(retries))
             self.upload_app(app_path)
             time.sleep(10)
 
@@ -506,12 +515,10 @@ class mASAPP_CI():
 
             else:
                 app_hasPath = self.scan_info['hashPath']
-                self.store_scan_info_from_app_hashPath(app_hasPath)
-
-            self.scan_info['lang'] = lang or 'en'
-
-            if self.store_scan_summary_from_scan_id(self.scan_info['scanId']):
-                scan_found = True
+                if self.store_scan_info_from_app_hashPath(app_hasPath):
+                    self.scan_info['lang'] = lang or 'en'
+                    if self.store_scan_summary_from_scan_id(self.scan_info['scanId']):
+                        scan_found = True
 
         if not scan_found:
             raise ValueError(

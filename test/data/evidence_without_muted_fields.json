@@ -1,0 +1,106 @@
+{
+  "message": "",
+  "count": 4,
+  "result": [
+    {
+      "value": "android.telephony.TelephonyManager-->getNetworkOperator",
+      "additionalInfo": [],
+      "source": [
+        {
+          "path": [
+            "com.fyber.inneractive.sdk.util",
+            "c",
+            "a"
+          ],
+          "muted": false
+        },
+        {
+          "path": [
+            "com.mopub.common",
+            "ClientMetadata",
+            "ClientMetadata"
+          ],
+          "muted": false
+        }
+      ],
+      "muted_modified_for_making_test_fail": false
+    },
+    {
+      "value": "android.telephony.TelephonyManager-->getNetworkOperatorName",
+      "additionalInfo": [],
+      "source": [
+        {
+          "path": [
+            "com.facebook.ads.internal.g",
+            "b",
+            "c"
+          ],
+          "muted": false
+        },
+        {
+          "path": [
+            "com.fyber.inneractive.sdk.util",
+            "c",
+            "h"
+          ],
+          "muted": false
+        },
+        {
+          "path": [
+            "com.mopub.common",
+            "ClientMetadata",
+            "ClientMetadata"
+          ],
+          "muted": false
+        }
+      ],
+      "muted_modified_for_making_test_fail": false
+    },
+    {
+      "value": "android.telephony.TelephonyManager-->getSimOperator",
+      "additionalInfo": [],
+      "source": [
+        {
+          "path": [
+            "com.fyber.inneractive.sdk.util",
+            "c",
+            "a"
+          ],
+          "muted": false
+        },
+        {
+          "path": [
+            "com.mopub.common",
+            "ClientMetadata",
+            "ClientMetadata"
+          ],
+          "muted": false
+        }
+      ],
+      "muted_modified_for_making_test_fail": false
+    },
+    {
+      "value": "android.telephony.TelephonyManager-->getSimOperatorName",
+      "additionalInfo": [],
+      "source": [
+        {
+          "path": [
+            "com.mopub.common",
+            "ClientMetadata",
+            "ClientMetadata"
+          ],
+          "muted": false
+        }
+      ],
+      "muted_modified_for_making_test_fail": false
+    }
+  ],
+  "title": "Información del Operador de Red",
+  "name": "NetworkOperatorInformation",
+  "description": "La aplicación usa código para obtener información sobre la red o el operador de la tarjeta SIM que está usando el dispositivo.",
+  "impact": "Esto podría inducir a los usuarios potenciales a desconfiar de la aplicación o evaluarla de modo negativo.",
+  "riskLevel": "LOW",
+  "type": "Características Peligrosas",
+  "additionalLinks": [],
+  "muted": false
+}

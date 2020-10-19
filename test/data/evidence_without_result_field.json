@@ -1,0 +1,32 @@
+{
+  "message": "",
+  "count": 1,
+  "result_modified_for_making_test_fail": [
+    {
+      "value": "not defined allowBackup",
+      "additionalInfo": [],
+      "source": [
+        {
+          "path": [
+            "AndroidManifest.xml",
+            "android.allowBackup"
+          ],
+          "muted": false
+        }
+      ],
+      "muted": false
+    }
+  ],
+  "title": "Modo 'Backup' habilitado",
+  "name": "AdbBackupEnable",
+  "description": "El atributo 'allowBackup' ha sido configurado a 'true' por defecto en AndroidManifest. Esto permite participar en el proceso de backup y restauración de datos de la aplicación.",
+  "impact": "El backup de la aplicación podría ser ejecutado, lo que podría permitir la recuperación de información sensible de la aplicación a través de comandos adb. De esta forma, y bajo ciertas circunstancias, un usuario con acceso físico al dispositivo podría recuperar datos privados de la aplicación. Esta información podría incluir tokens, usuarios, contraseñas entre otros.",
+  "recommendation": "Por favor, revise este atributo, y configúrelo a 'FALSE' si es posible.",
+  "risk": 5.9,
+  "riskLevel": "MEDIUM",
+  "type": "Uso de Plataforma Inapropiado",
+  "additionalLinks": [
+    "http://developer.android.com/guide/topics/manifest/application-element.html#allowbackup"
+  ],
+  "muted": false
+}
