@@ -398,14 +398,14 @@ class mASAPP_CI():
                     return True
         return False
 
-    def all_evidences_muted(self, element):
+    def _all_evidences_muted(self, element):
         """
 
         :param element: A vulnerability or a behavior
         :type  element: JSON
         :return:        It returns true if all the evidences are muted
         """
-        if type(element) is not dict:
+        if not isinstance(element, dict):
             raise ValueError("[X] {} not allowed. Waiting for a vulnerability or behavior JSON".format(element))
 
         if not 'result' in element.keys():
@@ -461,13 +461,13 @@ class mASAPP_CI():
         self.scan_result['riskScore'] = scan_result.data['data']['riskScore']
 
         for vulnerability in scan_result.data['data']['vulnerabilities']:
-            if str(vulnerability['muted']).lower() != 'false' and not self.all_evidences_muted(vulnerability):
+            if str(vulnerability['muted']).lower() != 'false' and not self._all_evidences_muted(vulnerability):
                 risk = vulnerability['riskLevel'].lower()
                 if risk in self.scan_result['vulnerabilities'].keys():
                     self.scan_result['vulnerabilities'][risk].append(vulnerability)
 
         for behavioral in scan_result.data['data']['behaviorals']:
-            if str(behavioral['muted']).lower() != 'false' and not self.all_evidences_muted(behavioral):
+            if str(behavioral['muted']).lower() != 'false' and not self._all_evidences_muted(behavioral):
                 risk = behavioral['riskLevel'].lower()
                 if risk in self.scan_result['behaviorals'].keys():
                     self.scan_result['behaviorals'][risk].append(behavioral)
