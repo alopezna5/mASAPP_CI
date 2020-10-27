@@ -13,4 +13,4 @@ elements that must be replaced looking for 'TRP:' in the file (I love Ctrl + F t
 
 * Make particular fixes to your Pipeline like modifying the PATH or whatever.
 
-* Run one time the job and all the configuration will be applied to your job... Let's analyze  :fire:  !!!!
+* Run one time the job and all the configuration will be applied ... Let's analyze  :fire:  !!!!
