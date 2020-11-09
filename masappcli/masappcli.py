@@ -52,6 +52,9 @@ class mASAPP_CI():
             "obtained": None
         }
 
+        self.export_summary = None
+        self.export_result = None
+
 
     def _print_excess(self):
         """
@@ -391,10 +394,19 @@ class mASAPP_CI():
             user_scan_summary = self.auth_user.get_scan_summary(scan_id=scan_id, workgroup=self.scan_info["wg"])
 
         self._check_not_api_error(user_scan_summary)
+
         for scan_summary in user_scan_summary.data['data']['scanSummaries']:
             if scan_summary['scanDate'] == self.scan_info['scanDate']:
                 if len(scan_summary['scannedVersions']) != 0:
                     self.scan_info['appKey'] = scan_summary['scannedVersions'][0]['appKey']
+
+                    if self.export_summary:
+                        if self.export_summary in os.listdir('.'):
+                            raise ValueError("[X] Export result file already exists")
+                        export_summary_file = open(self.export_summary, 'w')
+                        export_summary_file.write(json.dumps(json.loads(user_scan_summary.body)))
+                        export_summary_file.close()
+
                     return True
         return False
 
@@ -458,16 +470,36 @@ class mASAPP_CI():
 
         self._check_not_api_error(scan_result)
 
+        if self.export_result:
+            if self.export_result in os.listdir('.'):
+                raise ValueError("[X] Export result file already exists")
+            export_result_file = open(self.export_result, 'w')
+            export_result_file.write(json.dumps(json.loads(scan_result.body)))
+            export_result_file.close()
+
+
         self.scan_result['riskScore'] = scan_result.data['data']['riskScore']
 
         for vulnerability in scan_result.data['data']['vulnerabilities']:
-            if str(vulnerability['muted']).lower() != 'false' and not self._all_evidences_muted(vulnerability):
+            store_risk = False
+            if not 'muted' in vulnerability.keys():
+                store_risk = True
+            elif str(vulnerability['muted']).lower() != 'false' and not self._all_evidences_muted(vulnerability):
+                store_risk = True
+
+            if store_risk:
                 risk = vulnerability['riskLevel'].lower()
                 if risk in self.scan_result['vulnerabilities'].keys():
                     self.scan_result['vulnerabilities'][risk].append(vulnerability)
 
         for behavioral in scan_result.data['data']['behaviorals']:
-            if str(behavioral['muted']).lower() != 'false' and not self._all_evidences_muted(behavioral):
+            store_risk = False
+            if not 'muted' in behavioral.keys():
+                store_risk = True
+            elif str(behavioral['muted']).lower() != 'false' and not self._all_evidences_muted(behavioral):
+                store_risk = True
+
+            if store_risk:
                 risk = behavioral['riskLevel'].lower()
                 if risk in self.scan_result['behaviorals'].keys():
                     self.scan_result['behaviorals'][risk].append(behavioral)
@@ -535,7 +567,7 @@ class mASAPP_CI():
 
 
     def riskscoring_execution(self, maximum_riskscoring, app_path, package_name_origin=None, workgroup=None, lang=None,
-                              detail=None):
+                              detail=None,  export_summary=None, export_result=None):
         """
 
         :param maximum_riskscoring: The maximum risk score allowed without throing an error.
@@ -543,7 +575,7 @@ class mASAPP_CI():
         :param app_path:            The absolute path to the application which the user wants to upload.
         :type  app_path:            String
         :param package_name_origin: The packageNameOrigin that mASAPP gave to the app. If is the first uploading of the\
-                                    app, don't add this parameter.
+                                  export_summa  app, don't add this parameter.
         :type  package_name_origin: String
         :param workgroup:           The name of the workgroup that the user wants to use in the scan.
         :type  workgroup:           Integer
@@ -585,6 +617,9 @@ class mASAPP_CI():
 
 
         """
+        self.export_summary = export_summary
+        self.export_result = export_result
+
         if workgroup == None:
             self.upload_and_analyse_app(app_path=app_path, package_name_origin=package_name_origin, lang=lang)
         else:
@@ -610,7 +645,7 @@ class mASAPP_CI():
 
 
     def standard_execution(self, scan_maximum_values, app_path, package_name_origin=None, workgroup=None, lang=None,
-                           detail=None):
+                           detail=None, export_summary=None, export_result=None):
         """
 
         :param scan_maximum_values: Maximum results allowed without throwing an error.
@@ -681,6 +716,8 @@ class mASAPP_CI():
                                             application with the param -p*
 
         """
+        self.export_summary = export_summary
+        self.export_result = export_result
 
         if workgroup == None:
             self.upload_and_analyse_app(app_path=app_path, package_name_origin=package_name_origin, lang=lang)
