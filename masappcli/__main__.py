@@ -37,6 +37,8 @@ def cli(parser):
                         action='store_true')
     parser.add_argument('-w', '--workgroup', type=str, metavar="workgroup name",
                         help="the name of the workgroup you want to analyse in")
+    parser.add_argument('--export_summary', help='export the scan summary from mASAPP in a json file', metavar="*.json")
+    parser.add_argument('--export_result', help='export the scan result from mASAPP in a json file', metavar="*.json")
 
     args = parser.parse_args()
 
@@ -82,6 +84,18 @@ def cli(parser):
     if masapp_key is not None and masapp_secret is not None:
         workgroup = getattr(args, 'workgroup', None)
 
+        if args.export_summary and args.export_result:
+            if args.export_summary == args.export_result:
+                raise ValueError("[X] Export files can not be named with the same name")
+
+        if args.export_summary:
+            if args.export_summary in os.listdir('.'):
+                raise ValueError("[X] Export summary file already exists")
+
+        if args.export_result:
+            if args.export_result in os.listdir('.'):
+                raise ValueError("[X] Export result file already exists")
+
         if args.riskscore and args.standard:
             raise ValueError("[X] Riskscore and standard execution can not being thrown simultaneously")
 
@@ -93,11 +107,17 @@ def cli(parser):
                     user.riskscoring_execution(maximum_riskscoring=args.riskscore, app_path=args.app,
                                                package_name_origin=args.packageNameOrigin,
                                                workgroup=workgroup,
-                                               detail=args.detailed)
+                                               detail=args.detailed,
+                                               export_summary=args.export_summary,
+                                               export_result=args.export_result
+                                               )
                 else:
                     user.riskscoring_execution(maximum_riskscoring=args.riskscore, app_path=args.app,
                                                workgroup=workgroup,
-                                               detail=args.detailed)
+                                               detail=args.detailed,
+                                               export_summary=args.export_summary,
+                                               export_result=args.export_result
+                                               )
             else:
                 raise ValueError("[X] No path to the app added")
 
@@ -114,12 +134,18 @@ def cli(parser):
                                 user.standard_execution(scan_maximum_values=checked_json, app_path=args.app,
                                                         package_name_origin=args.packageNameOrigin,
                                                         workgroup=workgroup,
-                                                        detail=args.detailed)
+                                                        detail=args.detailed,
+                                                        export_summary=args.export_summary,
+                                                        export_result=args.export_result
+                                                        )
 
                             else:
                                 user.standard_execution(scan_maximum_values=checked_json, app_path=args.app,
                                                         workgroup=workgroup,
-                                                        detail=args.detailed)
+                                                        detail=args.detailed,
+                                                        export_summary=args.export_summary,
+                                                        export_result=args.export_result
+                                                        )
                     else:
                         print(
                             u"""
