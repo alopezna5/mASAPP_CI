@@ -189,7 +189,9 @@ def check_json(input_json):
 
         if ".json" in input_json:
             try:
-                input_json = json.load(open(input_json))
+                json_file = open(input_json)
+                input_json = json.load(json_file)
+                json_file.close()
             except:
                 return False
 
