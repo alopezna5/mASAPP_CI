@@ -13,9 +13,8 @@ class TestCLI(unittest.TestCase):
     def tearDown(self):
         try:
             os.remove("fake_json.json")
-        except:
+        except FileNotFoundError:
             pass
-
 
     def _add_fake_key_and_fake_secret(self):
         os.environ['MASAPP_KEY'] = 'FAKE_KEY'
