@@ -26,21 +26,19 @@ class mASAPP_CI_auth(HttpSdk):
     For more information about HttpSdk: https://github.com/ivanprjcts/sdklib
     """
 
-    API_VERSION = "1.6.2"
+    API_VERSION = "2.0.1"
     DEFAULT_HOST = "https://masapp.elevenpaths.com"
     API_WORKGROUPS = "/api/{api_version}/workgroups".format(api_version=API_VERSION)
     API_UPLOAD = "/api/{api_version}/upload".format(api_version=API_VERSION)
     API_SCANS = "/api/{api_version}/scans".format(api_version=API_VERSION)
-    API_SCAN_SUMMARY = "/api/{api_version}/scanSummary?scanId=".format(api_version=API_VERSION)
+    API_SCAN_SUMMARY = "/api/{api_version}/scanSummary".format(api_version=API_VERSION)
     API_SCAN_RESULT = "/api/{api_version}/scanResults".format(api_version=API_VERSION)
-
 
     def __init__(self, key, secret):
         urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)  # hide ugly https warnings
 
         self.authentication_instances = X11PathsAuthentication(key, secret)
         super(mASAPP_CI_auth, self).__init__()
-
 
     def get_auth_workgroup(self):
         """
@@ -49,7 +47,6 @@ class mASAPP_CI_auth(HttpSdk):
                           to the mASAPP API, which returns the mASAPPs workgroups which the user belongs to.
         """
         return self.get(url_path=self.API_WORKGROUPS, authentication_instances=[self.authentication_instances])
-
 
     def post_auth_upload_app(self, allowTacyt, app_path, workgroup=None):
         """
@@ -75,7 +72,6 @@ class mASAPP_CI_auth(HttpSdk):
             return self.post(url_path=self.API_UPLOAD, authentication_instances=[self.authentication_instances],
                              headers={'wg': workgroup}, body_params=body_params, files={'file': app_path})
 
-
     def get_auth_scans(self, workgroup=None):
         """
 
@@ -89,7 +85,6 @@ class mASAPP_CI_auth(HttpSdk):
         else:
             return self.get(url_path=self.API_SCANS, authentication_instances=[self.authentication_instances],
                             headers={'wg': workgroup})
-
 
     def get_auth_scan_by_hashPath(self, hashPath, workgroup=None):
         """
@@ -112,7 +107,6 @@ class mASAPP_CI_auth(HttpSdk):
             return self.get(url_path=self.API_SCANS, authentication_instances=[self.authentication_instances],
                             headers={'wg': workgroup, "Accept": "application/json"}, query_params=query_params)
 
-
     def get_scan_summary(self, scan_id, workgroup=None):
         """
         :param scan_id:    The scan ID from the scan which the user wants to obtain a summary.
@@ -122,14 +116,18 @@ class mASAPP_CI_auth(HttpSdk):
         :return:           The response to the authenticated request **/scanSummary**
                            to the mASAPP API, which returns a summary of the scan with the scan_id introduced.
         """
-        if workgroup is None:
-            return self.get(url_path=self.API_SCAN_SUMMARY + scan_id,
-                            authentication_instances=[self.authentication_instances])
-        else:
-            return self.get(url_path=self.API_SCAN_SUMMARY + scan_id,
-                            authentication_instances=[self.authentication_instances],
-                            headers={'wg': workgroup})
+        query_params = {
+            "pageSize": 50,
+            "scanId": scan_id
+        }
 
+        if workgroup is None:
+            return self.get(url_path=self.API_SCAN_SUMMARY,
+                            authentication_instances=[self.authentication_instances], query_params=query_params)
+        else:
+            return self.get(url_path=self.API_SCAN_SUMMARY,
+                            authentication_instances=[self.authentication_instances],
+                            headers={'wg': workgroup}, query_params=query_params)
 
     def get_scan_result(self, scan_id, scan_date, app_key, lang, workgroup=None):
         """
