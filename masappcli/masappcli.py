@@ -6,6 +6,7 @@ from masappcli.elevenpaths_auth import mASAPP_CI_auth
 from tabulate import tabulate
 import json
 import time
+import datetime
 
 
 class mASAPP_CI():
@@ -124,7 +125,7 @@ class mASAPP_CI():
                 for occurrence in element['result']:
                     occurrence_path = ""
 
-                    for occurrence_path_element in occurrence['source']['path']:
+                    for occurrence_path_element in occurrence['source'][0]['path']:
                         occurrence_path += occurrence_path_element + " > "
 
                     v_to_print.append(['>>>> Source', occurrence_path[:-2]])
@@ -148,7 +149,7 @@ class mASAPP_CI():
                 for occurrence in element['result']:
                     occurrence_path = ""
 
-                    for occurrence_path_element in occurrence['source']['path']:
+                    for occurrence_path_element in occurrence['source'][0]['path']:
                         occurrence_path += occurrence_path_element + " > "
 
                     b_to_print.append(['>>>> Source', occurrence_path[:-2]])
@@ -387,17 +388,41 @@ class mASAPP_CI():
                         scan result.
 
         """
+        internal_retries = 1
+        def _request_user_scan_summary():
+            if self.scan_info["wg"] is None:
+                user_scan_summary = self.auth_user.get_scan_summary(scan_id=scan_id)
+            else:
+                user_scan_summary = self.auth_user.get_scan_summary(scan_id=scan_id, workgroup=self.scan_info["wg"])
 
-        if self.scan_info["wg"] is None:
-            user_scan_summary = self.auth_user.get_scan_summary(scan_id=scan_id)
-        else:
-            user_scan_summary = self.auth_user.get_scan_summary(scan_id=scan_id, workgroup=self.scan_info["wg"])
+            self._check_not_api_error(user_scan_summary)
+            return user_scan_summary
 
-        self._check_not_api_error(user_scan_summary)
+        time.sleep(120) # Waiting for mASAPP...
+        while internal_retries < 5:
+            print('[!] Scanning the app using mASAPP - retry {}'.format(internal_retries))
+            analyse = False
+            user_scan_summary = _request_user_scan_summary()
+            for scan_summary in user_scan_summary.data['data']['scanSummaries']:
+                if scan_summary['scanDate'] == self.scan_info['scanDate']:
+                    if len(scan_summary['scannedVersions']) != 0:
+                        analyse = True
+                else:
+                    scan_summary_strptime = datetime.datetime.strptime(scan_summary['scanDate'],
+                                                                       '%Y-%m-%dT%H:%M:%S.%fZ')
+                    scan_summary_strptime_tuple = (
+                    scan_summary_strptime.year, scan_summary_strptime.month, scan_summary_strptime.day)
+                    scan_info_strptime = datetime.datetime.strptime(scan_summary['scanDate'], '%Y-%m-%dT%H:%M:%S.%fZ')
+                    scan_info_strptime_tuple = (
+                    scan_info_strptime.year, scan_info_strptime.month, scan_info_strptime.day)
 
-        for scan_summary in user_scan_summary.data['data']['scanSummaries']:
-            if scan_summary['scanDate'] == self.scan_info['scanDate']:
-                if len(scan_summary['scannedVersions']) != 0:
+                    if scan_summary_strptime_tuple == scan_info_strptime_tuple:
+                        print("[WARNING] Analysing an older application ({scan_date})".format(
+                            scan_date=scan_summary['scanDate']))
+                        self.scan_info['scanDate'] = scan_summary['scanDate']
+                        analyse = True
+
+                if analyse:
                     self.scan_info['appKey'] = scan_summary['scannedVersions'][0]['appKey']
 
                     if self.export_summary:
@@ -406,8 +431,10 @@ class mASAPP_CI():
                         export_summary_file = open(self.export_summary, 'w')
                         export_summary_file.write(json.dumps(json.loads(user_scan_summary.body)))
                         export_summary_file.close()
-
                     return True
+
+            internal_retries += 1
+            time.sleep(60)
         return False
 
     def _all_evidences_muted(self, element):
@@ -484,7 +511,7 @@ class mASAPP_CI():
             store_risk = False
             if not 'muted' in vulnerability.keys():
                 store_risk = True
-            elif str(vulnerability['muted']).lower() != 'false' and not self._all_evidences_muted(vulnerability):
+            elif str(vulnerability['muted']).lower() == 'false' and not self._all_evidences_muted(vulnerability):
                 store_risk = True
 
             if store_risk:
@@ -496,7 +523,7 @@ class mASAPP_CI():
             store_risk = False
             if not 'muted' in behavioral.keys():
                 store_risk = True
-            elif str(behavioral['muted']).lower() != 'false' and not self._all_evidences_muted(behavioral):
+            elif str(behavioral['muted']).lower() == 'false' and not self._all_evidences_muted(behavioral):
                 store_risk = True
 
             if store_risk:

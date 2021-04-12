@@ -1,0 +1,14 @@
+{
+"vulnerabilities": {
+    "critical": 0,
+    "high": 1,
+    "medium": 2,
+    "low": 4
+},
+"behaviorals": {
+    "critical": 0,
+    "high": 1,
+    "medium": 2,
+    "low": 4
+  }
+}

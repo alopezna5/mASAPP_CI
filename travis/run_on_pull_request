@@ -3,10 +3,10 @@
 echo '[!] Verifying if the version of masappcli has been modified'
 
 
-CURRENT_VERSION=$(pip search masappcli | cut -d ' ' -f 2 | tr -d '('  | tr -d ')' | tr -d '.')
+#CURRENT_VERSION=$(pip search masappcli | cut -d ' ' -f 2 | tr -d '('  | tr -d ')' | tr -d '.')
 NEW_VERSION=$(cat VERSION | tr -d '.')
 
-# It has to be commented due to the numeration change.
+# Remove comments when pip search command enabled again
 #if [ $CURRENT_VERSION -lt $NEW_VERSION ]
 #then
 	echo '[!] Generating new version package'
@@ -14,11 +14,11 @@ NEW_VERSION=$(cat VERSION | tr -d '.')
 	echo '[!] Uploading new version to PyPI'
 	twine upload dist/*
 	sleep 10
-	echo '[!] Verifying the upload'
-	NEW_CURRENT_VERSION=$(pip search masappcli | cut -d ' ' -f 2 | tr -d '('  | tr -d ')' | tr -d '.')
+	#echo '[!] Verifying the upload'
+	#NEW_CURRENT_VERSION=$(pip search masappcli | cut -d ' ' -f 2 | tr -d '('  | tr -d ')' | tr -d '.')
 
-	if [ $NEW_CURRENT_VERSION -ne $NEW_VERSION ]
-	then
-	  exit 1
-  fi
+	#if [ $NEW_CURRENT_VERSION -ne $NEW_VERSION ]
+	#then
+	#  exit 1
+  # fi
 #fi
