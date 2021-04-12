@@ -4,6 +4,7 @@ echo '[!] Verifying if the version of masappcli has been modified'
 
 if [ $(git diff --name-only | grep -c VERSION) == "1" ]
 then
+  echo '[!] masappcli version has been modified'
   #CURRENT_VERSION=$(pip search masappcli | cut -d ' ' -f 2 | tr -d '('  | tr -d ')' | tr -d '.')
   NEW_VERSION=$(cat VERSION | tr -d '.')
 
