@@ -26,7 +26,7 @@ class mASAPP_CI_auth(HttpSdk):
     For more information about HttpSdk: https://github.com/ivanprjcts/sdklib
     """
 
-    API_VERSION = "2.0.1"
+    API_VERSION = "2.1.0"
     DEFAULT_HOST = "https://masapp.elevenpaths.com"
     API_WORKGROUPS = "/api/{api_version}/workgroups".format(api_version=API_VERSION)
     API_UPLOAD = "/api/{api_version}/upload".format(api_version=API_VERSION)
